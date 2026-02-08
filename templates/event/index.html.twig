@@ -1,0 +1,17 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Events List{% endblock %}
+
+{% block body %}
+    <div class="container mt-5">
+        <h1>Events</h1>
+        <div class="card">
+            <div class="card-body">
+                {% include 'event/_list.html.twig' %}
+                <div class="text-end mt-3">
+                    <a href="{{ path('app_event_new') }}" class="btn btn-success">Create New</a>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}

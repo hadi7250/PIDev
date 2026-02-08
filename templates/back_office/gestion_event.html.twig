@@ -1,0 +1,35 @@
+{% extends 'back_office/index.html.twig' %}
+
+{% block title %}Back Office{% endblock %}
+
+{% block body %}
+    <div class="container-fluid py-4">
+        <!-- Event Table Header -->
+        <h1 class="text-dark mb-4" style="font-size: 2.2rem; font-weight: 700; border-bottom: 2px solid #ccc; padding-bottom: 10px;">Event Management</h1>
+        <div class="card mb-4 shadow-sm">
+            <div class="card-header bg-dark text-white">
+                <h5 class="mb-0">List of Events</h5>
+            </div>
+            <div class="card-body">
+                {% include 'event/_list.html.twig' %}
+                <div class="text-end mt-3">
+                    <a href="{{ path('app_event_new') }}" class="btn btn-success">Add New Event</a>
+                </div>
+            </div>
+        </div>
+
+        <!-- Category Table Header -->
+        <h1 class="text-dark mb-4 mt-5" style="font-size: 2.2rem; font-weight: 700; border-bottom: 2px solid #ccc; padding-bottom: 10px;">Category Management</h1>
+        <div class="card shadow-sm">
+            <div class="card-header bg-dark text-white">
+                <h5 class="mb-0">List of Categories</h5>
+            </div>
+            <div class="card-body">
+                {% include 'category/_list.html.twig' %}
+                <div class="text-end mt-3">
+                    <a href="{{ path('app_category_new') }}" class="btn btn-success">Add New Category</a>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}
