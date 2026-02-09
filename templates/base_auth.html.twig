@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}EduConnect{% endblock %}</title>
+
+    {# The main style file — almost always needed #}
+    <link rel="stylesheet" href="{{ asset('assets/authe/css/main.css') }}">
+
+    {# Choose ONE theme you like (uncomment the one you want) #}
+    { <link rel="stylesheet" href="{{ asset('assets/authe/css/blue-theme.css') }}"> }
+    { <link rel="stylesheet" href="{{ asset('assets/authe/css/dark-theme.css') }}"> }
+    { <link rel="stylesheet" href="{{ asset('assets/authe/css/bordered-theme.css') }}"> }
+    { <link rel="stylesheet" href="{{ asset('assets/authe/css/semi-dark.css') }}"> }
+
+    {# Responsive is very important — keep it #}
+    <link rel="stylesheet" href="{{ asset('assets/authe/css/responsive.css') }}">
+
+    {# Add other CSS if your template needs them #}
+    {% block stylesheets %}{% endblock %}
+</head>
+<body class="{% block body_class %}auth-page{% endblock %}">
+    {% block body %}{% endblock %}
+</body>
+</html>
