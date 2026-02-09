@@ -9,10 +9,8 @@ use App\Repository\EvaluationRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
-use Symfony\Component\Security\Http\Attribute\IsGranted;
 
 #[Route('/admin', name: 'admin_')]
-#[IsGranted('ROLE_TEACHER')]
 class AdminDashboardController extends AbstractController
 {
     #[Route('/', name: 'dashboard')]
@@ -40,7 +38,6 @@ class AdminDashboardController extends AbstractController
     }
 
     #[Route('/competences', name: 'competences')]
-    #[IsGranted('ROLE_ADMIN')]
     public function competences(CompetenceRepository $competenceRepository): Response
     {
         $competences = $competenceRepository->findAll();
@@ -87,14 +84,12 @@ class AdminDashboardController extends AbstractController
     }
 
     #[Route('/users', name: 'users')]
-    #[IsGranted('ROLE_ADMIN')]
     public function users(): Response
     {
         return $this->render('back/user/index.html.twig', []);
     }
 
     #[Route('/reports', name: 'reports')]
-    #[IsGranted('ROLE_ADMIN')]
     public function reports(
         CompetenceRepository $competenceRepository,
         EvaluationRepository $evaluationRepository
