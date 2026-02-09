@@ -1,0 +1,8 @@
+<form method="post" action="{{ path('competence_delete', {'id': competence.id}) }}" 
+      onsubmit="return confirm('Supprimer cette compétence ?');" class="mt-3">
+    <input type="hidden" name="_token" value="{{ csrf_token('delete' ~ competence.id) }}">
+    <input type="hidden" name="_method" value="DELETE">
+    <button class="btn btn-danger">
+        <i class="fas fa-trash"></i> Supprimer
+    </button>
+</form>

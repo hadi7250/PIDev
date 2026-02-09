@@ -1,0 +1,106 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}{{ evaluation.title }}{% endblock %}
+{% block page_title %}Evaluation Details{% endblock %}
+
+{% block body %}
+<div class="row">
+    <div class="col-lg-8">
+        <div class="card shadow-lg">
+            <div class="card-header">
+                <h3 class="card-title mb-0">
+                    <i class="fas fa-check-circle"></i> {{ evaluation.title }}
+                </h3>
+            </div>
+            <div class="card-body">
+                <div class="row mb-3">
+                    <div class="col-md-6">
+                        <h6 class="text-muted mb-2">ID</h6>
+                        <p class="mb-0"><strong>#{{ evaluation.id }}</strong></p>
+                    </div>
+                    <div class="col-md-6">
+                        <h6 class="text-muted mb-2">Type</h6>
+                        <p class="mb-0">
+                            {% if evaluation.type == 'exam' %}
+                                <span class="badge bg-danger">Exam</span>
+                            {% elseif evaluation.type == 'quiz' %}
+                                <span class="badge bg-info">Quiz</span>
+                            {% elseif evaluation.type == 'project' %}
+                                <span class="badge bg-warning">Project</span>
+                            {% elseif evaluation.type == 'oral' %}
+                                <span class="badge bg-success">Oral</span>
+                            {% else %}
+                                <span class="badge bg-secondary">Homework</span>
+                            {% endif %}
+                        </p>
+                    </div>
+                </div>
+
+                <div class="row mb-3">
+                    <div class="col-md-6">
+                        <h6 class="text-muted mb-2">Competence</h6>
+                        <p class="mb-0">
+                            <a href="{{ path('competence_show', {'id': evaluation.competence.id}) }}" 
+                               class="text-decoration-none">
+                                <strong>{{ evaluation.competence.name }}</strong>
+                            </a>
+                        </p>
+                    </div>
+                    <div class="col-md-6">
+                        <h6 class="text-muted mb-2">Evaluation Date</h6>
+                        <p class="mb-0"><strong>{{ evaluation.evaluationDate|date('Y-m-d H:i') }}</strong></p>
+                    </div>
+                </div>
+
+                <div class="row mb-3">
+                    <div class="col-md-6">
+                        <h6 class="text-muted mb-2">Weight</h6>
+                        <p class="mb-0">
+                            <div style="width: 150px; height: 30px; background: linear-gradient(90deg, #fbbf24, #f59e0b); border-radius: 5px; display: flex; align-items: center; justify-content: center; color: white; font-weight: bold; font-size: 14px;">
+                                {{ evaluation.weight }}%
+                            </div>
+                        </p>
+                    </div>
+                </div>
+
+                <hr>
+
+                <div class="mb-4">
+                    <h6 class="text-muted mb-2">Description</h6>
+                    <p class="mb-0">{{ evaluation.description|nl2br }}</p>
+                </div>
+
+                <div class="d-flex gap-2">
+                    <a href="{{ path('evaluation_edit', {'id': evaluation.id}) }}" class="btn btn-warning">
+                        <i class="fas fa-edit"></i> Edit
+                    </a>
+                    <a href="{{ path('evaluation_index') }}" class="btn btn-secondary">
+                        <i class="fas fa-arrow-left"></i> Back to List
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-lg-4">
+        <div class="card shadow-lg border-danger">
+            <div class="card-header bg-danger text-white">
+                <h5 class="card-title mb-0">
+                    <i class="fas fa-exclamation-triangle"></i> Danger Zone
+                </h5>
+            </div>
+            <div class="card-body">
+                <p class="text-muted mb-3">This action cannot be undone. Please be careful.</p>
+                <form method="POST" action="{{ path('evaluation_delete', {'id': evaluation.id}) }}" 
+                      onsubmit="return confirm('Are you absolutely sure? This will permanently delete this evaluation.');">
+                    <input type="hidden" name="_method" value="DELETE">
+                    <input type="hidden" name="_token" value="{{ csrf_token('delete' ~ evaluation.id) }}">
+                    <button type="submit" class="btn btn-danger w-100">
+                        <i class="fas fa-trash"></i> Delete Evaluation
+                    </button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

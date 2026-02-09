@@ -1,0 +1,74 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Competence: {{ competence.name }}{% endblock %}
+{% block page_title %}Competence Details{% endblock %}
+
+{% block body %}
+<div class="row">
+    <div class="col-lg-8">
+        <div class="card shadow-lg">
+            <div class="card-header">
+                <h3 class="card-title mb-0">
+                    <i class="fas fa-list-check"></i> {{ competence.name }}
+                </h3>
+            </div>
+            <div class="card-body">
+                <div class="row mb-3">
+                    <div class="col-md-6">
+                        <label class="text-muted">Competence ID</label>
+                        <p class="fs-5"><strong>#{{ competence.id }}</strong></p>
+                    </div>
+                    <div class="col-md-6">
+                        <label class="text-muted">Category</label>
+                        <p><span class="badge badge-info">{{ competence.category|capitalize }}</span></p>
+                    </div>
+                </div>
+
+                <div class="mb-3">
+                    <label class="text-muted">Description</label>
+                    <p>{{ competence.description|default('No description') }}</p>
+                </div>
+
+                <div class="mb-4">
+                    <label class="text-muted">Maximum Level</label>
+                    <div class="progress" style="height: 30px;">
+                        <div class="progress-bar" style="width: {{ (competence.maxLevel/10)*100 }}%; background: linear-gradient(135deg, #6366f1 0%, #8b5cf6 100%); display: flex; align-items: center; justify-content: center; color: white; font-weight: bold;">
+                            {{ competence.maxLevel }} / 10
+                        </div>
+                    </div>
+                </div>
+
+                <div class="d-flex gap-2">
+                    <a href="{{ path('competence_edit', {'id': competence.id}) }}" class="btn btn-warning">
+                        <i class="fas fa-edit"></i> Edit
+                    </a>
+                    <a href="{{ path('competence_index') }}" class="btn btn-secondary">
+                        <i class="fas fa-arrow-left"></i> Back
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-lg-4">
+        <div class="card shadow-lg border-danger">
+            <div class="card-header bg-danger">
+                <h5 class="card-title mb-0 text-white">
+                    <i class="fas fa-exclamation-triangle"></i> Danger Zone
+                </h5>
+            </div>
+            <div class="card-body">
+                <p class="text-muted">Once you delete this competence, there is no going back.</p>
+                <form method="post" action="{{ path('competence_delete', {'id': competence.id}) }}" 
+                      onsubmit="return confirm('Are you sure you want to permanently delete this competence?');">
+                    <input type="hidden" name="_token" value="{{ csrf_token('delete' ~ competence.id) }}">
+                    <input type="hidden" name="_method" value="DELETE">
+                    <button class="btn btn-danger w-100">
+                        <i class="fas fa-trash"></i> Delete Competence
+                    </button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

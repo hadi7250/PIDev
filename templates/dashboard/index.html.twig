@@ -1,0 +1,188 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Dashboard - Home{% endblock %}
+{% block page_title %}Dashboard{% endblock %}
+
+{% block body %}
+<!-- Statistics Cards -->
+<div class="row mb-4">
+    <div class="col-md-6 col-lg-3">
+        <div class="card shadow" style="border-top: 4px solid #6366f1;">
+            <div class="card-body">
+                <div class="d-flex justify-content-between align-items-center">
+                    <div>
+                        <h6 class="text-muted mb-1">Total Competences</h6>
+                        <h3 class="mb-0" style="color: #6366f1;">{{ competenceCount }}</h3>
+                    </div>
+                    <div style="font-size: 2.5rem; color: #6366f1; opacity: 0.3;">
+                        <i class="fas fa-star"></i>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-6 col-lg-3">
+        <div class="card shadow" style="border-top: 4px solid #a855f7;">
+            <div class="card-body">
+                <div class="d-flex justify-content-between align-items-center">
+                    <div>
+                        <h6 class="text-muted mb-1">Total Evaluations</h6>
+                        <h3 class="mb-0" style="color: #a855f7;">{{ evaluationCount }}</h3>
+                    </div>
+                    <div style="font-size: 2.5rem; color: #a855f7; opacity: 0.3;">
+                        <i class="fas fa-check-circle"></i>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-6 col-lg-3">
+        <div class="card shadow" style="border-top: 4px solid #ec4899;">
+            <div class="card-body">
+                <div class="d-flex justify-content-between align-items-center">
+                    <div>
+                        <h6 class="text-muted mb-1">Behavioral Skills</h6>
+                        <h3 class="mb-0" style="color: #ec4899;">{{ competencesByCategory['comportementale']|default(0) }}</h3>
+                    </div>
+                    <div style="font-size: 2.5rem; color: #ec4899; opacity: 0.3;">
+                        <i class="fas fa-handshake"></i>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-6 col-lg-3">
+        <div class="card shadow" style="border-top: 4px solid #fbbf24;">
+            <div class="card-body">
+                <div class="d-flex justify-content-between align-items-center">
+                    <div>
+                        <h6 class="text-muted mb-1">Technical Skills</h6>
+                        <h3 class="mb-0" style="color: #fbbf24;">{{ competencesByCategory['technique']|default(0) }}</h3>
+                    </div>
+                    <div style="font-size: 2.5rem; color: #fbbf24; opacity: 0.3;">
+                        <i class="fas fa-cogs"></i>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row">
+    <!-- Recent Evaluations -->
+    <div class="col-lg-6">
+        <div class="card shadow">
+            <div class="card-header d-flex justify-content-between align-items-center">
+                <h5 class="card-title mb-0">
+                    <i class="fas fa-clock"></i> Recent Evaluations
+                </h5>
+                <a href="{{ path('evaluation_index') }}" class="btn btn-sm btn-outline-primary">View All</a>
+            </div>
+            <div class="card-body">
+                {% if recentEvaluations is empty %}
+                    <p class="text-muted">
+                        <i class="fas fa-info-circle"></i> No evaluations yet. 
+                        <a href="{{ path('evaluation_new') }}">Create one</a>
+                    </p>
+                {% else %}
+                    <div class="list-group list-group-flush">
+                        {% for evaluation in recentEvaluations %}
+                            <a href="{{ path('evaluation_show', {'id': evaluation.id}) }}" 
+                               class="list-group-item list-group-item-action px-0">
+                                <div class="d-flex justify-content-between align-items-start">
+                                    <div>
+                                        <h6 class="mb-1">{{ evaluation.title }}</h6>
+                                        <p class="text-muted small mb-0">
+                                            <strong>{{ evaluation.competence.name }}</strong> 
+                                            • {{ evaluation.evaluationDate|date('M d, Y') }}
+                                        </p>
+                                    </div>
+                                    <span class="badge bg-primary">{{ evaluation.type }}</span>
+                                </div>
+                            </a>
+                        {% endfor %}
+                    </div>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+
+    <!-- Competence Summary by Category -->
+    <div class="col-lg-6">
+        <div class="card shadow">
+            <div class="card-header d-flex justify-content-between align-items-center">
+                <h5 class="card-title mb-0">
+                    <i class="fas fa-chart-pie"></i> Competences by Category
+                </h5>
+                <a href="{{ path('competence_index') }}" class="btn btn-sm btn-outline-primary">View All</a>
+            </div>
+            <div class="card-body">
+                {% if competencesByCategory is empty %}
+                    <p class="text-muted">
+                        <i class="fas fa-info-circle"></i> No competences yet. 
+                        <a href="{{ path('competence_new') }}">Create one</a>
+                    </p>
+                {% else %}
+                    <div class="list-group list-group-flush">
+                        {% set categories = {
+                            'technique': 'Technical',
+                            'comportementale': 'Behavioral',
+                            'langue': 'Language',
+                            'autre': 'Other'
+                        } %}
+                        {% for category, count in competencesByCategory %}
+                            <div class="d-flex justify-content-between align-items-center py-2 border-bottom">
+                                <div>
+                                    <span>{{ categories[category]|default(category|capitalize) }}</span>
+                                </div>
+                                <div class="d-flex align-items-center gap-2">
+                                    <div style="width: 120px; height: 24px; background: linear-gradient(90deg, #cbd5e1, #94a3b8); border-radius: 3px; display: flex; align-items: center; justify-content: center; color: white; font-size: 12px; font-weight: bold;">
+                                        {{ count }} item{% if count != 1 %}s{% endif %}
+                                    </div>
+                                </div>
+                            </div>
+                        {% endfor %}
+                    </div>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Quick Actions -->
+<div class="row mt-4">
+    <div class="col-12">
+        <div class="card shadow">
+            <div class="card-header">
+                <h5 class="card-title mb-0">
+                    <i class="fas fa-lightning-bolt"></i> Quick Actions
+                </h5>
+            </div>
+            <div class="card-body">
+                <div class="row g-2">
+                    <div class="col-md-6 col-lg-3">
+                        <a href="{{ path('competence_new') }}" class="btn btn-lg btn-outline-primary w-100">
+                            <i class="fas fa-plus"></i><br>New Competence
+                        </a>
+                    </div>
+                    <div class="col-md-6 col-lg-3">
+                        <a href="{{ path('evaluation_new') }}" class="btn btn-lg btn-outline-success w-100">
+                            <i class="fas fa-clipboard-check"></i><br>New Evaluation
+                        </a>
+                    </div>
+                    <div class="col-md-6 col-lg-3">
+                        <a href="{{ path('competence_index') }}" class="btn btn-lg btn-outline-info w-100">
+                            <i class="fas fa-list"></i><br>All Competences
+                        </a>
+                    </div>
+                    <div class="col-md-6 col-lg-3">
+                        <a href="{{ path('evaluation_index') }}" class="btn btn-lg btn-outline-warning w-100">
+                            <i class="fas fa-tasks"></i><br>All Evaluations
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

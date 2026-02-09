@@ -1,0 +1,56 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Edit: {{ competence.name }}{% endblock %}
+{% block page_title %}Edit Competence{% endblock %}
+
+{% block body %}
+<div class="row justify-content-center">
+    <div class="col-lg-8">
+        <div class="card shadow-lg">
+            <div class="card-header">
+                <h3 class="card-title mb-0">
+                    <i class="fas fa-edit"></i> Edit {{ competence.name }}
+                </h3>
+            </div>
+            <div class="card-body">
+                {{ form_start(form) }}
+                
+                <div class="form-group mb-3">
+                    {{ form_label(form.name, 'Competence Name', {'label_attr': {'class': 'form-label'}}) }}
+                    {{ form_widget(form.name, {'attr': {'class': 'form-control'}}) }}
+                    {{ form_errors(form.name) }}
+                </div>
+
+                <div class="form-group mb-3">
+                    {{ form_label(form.category, 'Category', {'label_attr': {'class': 'form-label'}}) }}
+                    {{ form_widget(form.category, {'attr': {'class': 'form-select'}}) }}
+                    {{ form_errors(form.category) }}
+                </div>
+
+                <div class="form-group mb-3">
+                    {{ form_label(form.maxLevel, 'Maximum Level', {'label_attr': {'class': 'form-label'}}) }}
+                    {{ form_widget(form.maxLevel, {'attr': {'class': 'form-control', 'type': 'number'}}) }}
+                    {{ form_errors(form.maxLevel) }}
+                </div>
+
+                <div class="form-group mb-4">
+                    {{ form_label(form.description, 'Description', {'label_attr': {'class': 'form-label'}}) }}
+                    {{ form_widget(form.description, {'attr': {'class': 'form-control', 'rows': 4}}) }}
+                    {{ form_errors(form.description) }}
+                </div>
+
+                <div class="d-flex gap-2 mb-4">
+                    <button type="submit" class="btn btn-primary">
+                        <i class="fas fa-save"></i> Update Competence
+                    </button>
+                    <a href="{{ path('competence_show', {'id': competence.id}) }}" class="btn btn-secondary">
+                        <i class="fas fa-arrow-left"></i> Cancel
+                    </a>
+                </div>
+                
+                {{ form_end(form) }}
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

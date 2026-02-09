@@ -1,0 +1,34 @@
+{{ form_start(form) }}
+<div class="form-group">
+    {{ form_label(form.title) }}
+    {{ form_widget(form.title, {'attr': {'class': 'form-control'}}) }}
+    {{ form_errors(form.title) }}
+</div>
+<div class="form-group">
+    {{ form_label(form.type) }}
+    {{ form_widget(form.type, {'attr': {'class': 'form-control'}}) }}
+    {{ form_errors(form.type) }}
+</div>
+<div class="form-group">
+    {{ form_label(form.competence) }}
+    {{ form_widget(form.competence, {'attr': {'class': 'form-control'}}) }}
+    {{ form_errors(form.competence) }}
+</div>
+<div class="form-group">
+    {{ form_label(form.evaluationDate) }}
+    {{ form_widget(form.evaluationDate, {'attr': {'class': 'form-control'}}) }}
+    {{ form_errors(form.evaluationDate) }}
+</div>
+<div class="form-group">
+    {{ form_label(form.weight) }}
+    {{ form_widget(form.weight, {'attr': {'class': 'form-control'}}) }}
+    {{ form_errors(form.weight) }}
+</div>
+<div class="form-group">
+    {{ form_label(form.description) }}
+    {{ form_widget(form.description, {'attr': {'class': 'form-control', 'rows': 3}}) }}
+    {{ form_errors(form.description) }}
+</div>
+<button class="btn btn-primary">{{ button_label|default('Sauvegarder') }}</button>
+<a href="{{ path('evaluation_index') }}" class="btn btn-secondary">Annuler</a>
+{{ form_end(form) }}
