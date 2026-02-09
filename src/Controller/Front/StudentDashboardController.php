@@ -3,6 +3,7 @@
 namespace App\Controller\Front;
 
 use App\Repository\EvaluationRepository;
+use App\Repository\CompetenceRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
@@ -24,6 +25,20 @@ class StudentDashboardController extends AbstractController
             'completedEvaluations' => $completedEvaluations,
             'pendingEvaluations' => $pendingEvaluations,
             'averageScore' => $averageScore,
+            'user' => $user,
+        ]);
+    }
+
+    #[Route('/overview', name: 'overview')]
+    public function overview(EvaluationRepository $evaluationRepository, CompetenceRepository $competenceRepository): Response
+    {
+        $user = $this->getUser();
+        $evaluations = $evaluationRepository->findAll();
+        $competences = $competenceRepository->findAll();
+
+        return $this->render('front/overview/index.html.twig', [
+            'evaluations' => $evaluations,
+            'competences' => $competences,
             'user' => $user,
         ]);
     }
