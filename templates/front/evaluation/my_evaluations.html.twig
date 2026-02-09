@@ -1,0 +1,131 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}My Evaluations - EduConnect{% endblock %}
+
+{% block content %}
+<div class="container-fluid py-5">
+    <!-- Header -->
+    <div class="row mb-4">
+        <div class="col-12">
+            <h1 class="h2 gradient-text mb-2">
+                <i class="fas fa-tasks me-2"></i>My Evaluations
+            </h1>
+            <p class="text-muted">View and manage your evaluations</p>
+        </div>
+    </div>
+
+    <!-- Filters -->
+    <div class="row mb-4">
+        <div class="col-12">
+            <div class="card border-0 shadow-sm">
+                <div class="card-body">
+                    <div class="row g-3">
+                        <div class="col-md-4">
+                            <label class="form-label text-muted small">Status</label>
+                            <select class="form-select form-select-sm">
+                                <option selected>All Statuses</option>
+                                <option>Pending</option>
+                                <option>Completed</option>
+                                <option>Graded</option>
+                            </select>
+                        </div>
+                        <div class="col-md-4">
+                            <label class="form-label text-muted small">Sort By</label>
+                            <select class="form-select form-select-sm">
+                                <option selected>Recent</option>
+                                <option>Deadline</option>
+                                <option>Score</option>
+                                <option>Competence</option>
+                            </select>
+                        </div>
+                        <div class="col-md-4 d-flex align-items-end">
+                            <button class="btn btn-outline-primary btn-sm w-100">
+                                <i class="fas fa-search me-2"></i>Search
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Evaluations List -->
+    <div class="row">
+        <div class="col-12">
+            {% if evaluations|length > 0 %}
+                {% for evaluation in evaluations %}
+                    <div class="card border-0 shadow-sm mb-3 evaluation-card">
+                        <div class="card-body">
+                            <div class="row align-items-center">
+                                <div class="col-md-8">
+                                    <h5 class="card-title mb-2">
+                                        <i class="fas fa-bookmark me-2 text-primary"></i>
+                                        {{ evaluation.competence.name }}
+                                    </h5>
+                                    <p class="card-text text-muted small mb-2">
+                                        <i class="fas fa-tag me-2"></i>
+                                        Category: <span class="badge bg-light text-dark">{{ evaluation.competence.category }}</span>
+                                    </p>
+                                    <p class="card-text text-muted small">
+                                        <i class="fas fa-calendar me-2"></i>
+                                        {% if evaluation.date %}
+                                            {{ evaluation.date|date('M d, Y') }}
+                                        {% else %}
+                                            No date set
+                                        {% endif %}
+                                    </p>
+                                </div>
+                                <div class="col-md-4 text-md-end">
+                                    <div class="mb-2">
+                                        {% if evaluation.status == 'Validée' %}
+                                            <span class="badge bg-success mb-2">Completed</span>
+                                        {% elseif evaluation.status == 'En attente' %}
+                                            <span class="badge bg-warning mb-2">Pending</span>
+                                        {% else %}
+                                            <span class="badge bg-danger mb-2">{{ evaluation.status }}</span>
+                                        {% endif %}
+                                    </div>
+                                    {% if evaluation.score %}
+                                        <p class="card-text mb-0">
+                                            <strong class="gradient-text">Score:</strong> {{ evaluation.score }}/100
+                                        </p>
+                                    {% endif %}
+                                    <a href="{{ path('evaluation_show', {'id': evaluation.id}) }}" class="btn btn-sm btn-primary mt-2">
+                                        <i class="fas fa-arrow-right me-1"></i>View Details
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                {% endfor %}
+            {% else %}
+                <div class="card border-0 shadow-sm">
+                    <div class="card-body text-center py-5">
+                        <i class="fas fa-inbox fa-3x opacity-25 mb-3"></i>
+                        <p class="text-muted">No evaluations yet. Check back soon!</p>
+                    </div>
+                </div>
+            {% endif %}
+        </div>
+    </div>
+</div>
+
+<style>
+    .gradient-text {
+        background: linear-gradient(135deg, #6366f1 0%, #a855f7 100%);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
+    }
+
+    .evaluation-card {
+        transition: all 0.3s ease;
+        border-left: 4px solid #6366f1;
+    }
+
+    .evaluation-card:hover {
+        box-shadow: 0 0.5rem 1rem rgba(99, 102, 241, 0.15) !important;
+        transform: translateY(-2px);
+    }
+</style>
+{% endblock %}

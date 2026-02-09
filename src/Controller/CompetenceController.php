@@ -10,11 +10,13 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
+use Symfony\Component\Security\Http\Attribute\IsGranted;
 
 #[Route('/competence')]
 class CompetenceController extends AbstractController
 {
     #[Route('', name: 'competence_index', methods: ['GET'])]
+    #[IsGranted('ROLE_STUDENT')]
     public function index(Request $request, CompetenceRepository $competenceRepository): Response
     {
         $keyword = $request->query->get('keyword', '');
@@ -32,6 +34,7 @@ class CompetenceController extends AbstractController
     }
 
     #[Route('/new', name: 'competence_new', methods: ['GET', 'POST'])]
+    #[IsGranted('ROLE_ADMIN')]
     public function new(Request $request, EntityManagerInterface $entityManager): Response
     {
         $competence = new Competence();
@@ -52,6 +55,7 @@ class CompetenceController extends AbstractController
     }
 
     #[Route('/search', name: 'competence_search', methods: ['GET'])]
+    #[IsGranted('ROLE_STUDENT')]
     public function search(Request $request, CompetenceRepository $competenceRepository): Response
     {
         $keyword = $request->query->get('q', '');
@@ -67,6 +71,7 @@ class CompetenceController extends AbstractController
     }
 
     #[Route('/export', name: 'competence_export', methods: ['GET'])]
+    #[IsGranted('ROLE_ADMIN')]
     public function export(CompetenceRepository $competenceRepository): Response
     {
         $competences = $competenceRepository->findAll();
@@ -93,6 +98,7 @@ class CompetenceController extends AbstractController
     }
 
     #[Route('/{id}', name: 'competence_show', methods: ['GET'])]
+    #[IsGranted('ROLE_STUDENT')]
     public function show(Competence $competence): Response
     {
         return $this->render('competence/show.html.twig', [
@@ -101,6 +107,7 @@ class CompetenceController extends AbstractController
     }
 
     #[Route('/{id}/edit', name: 'competence_edit', methods: ['GET', 'POST'])]
+    #[IsGranted('ROLE_ADMIN')]
     public function edit(Request $request, Competence $competence, EntityManagerInterface $entityManager): Response
     {
         $form = $this->createForm(CompetenceType::class, $competence);
@@ -119,6 +126,7 @@ class CompetenceController extends AbstractController
     }
 
     #[Route('/{id}', name: 'competence_delete', methods: ['DELETE'])]
+    #[IsGranted('ROLE_ADMIN')]
     public function delete(Request $request, Competence $competence, EntityManagerInterface $entityManager): Response
     {
         if ($this->isCsrfTokenValid('delete' . $competence->getId(), $request->request->get('_token'))) {

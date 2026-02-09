@@ -1,0 +1,96 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}System Reports - EduConnect{% endblock %}
+
+{% block content %}
+<div class="container-fluid py-5">
+    <div class="row mb-4">
+        <div class="col-12">
+            <h1 class="h2 gradient-text mb-2">
+                <i class="fas fa-chart-bar me-2"></i>System Reports
+            </h1>
+            <p class="text-muted">View system statistics and generate reports</p>
+        </div>
+    </div>
+
+    <!-- Statistics Cards -->
+    <div class="row g-4 mb-4">
+        <div class="col-md-6 col-lg-3">
+            <div class="card border-0 shadow-sm">
+                <div class="card-body">
+                    <p class="card-text text-muted small mb-2">Total Competences</p>
+                    <h3 class="card-title gradient-text">{{ totalCompetences }}</h3>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-6 col-lg-3">
+            <div class="card border-0 shadow-sm">
+                <div class="card-body">
+                    <p class="card-text text-muted small mb-2">Total Evaluations</p>
+                    <h3 class="card-title gradient-text">{{ totalEvaluations }}</h3>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-6 col-lg-3">
+            <div class="card border-0 shadow-sm">
+                <div class="card-body">
+                    <p class="card-text text-muted small mb-2">Total Users</p>
+                    <h3 class="card-title gradient-text">0</h3>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-6 col-lg-3">
+            <div class="card border-0 shadow-sm">
+                <div class="card-body">
+                    <p class="card-text text-muted small mb-2">Completion Rate</p>
+                    <h3 class="card-title gradient-text">0%</h3>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Report Options -->
+    <div class="row">
+        <div class="col-12">
+            <div class="card border-0 shadow-sm">
+                <div class="card-header bg-light border-bottom">
+                    <h5 class="card-title mb-0">Generate Reports</h5>
+                </div>
+                <div class="card-body">
+                    <div class="row g-2">
+                        <div class="col-md-3">
+                            <button class="btn btn-outline-primary btn-sm w-100">
+                                <i class="fas fa-file-excel me-1"></i>Export as Excel
+                            </button>
+                        </div>
+                        <div class="col-md-3">
+                            <button class="btn btn-outline-danger btn-sm w-100">
+                                <i class="fas fa-file-pdf me-1"></i>Export as PDF
+                            </button>
+                        </div>
+                        <div class="col-md-3">
+                            <button class="btn btn-outline-secondary btn-sm w-100">
+                                <i class="fas fa-file-csv me-1"></i>Export as CSV
+                            </button>
+                        </div>
+                        <div class="col-md-3">
+                            <button class="btn btn-outline-info btn-sm w-100">
+                                <i class="fas fa-print me-1"></i>Print Report
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<style>
+    .gradient-text {
+        background: linear-gradient(135deg, #6366f1 0%, #a855f7 100%);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
+    }
+</style>
+{% endblock %}

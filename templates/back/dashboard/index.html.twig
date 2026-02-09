@@ -1,0 +1,227 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Admin Dashboard - EduConnect{% endblock %}
+
+{% block content %}
+<div class="container-fluid py-5">
+    <!-- Welcome Section -->
+    <div class="row mb-4">
+        <div class="col-12">
+            <div class="d-flex justify-content-between align-items-center">
+                <div>
+                    <h1 class="h2 gradient-text mb-2">
+                        <i class="fas fa-tachometer-alt me-2"></i>
+                        {{ isAdmin ? 'Administration Dashboard' : 'Teacher Dashboard' }}
+                    </h1>
+                    <p class="text-muted">
+                        {% if isAdmin %}
+                            Manage all competences, evaluations, and users
+                        {% else %}
+                            Manage your evaluations and grade students
+                        {% endif %}
+                    </p>
+                </div>
+                <div>
+                    <span class="badge bg-success-light text-success p-2">
+                        <i class="fas fa-user-circle me-1"></i>
+                        {{ user.fullName }}
+                    </span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Quick Stats -->
+    <div class="row g-4 mb-4">
+        <!-- Total Competences -->
+        <div class="col-md-6 col-lg-3">
+            <div class="card border-0 shadow-sm h-100">
+                <div class="card-body">
+                    <div class="d-flex justify-content-between align-items-start">
+                        <div>
+                            <p class="card-text text-muted small mb-2">Total Competences</p>
+                            <h3 class="card-title gradient-text mb-0">{{ totalCompetences }}</h3>
+                        </div>
+                        <i class="fas fa-star fa-2x text-warning opacity-25"></i>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Total Evaluations -->
+        <div class="col-md-6 col-lg-3">
+            <div class="card border-0 shadow-sm h-100">
+                <div class="card-body">
+                    <div class="d-flex justify-content-between align-items-start">
+                        <div>
+                            <p class="card-text text-muted small mb-2">
+                                {% if isAdmin %}Total{% else %}My{% endif %} Evaluations
+                            </p>
+                            <h3 class="card-title gradient-text mb-0">{{ totalEvaluations }}</h3>
+                        </div>
+                        <i class="fas fa-clipboard-check fa-2x text-primary opacity-25"></i>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Quick Actions for Admins Only -->
+        {% if isAdmin %}
+            <div class="col-md-6 col-lg-3">
+                <div class="card border-0 shadow-sm h-100 bg-light">
+                    <div class="card-body">
+                        <p class="card-text text-muted small mb-2">Pending Tasks</p>
+                        <h3 class="card-title text-info mb-0">0</h3>
+                        <small class="text-muted">No pending approvals</small>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-md-6 col-lg-3">
+                <div class="card border-0 shadow-sm h-100 bg-light">
+                    <div class="card-body">
+                        <p class="card-text text-muted small mb-2">System Status</p>
+                        <h3 class="card-title text-success mb-0">
+                            <i class="fas fa-check-circle"></i>
+                        </h3>
+                        <small class="text-muted">All systems operational</small>
+                    </div>
+                </div>
+            </div>
+        {% endif %}
+    </div>
+
+    <!-- Quick Actions -->
+    <div class="row mb-4">
+        <div class="col-12">
+            <div class="card border-0 shadow-sm">
+                <div class="card-header bg-light border-bottom">
+                    <h5 class="card-title mb-0 d-flex align-items-center">
+                        <i class="fas fa-lightning-bolt me-2 text-warning"></i>
+                        Quick Actions
+                    </h5>
+                </div>
+                <div class="card-body">
+                    <div class="row g-2">
+                        {% if isAdmin %}
+                            <div class="col-md-2">
+                                <a href="{{ path('admin_competences') }}" class="btn btn-outline-primary btn-sm w-100">
+                                    <i class="fas fa-star me-2"></i>Competences
+                                </a>
+                            </div>
+                            <div class="col-md-2">
+                                <a href="{{ path('admin_evaluations') }}" class="btn btn-outline-success btn-sm w-100">
+                                    <i class="fas fa-list me-2"></i>Evaluations
+                                </a>
+                            </div>
+                            <div class="col-md-2">
+                                <a href="{{ path('admin_users') }}" class="btn btn-outline-info btn-sm w-100">
+                                    <i class="fas fa-users me-2"></i>Users
+                                </a>
+                            </div>
+                            <div class="col-md-2">
+                                <a href="{{ path('admin_grade_students') }}" class="btn btn-outline-warning btn-sm w-100">
+                                    <i class="fas fa-pen me-2"></i>Grade
+                                </a>
+                            </div>
+                            <div class="col-md-2">
+                                <a href="{{ path('admin_reports') }}" class="btn btn-outline-secondary btn-sm w-100">
+                                    <i class="fas fa-chart-bar me-2"></i>Reports
+                                </a>
+                            </div>
+                        {% else %}
+                            <div class="col-md-3">
+                                <a href="{{ path('admin_evaluations') }}" class="btn btn-outline-primary btn-sm w-100">
+                                    <i class="fas fa-list me-2"></i>My Evaluations
+                                </a>
+                            </div>
+                            <div class="col-md-3">
+                                <a href="{{ path('admin_grade_students') }}" class="btn btn-outline-success btn-sm w-100">
+                                    <i class="fas fa-pen me-2"></i>Grade Students
+                                </a>
+                            </div>
+                            <div class="col-md-3">
+                                <a href="{{ path('evaluation_new') }}" class="btn btn-primary btn-sm w-100">
+                                    <i class="fas fa-plus me-2"></i>New Evaluation
+                                </a>
+                            </div>
+                            <div class="col-md-3">
+                                <a href="#" class="btn btn-outline-secondary btn-sm w-100">
+                                    <i class="fas fa-chart-bar me-2"></i>Reports
+                                </a>
+                            </div>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Recent Activity / Statistics -->
+    <div class="row g-4">
+        <div class="col-lg-8">
+            <div class="card border-0 shadow-sm">
+                <div class="card-header bg-light border-bottom">
+                    <h5 class="card-title mb-0 d-flex align-items-center">
+                        <i class="fas fa-history me-2 text-primary"></i>
+                        Recent Activity
+                    </h5>
+                </div>
+                <div class="card-body">
+                    <p class="text-muted text-center py-4">
+                        <i class="fas fa-inbox fa-3x opacity-25 mb-2"></i><br>
+                        No recent activity to display
+                    </p>
+                </div>
+            </div>
+        </div>
+
+        <!-- System Info (Admin Only) -->
+        {% if isAdmin %}
+            <div class="col-lg-4">
+                <div class="card border-0 shadow-sm">
+                    <div class="card-header bg-light border-bottom">
+                        <h5 class="card-title mb-0 d-flex align-items-center">
+                            <i class="fas fa-server me-2 text-info"></i>
+                            System Info
+                        </h5>
+                    </div>
+                    <div class="card-body">
+                        <ul class="list-unstyled">
+                            <li class="mb-2 pb-2 border-bottom">
+                                <small class="text-muted">Database Status</small><br>
+                                <strong class="text-success"><i class="fas fa-check-circle me-1"></i>Connected</strong>
+                            </li>
+                            <li class="mb-2 pb-2 border-bottom">
+                                <small class="text-muted">Last Backup</small><br>
+                                <strong>Today at 2:30 AM</strong>
+                            </li>
+                            <li>
+                                <small class="text-muted">API Status</small><br>
+                                <strong class="text-success"><i class="fas fa-check-circle me-1"></i>Operational</strong>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        {% endif %}
+    </div>
+</div>
+
+<style>
+    .gradient-text {
+        background: linear-gradient(135deg, #6366f1 0%, #a855f7 100%);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
+    }
+
+    .bg-success-light {
+        background-color: #dcfce7 !important;
+    }
+
+    .text-success {
+        color: #16a34a !important;
+    }
+</style>
+{% endblock %}

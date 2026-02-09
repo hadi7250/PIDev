@@ -10,11 +10,13 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
+use Symfony\Component\Security\Http\Attribute\IsGranted;
 
 #[Route('/evaluation')]
 class EvaluationController extends AbstractController
 {
     #[Route('', name: 'evaluation_index', methods: ['GET'])]
+    #[IsGranted('ROLE_STUDENT')]
     public function index(EvaluationRepository $evaluationRepository): Response
     {
         return $this->render('evaluation/index.html.twig', [
@@ -23,6 +25,7 @@ class EvaluationController extends AbstractController
     }
 
     #[Route('/new', name: 'evaluation_new', methods: ['GET', 'POST'])]
+    #[IsGranted('ROLE_TEACHER')]
     public function new(Request $request, EntityManagerInterface $entityManager): Response
     {
         $evaluation = new Evaluation();
@@ -43,6 +46,7 @@ class EvaluationController extends AbstractController
     }
 
     #[Route('/{id}', name: 'evaluation_show', methods: ['GET'])]
+    #[IsGranted('ROLE_STUDENT')]
     public function show(Evaluation $evaluation): Response
     {
         return $this->render('evaluation/show.html.twig', [
@@ -51,6 +55,7 @@ class EvaluationController extends AbstractController
     }
 
     #[Route('/{id}/edit', name: 'evaluation_edit', methods: ['GET', 'POST'])]
+    #[IsGranted('ROLE_TEACHER')]
     public function edit(Request $request, Evaluation $evaluation, EntityManagerInterface $entityManager): Response
     {
         $form = $this->createForm(EvaluationType::class, $evaluation);
@@ -69,6 +74,7 @@ class EvaluationController extends AbstractController
     }
 
     #[Route('/{id}', name: 'evaluation_delete', methods: ['DELETE'])]
+    #[IsGranted('ROLE_TEACHER')]
     public function delete(Request $request, Evaluation $evaluation, EntityManagerInterface $entityManager): Response
     {
         if ($this->isCsrfTokenValid('delete' . $evaluation->getId(), $request->request->get('_token'))) {
@@ -81,6 +87,7 @@ class EvaluationController extends AbstractController
     }
 
     #[Route('/search', name: 'evaluation_search', methods: ['GET'])]
+    #[IsGranted('ROLE_STUDENT')]
     public function search(Request $request, EvaluationRepository $evaluationRepository): Response
     {
         $keyword = $request->query->get('q', '');
