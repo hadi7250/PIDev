@@ -51,44 +51,6 @@ class CompetenceController extends AbstractController
         ]);
     }
 
-    #[Route('/{id}', name: 'competence_show', methods: ['GET'])]
-    public function show(Competence $competence): Response
-    {
-        return $this->render('competence/show.html.twig', [
-            'competence' => $competence,
-        ]);
-    }
-
-    #[Route('/{id}/edit', name: 'competence_edit', methods: ['GET', 'POST'])]
-    public function edit(Request $request, Competence $competence, EntityManagerInterface $entityManager): Response
-    {
-        $form = $this->createForm(CompetenceType::class, $competence);
-        $form->handleRequest($request);
-
-        if ($form->isSubmitted() && $form->isValid()) {
-            $entityManager->flush();
-            $this->addFlash('success', 'Compétence modifiée avec succès !');
-            return $this->redirectToRoute('competence_index', [], Response::HTTP_SEE_OTHER);
-        }
-
-        return $this->render('competence/edit.html.twig', [
-            'competence' => $competence,
-            'form' => $form,
-        ]);
-    }
-
-    #[Route('/{id}', name: 'competence_delete', methods: ['DELETE'])]
-    public function delete(Request $request, Competence $competence, EntityManagerInterface $entityManager): Response
-    {
-        if ($this->isCsrfTokenValid('delete' . $competence->getId(), $request->request->get('_token'))) {
-            $entityManager->remove($competence);
-            $entityManager->flush();
-            $this->addFlash('success', 'Compétence supprimée avec succès !');
-        }
-
-        return $this->redirectToRoute('competence_index', [], Response::HTTP_SEE_OTHER);
-    }
-
     #[Route('/search', name: 'competence_search', methods: ['GET'])]
     public function search(Request $request, CompetenceRepository $competenceRepository): Response
     {
@@ -128,5 +90,43 @@ class CompetenceController extends AbstractController
             'attachment; filename="competences_' . date('Y-m-d') . '.csv"');
         
         return $response;
+    }
+
+    #[Route('/{id}', name: 'competence_show', methods: ['GET'])]
+    public function show(Competence $competence): Response
+    {
+        return $this->render('competence/show.html.twig', [
+            'competence' => $competence,
+        ]);
+    }
+
+    #[Route('/{id}/edit', name: 'competence_edit', methods: ['GET', 'POST'])]
+    public function edit(Request $request, Competence $competence, EntityManagerInterface $entityManager): Response
+    {
+        $form = $this->createForm(CompetenceType::class, $competence);
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            $entityManager->flush();
+            $this->addFlash('success', 'Compétence modifiée avec succès !');
+            return $this->redirectToRoute('competence_index', [], Response::HTTP_SEE_OTHER);
+        }
+
+        return $this->render('competence/edit.html.twig', [
+            'competence' => $competence,
+            'form' => $form,
+        ]);
+    }
+
+    #[Route('/{id}', name: 'competence_delete', methods: ['DELETE'])]
+    public function delete(Request $request, Competence $competence, EntityManagerInterface $entityManager): Response
+    {
+        if ($this->isCsrfTokenValid('delete' . $competence->getId(), $request->request->get('_token'))) {
+            $entityManager->remove($competence);
+            $entityManager->flush();
+            $this->addFlash('success', 'Compétence supprimée avec succès !');
+        }
+
+        return $this->redirectToRoute('competence_index', [], Response::HTTP_SEE_OTHER);
     }
 }
