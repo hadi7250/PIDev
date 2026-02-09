@@ -1,0 +1,490 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}My Learning - Evaluations & Competences - EduConnect{% endblock %}
+
+{% block content %}
+<div class="container-fluid py-5">
+    <!-- Header Section -->
+    <div class="row mb-4">
+        <div class="col-12">
+            <div class="d-flex justify-content-between align-items-center">
+                <div>
+                    <h1 class="h2 gradient-text mb-2">
+                        <i class="fas fa-book-open me-2"></i>
+                        My Learning Overview
+                    </h1>
+                    <p class="text-muted">View all your evaluations and competences in one place</p>
+                </div>
+                <a href="{{ path('admin_dashboard') }}" class="btn btn-danger btn-lg fw-bold" title="Switch to Back Office - Admin/Teacher Tools">
+                    <i class="fas fa-cog me-2"></i> Back Office
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <!-- Charts Section -->
+    <div class="row mb-5">
+        <!-- Evaluation Status Chart -->
+        <div class="col-md-6 mb-4">
+            <div class="card border-0 shadow-sm h-100">
+                <div class="card-header bg-gradient-primary text-white">
+                    <h5 class="card-title mb-0">
+                        <i class="fas fa-chart-pie me-2"></i>
+                        Evaluation Status Distribution
+                    </h5>
+                </div>
+                <div class="card-body d-flex justify-content-center align-items-center" style="min-height: 300px;">
+                    {% set completed = evaluations|filter(e => e.status == 'completed')|length %}
+                    {% set pending = evaluations|filter(e => e.status == 'pending')|length %}
+                    {% if evaluations|length > 0 %}
+                        <canvas id="evaluationStatusChart" style="max-width: 250px; max-height: 250px;"></canvas>
+                    {% else %}
+                        <div class="alert alert-info text-center mb-0">No evaluations data available</div>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+
+        <!-- Score Distribution Chart -->
+        <div class="col-md-6 mb-4">
+            <div class="card border-0 shadow-sm h-100">
+                <div class="card-header bg-gradient-success text-white">
+                    <h5 class="card-title mb-0">
+                        <i class="fas fa-chart-bar me-2"></i>
+                        Score Distribution
+                    </h5>
+                </div>
+                <div class="card-body d-flex justify-content-center align-items-center" style="min-height: 300px;">
+                    {% if evaluations|length > 0 %}
+                        <canvas id="scoreDistributionChart" style="max-width: 350px; max-height: 250px;"></canvas>
+                    {% else %}
+                        <div class="alert alert-info text-center mb-0">No score data available</div>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Competence Levels Chart -->
+    <div class="row mb-5">
+        <div class="col-12 mb-4">
+            <div class="card border-0 shadow-sm">
+                <div class="card-header bg-gradient-warning text-white">
+                    <h5 class="card-title mb-0">
+                        <i class="fas fa-chart-line me-2"></i>
+                        Competence Levels
+                    </h5>
+                </div>
+                <div class="card-body d-flex justify-content-center align-items-center" style="min-height: 300px;">
+                    {% if competences|length > 0 %}
+                        <canvas id="competenceLevelChart" style="max-width: 100%; max-height: 250px;"></canvas>
+                    {% else %}
+                        <div class="alert alert-info text-center mb-0">No competence data available</div>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Tab Navigation -->
+    <div class="row mb-4">
+        <div class="col-12">
+            <ul class="nav nav-tabs" id="learningTabs" role="tablist">
+                <li class="nav-item" role="presentation">
+                    <button class="nav-link active" id="evaluations-tab" data-bs-toggle="tab" data-bs-target="#evaluations" type="button" role="tab" aria-controls="evaluations" aria-selected="true">
+                        <i class="fas fa-clipboard-list me-2"></i>
+                        Evaluations ({{ evaluations|length }})
+                    </button>
+                </li>
+                <li class="nav-item" role="presentation">
+                    <button class="nav-link" id="competences-tab" data-bs-toggle="tab" data-bs-target="#competences" type="button" role="tab" aria-controls="competences" aria-selected="false">
+                        <i class="fas fa-star me-2"></i>
+                        Competences ({{ competences|length }})
+                    </button>
+                </li>
+            </ul>
+        </div>
+    </div>
+
+    <!-- Tab Content -->
+    <div class="tab-content" id="learningTabContent">
+        <!-- Evaluations Tab -->
+        <div class="tab-pane fade show active" id="evaluations" role="tabpanel" aria-labelledby="evaluations-tab">
+            <div class="row">
+                {% if evaluations is empty %}
+                    <div class="col-12">
+                        <div class="alert alert-info" role="alert">
+                            <i class="fas fa-info-circle me-2"></i>
+                            No evaluations assigned yet. Check back later!
+                        </div>
+                    </div>
+                {% else %}
+                    {% for evaluation in evaluations %}
+                        <div class="col-md-6 col-lg-4 mb-4">
+                            <div class="card border-0 shadow-sm h-100 evaluation-card hover-lift">
+                                <div class="card-header bg-gradient-primary text-white">
+                                    <h5 class="card-title mb-0">
+                                        <i class="fas fa-task me-2"></i>
+                                        {{ evaluation.title ?? 'Evaluation' }}
+                                    </h5>
+                                </div>
+                                <div class="card-body">
+                                    <div class="mb-3">
+                                        <label class="text-muted small">Competence</label>
+                                        <p class="mb-0">
+                                            <i class="fas fa-target me-2 text-primary"></i>
+                                            <strong>{{ evaluation.competence.name ?? 'N/A' }}</strong>
+                                        </p>
+                                    </div>
+
+                                    <div class="mb-3">
+                                        <label class="text-muted small">Status</label>
+                                        {% if evaluation.status == 'completed' %}
+                                            <span class="badge bg-success">
+                                                <i class="fas fa-check-circle me-1"></i>
+                                                Completed
+                                            </span>
+                                        {% elseif evaluation.status == 'pending' %}
+                                            <span class="badge bg-warning">
+                                                <i class="fas fa-hourglass-half me-1"></i>
+                                                Pending
+                                            </span>
+                                        {% else %}
+                                            <span class="badge bg-secondary">
+                                                <i class="fas fa-question-circle me-1"></i>
+                                                Unknown
+                                            </span>
+                                        {% endif %}
+                                    </div>
+
+                                    <div class="mb-3">
+                                        <label class="text-muted small">Score</label>
+                                        <div class="progress" style="height: 20px;">
+                                            <div class="progress-bar bg-success" role="progressbar" style="width: {{ evaluation.score ?? 0 }}%" aria-valuenow="{{ evaluation.score ?? 0 }}" aria-valuemin="0" aria-valuemax="100">
+                                                {{ evaluation.score ?? 0 }}%
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    {% if evaluation.description %}
+                                        <div class="mb-3">
+                                            <label class="text-muted small">Description</label>
+                                            <p class="small mb-0 text-muted">{{ evaluation.description }}</p>
+                                        </div>
+                                    {% endif %}
+                                </div>
+                                <div class="card-footer bg-light">
+                                    <a href="{{ path('evaluation_show', { id: evaluation.id }) }}" class="btn btn-sm btn-outline-primary">
+                                        <i class="fas fa-eye me-1"></i>
+                                        View Details
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    {% endfor %}
+                {% endif %}
+            </div>
+        </div>
+
+        <!-- Competences Tab -->
+        <div class="tab-pane fade" id="competences" role="tabpanel" aria-labelledby="competences-tab">
+            <div class="row">
+                {% if competences is empty %}
+                    <div class="col-12">
+                        <div class="alert alert-info" role="alert">
+                            <i class="fas fa-info-circle me-2"></i>
+                            No competences available yet.
+                        </div>
+                    </div>
+                {% else %}
+                    {% for competence in competences %}
+                        <div class="col-md-6 col-lg-4 mb-4">
+                            <div class="card border-0 shadow-sm h-100 competence-card hover-lift">
+                                <div class="card-header bg-gradient-success text-white">
+                                    <h5 class="card-title mb-0">
+                                        <i class="fas fa-star me-2"></i>
+                                        {{ competence.name }}
+                                    </h5>
+                                </div>
+                                <div class="card-body">
+                                    {% if competence.category %}
+                                        <div class="mb-3">
+                                            <label class="text-muted small">Category</label>
+                                            <p class="mb-0">
+                                                <span class="badge bg-info">{{ competence.category }}</span>
+                                            </p>
+                                        </div>
+                                    {% endif %}
+
+                                    {% if competence.description %}
+                                        <div class="mb-3">
+                                            <label class="text-muted small">Description</label>
+                                            <p class="small mb-0 text-muted">{{ competence.description }}</p>
+                                        </div>
+                                    {% endif %}
+
+                                    {% if competence.maxLevel %}
+                                        <div class="mb-3">
+                                            <label class="text-muted small">Max Level</label>
+                                            <p class="mb-0">
+                                                <strong>Level {{ competence.maxLevel }}</strong>
+                                            </p>
+                                        </div>
+                                    {% endif %}
+
+                                    <div class="mb-3">
+                                        <label class="text-muted small">Status</label>
+                                        <div class="d-flex gap-1">
+                                            {% for i in 1..5 %}
+                                                {% if i <= (competence.currentLevel ?? 0) %}
+                                                    <i class="fas fa-star text-warning"></i>
+                                                {% else %}
+                                                    <i class="fas fa-star text-muted opacity-50"></i>
+                                                {% endif %}
+                                            {% endfor %}
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="card-footer bg-light">
+                                    <a href="{{ path('competence_show', { id: competence.id }) }}" class="btn btn-sm btn-outline-success">
+                                        <i class="fas fa-eye me-1"></i>
+                                        View Details
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    {% endfor %}
+                {% endif %}
+            </div>
+        </div>
+    </div>
+
+    <!-- Summary Stats -->
+    <div class="row mt-5 pt-4 border-top">
+        <div class="col-md-3">
+            <div class="text-center">
+                <h3 class="gradient-text">{{ evaluations|length }}</h3>
+                <p class="text-muted mb-0">Total Evaluations</p>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="text-center">
+                <h3 class="gradient-text">{{ competences|length }}</h3>
+                <p class="text-muted mb-0">Total Competences</p>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="text-center">
+                <h3 class="gradient-text text-success">
+                    {% set completed = evaluations|filter(e => e.status == 'completed')|length %}
+                    {{ completed }}
+                </h3>
+                <p class="text-muted mb-0">Completed</p>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="text-center">
+                <h3 class="gradient-text text-warning">
+                    {% set pending = evaluations|filter(e => e.status == 'pending')|length %}
+                    {{ pending }}
+                </h3>
+                <p class="text-muted mb-0">Pending</p>
+            </div>
+        </div>
+    </div>
+</div>
+
+<style>
+    .hover-lift {
+        transition: all 0.3s ease;
+    }
+
+    .hover-lift:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15) !important;
+    }
+
+    .bg-gradient-primary {
+        background: linear-gradient(135deg, #6366f1 0%, #a855f7 100%);
+    }
+
+    .bg-gradient-success {
+        background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+    }
+
+    .nav-tabs .nav-link {
+        color: #6b7280;
+        border: none;
+        border-bottom: 3px solid transparent;
+        font-weight: 500;
+        transition: all 0.3s ease;
+    }
+
+    .nav-tabs .nav-link:hover {
+        color: #6366f1;
+        border-bottom-color: #6366f1;
+    }
+
+    .nav-tabs .nav-link.active {
+        color: #6366f1;
+        background-color: transparent;
+        border-bottom-color: #6366f1;
+    }
+
+    .bg-gradient-warning {
+        background: linear-gradient(135deg, #f59e0b 0%, #f97316 100%);
+    }
+</style>
+
+<!-- Chart.js Library -->
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.js"></script>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        // Evaluation Status Chart
+        {% set completed = evaluations|filter(e => e.status == 'completed')|length %}
+        {% set pending = evaluations|filter(e => e.status == 'pending')|length %}
+        {% if evaluations|length > 0 %}
+            const statusCtx = document.getElementById('evaluationStatusChart');
+            if (statusCtx) {
+                new Chart(statusCtx, {
+                    type: 'doughnut',
+                    data: {
+                        labels: ['Completed', 'Pending'],
+                        datasets: [{
+                            data: [{{ completed }}, {{ pending }}],
+                            backgroundColor: ['#10b981', '#f59e0b'],
+                            borderColor: ['#059669', '#f97316'],
+                            borderWidth: 2
+                        }]
+                    },
+                    options: {
+                        responsive: true,
+                        maintainAspectRatio: true,
+                        plugins: {
+                            legend: {
+                                position: 'bottom',
+                                labels: {
+                                    padding: 20,
+                                    font: { size: 13 }
+                                }
+                            }
+                        }
+                    }
+                });
+            }
+
+            // Score Distribution Chart
+            const scores = [
+                {% for evaluation in evaluations %}
+                    {{ evaluation.score ?? 0 }}{{ not loop.last ? ',' : '' }}
+                {% endfor %}
+            ];
+            
+            const scoreCtx = document.getElementById('scoreDistributionChart');
+            if (scoreCtx) {
+                new Chart(scoreCtx, {
+                    type: 'bar',
+                    data: {
+                        labels: [
+                            {% for evaluation in evaluations %}
+                                '{{ evaluation.title ?? 'Eval' }}'{{ not loop.last ? ',' : '' }}
+                            {% endfor %}
+                        ],
+                        datasets: [{
+                            label: 'Score (%)',
+                            data: scores,
+                            backgroundColor: 'rgba(99, 102, 241, 0.8)',
+                            borderColor: '#6366f1',
+                            borderWidth: 2,
+                            borderRadius: 5
+                        }]
+                    },
+                    options: {
+                        indexAxis: scores.length > 5 ? 'y' : 'x',
+                        responsive: true,
+                        maintainAspectRatio: true,
+                        plugins: {
+                            legend: {
+                                display: true,
+                                labels: { padding: 15, font: { size: 12 } }
+                            }
+                        },
+                        scales: {
+                            y: {
+                                beginAtZero: true,
+                                max: 100,
+                                ticks: { font: { size: 11 } }
+                            },
+                            x: {
+                                ticks: { font: { size: 11 } }
+                            }
+                        }
+                    }
+                });
+            }
+        {% endif %}
+
+        // Competence Levels Chart
+        {% if competences|length > 0 %}
+            const competenceLevelCtx = document.getElementById('competenceLevelChart');
+            if (competenceLevelCtx) {
+                new Chart(competenceLevelCtx, {
+                    type: 'radar',
+                    data: {
+                        labels: [
+                            {% for competence in competences %}
+                                '{{ competence.name }}'{{ not loop.last ? ',' : '' }}
+                            {% endfor %}
+                        ],
+                        datasets: [{
+                            label: 'Current Level',
+                            data: [
+                                {% for competence in competences %}
+                                    {{ competence.currentLevel ?? 0 }}{{ not loop.last ? ',' : '' }}
+                                {% endfor %}
+                            ],
+                            borderColor: '#10b981',
+                            backgroundColor: 'rgba(16, 185, 129, 0.1)',
+                            borderWidth: 2,
+                            pointBackgroundColor: '#10b981',
+                            pointBorderColor: '#fff',
+                            pointBorderWidth: 2
+                        }, {
+                            label: 'Max Level',
+                            data: [
+                                {% for competence in competences %}
+                                    {{ competence.maxLevel ?? 5 }}{{ not loop.last ? ',' : '' }}
+                                {% endfor %}
+                            ],
+                            borderColor: '#a855f7',
+                            backgroundColor: 'rgba(168, 85, 247, 0.1)',
+                            borderWidth: 2,
+                            pointBackgroundColor: '#a855f7',
+                            pointBorderColor: '#fff',
+                            pointBorderWidth: 2
+                        }]
+                    },
+                    options: {
+                        responsive: true,
+                        maintainAspectRatio: true,
+                        plugins: {
+                            legend: {
+                                position: 'bottom',
+                                labels: { padding: 15, font: { size: 12 } }
+                            }
+                        },
+                        scales: {
+                            r: {
+                                beginAtZero: true,
+                                max: 5,
+                                ticks: { font: { size: 11 } }
+                            }
+                        }
+                    }
+                });
+            }
+        {% endif %}
+    });
+</script>
+{% endblock %}

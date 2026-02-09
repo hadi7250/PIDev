@@ -1,0 +1,255 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Evaluations Management - EduConnect{% endblock %}
+
+{% block content %}
+<div class="container-fluid py-5">
+    <div class="row mb-4">
+        <div class="col-12">
+            <div class="d-flex justify-content-between align-items-center">
+                <div>
+                    <h1 class="h2 gradient-text mb-2">
+                        <i class="fas fa-clipboard-list me-2"></i>
+                        {% if isAdmin %}All Evaluations{% else %}My Evaluations{% endif %}
+                    </h1>
+                    <p class="text-muted">
+                        {% if isAdmin %}
+                            Manage all evaluations in the system
+                        {% else %}
+                            Manage your evaluations
+                        {% endif %}
+                    </p>
+                </div>
+                <a href="{{ path('evaluation_new') }}" class="btn btn-primary">
+                    <i class="fas fa-plus me-2"></i>New Evaluation
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <!-- Charts Section -->
+    <div class="row mb-5">
+        <div class="col-md-6 mb-4">
+            <div class="card border-0 shadow-sm">
+                <div class="card-header bg-gradient-primary text-white">
+                    <h5 class="card-title mb-0">
+                        <i class="fas fa-chart-pie me-2"></i>
+                        Status Distribution
+                    </h5>
+                </div>
+                <div class="card-body d-flex justify-content-center align-items-center" style="min-height: 250px;">
+                    {% if evaluations|length > 0 %}
+                        <canvas id="statusChart"></canvas>
+                    {% else %}
+                        <div class="alert alert-info text-center mb-0">No evaluation data available</div>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-6 mb-4">
+            <div class="card border-0 shadow-sm">
+                <div class="card-header bg-gradient-success text-white">
+                    <h5 class="card-title mb-0">
+                        <i class="fas fa-chart-bar me-2"></i>
+                        Average Scores by Competence
+                    </h5>
+                </div>
+                <div class="card-body d-flex justify-content-center align-items-center" style="min-height: 250px;">
+                    {% if evaluations|length > 0 %}
+                        <canvas id="scoreChart"></canvas>
+                    {% else %}
+                        <div class="alert alert-info text-center mb-0">No score data available</div>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-12">
+            <div class="card border-0 shadow-sm">
+                <div class="card-header bg-light border-bottom">
+                    <div class="row align-items-center">
+                        <div class="col-md-6">
+                            <input type="text" class="form-control form-control-sm" placeholder="Search evaluations...">
+                        </div>
+                        <div class="col-md-6 text-end">
+                            <button class="btn btn-outline-secondary btn-sm">
+                                <i class="fas fa-filter me-1"></i>Filter
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                <div class="table-responsive">
+                    <table class="table table-hover mb-0">
+                        <thead class="table-light">
+                            <tr>
+                                <th>Competence</th>
+                                <th>Status</th>
+                                <th>Score</th>
+                                <th>Date</th>
+                                {% if isAdmin %}<th>Created By</th>{% endif %}
+                                <th class="text-end">Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for evaluation in evaluations %}
+                                <tr>
+                                    <td><strong>{{ evaluation.competence.name }}</strong></td>
+                                    <td>
+                                        {% if evaluation.status == 'Validée' %}
+                                            <span class="badge bg-success">Completed</span>
+                                        {% elseif evaluation.status == 'En attente' %}
+                                            <span class="badge bg-warning">Pending</span>
+                                        {% else %}
+                                            <span class="badge bg-danger">{{ evaluation.status }}</span>
+                                        {% endif %}
+                                    </td>
+                                    <td>
+                                        {% if evaluation.score %}
+                                            <strong class="gradient-text">{{ evaluation.score }}/100</strong>
+                                        {% else %}
+                                            <span class="text-muted">-</span>
+                                        {% endif %}
+                                    </td>
+                                    <td><small class="text-muted">{{ evaluation.date|date('M d, Y') }}</small></td>
+                                    {% if isAdmin %}<td><small>{{ evaluation.createdBy.fullName }}</small></td>{% endif %}
+                                    <td class="text-end">
+                                        <a href="{{ path('evaluation_show', {'id': evaluation.id}) }}" class="btn btn-sm btn-info" title="View">
+                                            <i class="fas fa-eye"></i>
+                                        </a>
+                                        <a href="{{ path('evaluation_edit', {'id': evaluation.id}) }}" class="btn btn-sm btn-warning" title="Edit">
+                                            <i class="fas fa-edit"></i>
+                                        </a>
+                                        <button class="btn btn-sm btn-danger" title="Delete">
+                                            <i class="fas fa-trash"></i>
+                                        </button>
+                                    </td>
+                                </tr>
+                            {% else %}
+                                <tr>
+                                    <td colspan="{{ isAdmin ? 6 : 5 }}" class="text-center py-4 text-muted">
+                                        No evaluations found
+                                    </td>
+                                </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<style>
+    .gradient-text {
+        background: linear-gradient(135deg, #6366f1 0%, #a855f7 100%);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
+    }
+
+    .bg-gradient-primary {
+        background: linear-gradient(135deg, #6366f1 0%, #a855f7 100%);
+    }
+
+    .bg-gradient-success {
+        background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+    }
+</style>
+
+<!-- Chart.js Library -->
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.js"></script>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        // Prepare data
+        const evaluations = [
+            {% for evaluation in evaluations %}
+                {
+                    competence: '{{ evaluation.competence.name }}',
+                    status: '{{ evaluation.status }}',
+                    score: {{ evaluation.score ?? 0 }}
+                }{{ not loop.last ? ',' : '' }}
+            {% endfor %}
+        ];
+
+        if (evaluations.length > 0) {
+            // Status Chart
+            const validee = evaluations.filter(e => e.status == 'Validée').length;
+            const pending = evaluations.filter(e => e.status == 'En attente').length;
+            const other = evaluations.length - validee - pending;
+
+            const statusCtx = document.getElementById('statusChart');
+            if (statusCtx) {
+                new Chart(statusCtx, {
+                    type: 'doughnut',
+                    data: {
+                        labels: ['Completed', 'Pending'{% if other > 0 %}, 'Other'{% endif %}],
+                        datasets: [{
+                            data: [{{ validee }}, {{ pending }}{% if other > 0 %}, {{ other }}{% endif %}],
+                            backgroundColor: ['#10b981', '#f59e0b'{% if other > 0 %}, '#ef4444'{% endif %}],
+                            borderColor: ['#059669', '#f97316'{% if other > 0 %}, '#dc2626'{% endif %}],
+                            borderWidth: 2
+                        }]
+                    },
+                    options: {
+                        responsive: true,
+                        maintainAspectRatio: true,
+                        plugins: {
+                            legend: {
+                                position: 'bottom',
+                                labels: { padding: 15, font: { size: 12 } }
+                            }
+                        }
+                    }
+                });
+            }
+
+            // Score Chart - Group by competence
+            const competenceScores = {};
+            evaluations.forEach(e => {
+                if (!competenceScores[e.competence]) {
+                    competenceScores[e.competence] = { total: 0, count: 0 };
+                }
+                competenceScores[e.competence].total += e.score;
+                competenceScores[e.competence].count += 1;
+            });
+
+            const competenceNames = Object.keys(competenceScores).slice(0, 10);
+            const averageScores = competenceNames.map(c => Math.round(competenceScores[c].total / competenceScores[c].count));
+
+            const scoreCtx = document.getElementById('scoreChart');
+            if (scoreCtx && competenceNames.length > 0) {
+                new Chart(scoreCtx, {
+                    type: 'bar',
+                    data: {
+                        labels: competenceNames,
+                        datasets: [{
+                            label: 'Average Score',
+                            data: averageScores,
+                            backgroundColor: 'rgba(16, 185, 129, 0.8)',
+                            borderColor: '#10b981',
+                            borderWidth: 2,
+                            borderRadius: 5
+                        }]
+                    },
+                    options: {
+                        indexAxis: competenceNames.length > 5 ? 'y' : 'x',
+                        responsive: true,
+                        maintainAspectRatio: true,
+                        plugins: {
+                            legend: { display: true, labels: { padding: 15, font: { size: 12 } } }
+                        },
+                        scales: {
+                            y: { beginAtZero: true, max: 100, ticks: { font: { size: 11 } } },
+                            x: { ticks: { font: { size: 11 } } }
+                        }
+                    }
+                });
+            }
+        }
+    });
+</script>
+{% endblock %}
