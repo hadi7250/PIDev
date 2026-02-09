@@ -1,0 +1,223 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Courses | Braine{% endblock %}
+
+{% block stylesheets %}
+<style>
+    /* Card Container */
+    .course-card {
+        border: 1px solid #ddd;
+        padding: 1rem;
+        margin-bottom: 1rem;
+        border-radius: 8px;
+        background-color: #f9f9f9;
+        transition: transform 0.3s;
+    }
+    .course-card:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+    }
+
+    /* --- FIX: COURSE TITLE COLOR --- */
+    .team-block_one-title {
+        color: #ffffff !important; /* Force White */
+        font-weight: 700;
+        margin-bottom: 10px;
+    }
+    /* Link inside the title (if you add one later) */
+    .team-block_one-title a {
+        color: #ffffff !important;
+        transition: color 0.3s;
+    }
+    .team-block_one-title a:hover {
+        color: #00bfff !important; /* Light Blue on Hover */
+    }
+
+    /* Description Text Color */
+    .team-block_one-designation {
+        color: #cccccc !important; /* Light Grey for readability */
+        font-size: 14px;
+        margin-bottom: 15px;
+    }
+
+    /* Button Styles */
+    .toggle-favorite-btn {
+        cursor: pointer;
+        margin-top: 10px;
+        background-color: #ff4d4d; /* Default Red */
+        color: white;
+        border: none;
+        padding: 8px 12px;
+        border-radius: 5px;
+        font-size: 14px;
+        width: 100%;
+        margin-bottom: 5px;
+        transition: background-color 0.3s;
+    }
+
+    /* Favorites Section */
+    .favorites-section {
+        background: none; 
+        padding: 30px 0;
+        margin-bottom: 30px;
+        display: none; 
+        border-bottom: 1px solid rgba(255,255,255,0.1); /* Subtle divider */
+    }
+    .favorites-section.active {
+        display: block;
+    }
+    
+    /* Title of Favorites Section */
+    .favorites-section h3 {
+        color: #ffffff !important;
+    }
+</style>
+{% endblock %}
+
+{% block body %}
+    <section class="page-title">
+        <div class="page-title-icon" style="background-image:url({{ asset('assets/front/images/icons/page-title_icon-1.png') }})"></div>
+        <div class="page-title-icon-two" style="background-image:url({{ asset('assets/front/images/icons/page-title_icon-2.png') }})"></div>
+        <div class="page-title-shadow" style="background-image:url({{ asset('assets/front/images/background/page-title-1.png') }})"></div>
+        <div class="auto-container">
+            <h2>Our Courses</h2>
+            <ul class="bread-crumb clearfix">
+                <li><a href="{{ path('app_home') }}">Home</a></li>
+                <li>Courses</li>
+            </ul>
+        </div>
+    </section>
+
+    <section class="favorites-section" id="favorites-section">
+        <div class="auto-container">
+            <h3>❤️ My Favorites</h3>
+            <div id="favorite-courses" class="row clearfix"></div>
+        </div>
+    </section>
+
+    <section class="team-two">
+        <div class="auto-container">
+            <div class="row clearfix">
+                {% for course in courses %}
+                    <div class="team-block_one col-lg-4 col-md-6 col-sm-12 course-card-wrapper" data-id="{{ course.id }}">
+                        <div class="team-block_one-inner">
+                            <div class="team-block_one-image">
+                                <img src="{{ asset('assets/front/images/resource/team-1.jpg') }}" alt="{{ course.titre }}" />
+                            </div>
+                            <div class="team-block_one-content">
+                                <h4 class="team-block_one-title">{{ course.titre }}</h4>
+                                
+                                <div class="team-block_one-designation">
+                                    {{ course.description|slice(0, 100) }}...
+                                </div>
+                                
+                                <div class="team-block_one-socials">
+                                    <button class="toggle-favorite-btn" data-id="{{ course.id }}">
+                                        ❤️ Add to Favorites
+                                    </button>
+                                    
+                                    <a href="{{ path('app_cours_show', {'id': course.id}) }}" class="template-btn btn-style-two d-block text-center">
+                                        <span>Voir chapitres</span>
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                {% else %}
+                    <div class="col-12 text-center py-5">
+                        <h4 style="color:white;">No courses available at the moment</h4>
+                    </div>
+                {% endfor %}
+            </div>
+        </div>
+    </section>
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+    <script>
+    document.addEventListener('DOMContentLoaded', () => {
+        const favoriteSection = document.getElementById('favorites-section');
+        const favoriteCoursesContainer = document.getElementById('favorite-courses');
+        
+        // 1. Load favorites
+        let favorites = JSON.parse(localStorage.getItem('favorites')) || [];
+
+        // 2. Update UI
+        function updateUI() {
+            // Update Buttons
+            document.querySelectorAll('.toggle-favorite-btn').forEach(button => {
+                const id = button.getAttribute('data-id');
+                if (favorites.includes(id)) {
+                    button.textContent = "💔 Unfavorite";
+                    button.style.backgroundColor = "#dc3545"; // Red
+                } else {
+                    button.textContent = "❤️ Add to Favorites";
+                    button.style.backgroundColor = "#ff4d4d"; // Default
+                }
+            });
+
+            // Update Top Section
+            renderFavoritesSection();
+        }
+
+        // 3. Render Favorites Section
+        function renderFavoritesSection() {
+            favoriteCoursesContainer.innerHTML = ''; 
+            let visibleCount = 0;
+
+            if (favorites.length > 0) {
+                document.querySelectorAll('.course-card-wrapper').forEach(card => {
+                    const id = card.getAttribute('data-id');
+                    
+                    if (favorites.includes(id)) {
+                        const clone = card.cloneNode(true);
+                        
+                        // Change button on clone
+                        const btn = clone.querySelector('.toggle-favorite-btn');
+                        btn.textContent = '🗑️ Remove';
+                        btn.style.backgroundColor = '#333';
+                        
+                        btn.onclick = function(e) {
+                            e.preventDefault();
+                            toggleFavorite(id);
+                        };
+
+                        favoriteCoursesContainer.appendChild(clone);
+                        visibleCount++;
+                    }
+                });
+            }
+
+            // Show/Hide Section
+            if (visibleCount > 0) {
+                favoriteSection.classList.add('active');
+            } else {
+                favoriteSection.classList.remove('active');
+            }
+        }
+
+        // 4. Toggle Logic
+        function toggleFavorite(id) {
+            if (favorites.includes(id)) {
+                favorites = favorites.filter(favId => favId !== id);
+            } else {
+                favorites.push(id);
+            }
+            localStorage.setItem('favorites', JSON.stringify(favorites));
+            updateUI();
+        }
+
+        // 5. Attach Events
+        document.querySelectorAll('.toggle-favorite-btn').forEach(btn => {
+            btn.addEventListener('click', function() {
+                const id = this.getAttribute('data-id');
+                toggleFavorite(id);
+            });
+        });
+
+        // Initial Load
+        updateUI();
+    });
+    </script>
+{% endblock %}

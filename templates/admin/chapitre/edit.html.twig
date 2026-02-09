@@ -1,0 +1,30 @@
+{% extends 'admin/base_admin.html.twig' %}
+{% block title %}Update chapter{% endblock %}
+
+{% block body %}
+    <div class="card">
+        <div class="card-body p-4">
+            <h5 class="card-title">Add New Chapter</h5>
+            <hr/>
+            {{ form_start(form) }}
+            <div class="row">
+                <div class="col-lg-8">
+                    <div class="mb-3">
+                        {{ form_label(form.cours, 'Select Course', {'label_attr': {'class': 'form-label'}}) }}
+                        {{ form_widget(form.cours) }}
+                    </div>
+                    <div class="mb-3">
+                        {{ form_label(form.titre, 'Chapter Title', {'label_attr': {'class': 'form-label'}}) }}
+                        {{ form_widget(form.titre) }}
+                    </div>
+                    <div class="mb-3">
+                        {{ form_label(form.contenu, 'Content (Link/Text)', {'label_attr': {'class': 'form-label'}}) }}
+                        {{ form_widget(form.contenu) }}
+                    </div>
+                    <button type="submit" class="btn btn-primary">Save Chapter</button>
+                </div>
+            </div>
+            {{ form_end(form) }}
+        </div>
+    </div>
+{% endblock %}
