@@ -1,204 +1,72 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Student Dashboard - EduConnect{% endblock %}
+{% block title %}Student Dashboard{% endblock %}
 
-{% block content %}
-<div class="container-fluid py-5">
-    <!-- Welcome Section -->
-    <div class="row mb-4">
-        <div class="col-12">
-            <div class="d-flex justify-content-between align-items-center">
-                <div>
-                    <h1 class="h2 gradient-text mb-2">Welcome back, {{ user.firstName }}! 👋</h1>
-                    <p class="text-muted">Here's your learning progress overview</p>
-                </div>
-                <a href="{{ path('admin_dashboard') }}" class="btn btn-danger btn-lg fw-bold" title="Switch to Back Office - Admin/Teacher Tools">
-                    <i class="fas fa-cog me-2"></i> Back Office
-                </a>
-            </div>
-        </div>
+{% block body %}
+<div class="container mt-4">
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <h1>Student Dashboard</h1>
+        <a href="{{ path('app_home') }}" class="btn btn-secondary">Back to Admin</a>
     </div>
 
-    <!-- Statistics Cards -->
-    <div class="row g-4 mb-4">
-        <!-- Total Evaluations -->
-        <div class="col-md-6 col-lg-3">
-            <div class="card border-0 shadow-sm h-100 gradient-card-primary">
+    <div class="row">
+        <div class="col-md-4 mb-4">
+            <div class="card bg-primary text-white">
                 <div class="card-body">
-                    <div class="d-flex justify-content-between align-items-start">
-                        <div>
-                            <p class="card-text text-muted small mb-2">Total Evaluations</p>
-                            <h3 class="card-title gradient-text mb-0">{{ totalEvaluations }}</h3>
-                        </div>
-                        <i class="fas fa-tasks fa-2x text-primary opacity-25"></i>
-                    </div>
+                    <h5 class="card-title">Competences</h5>
+                    <p class="card-text">View and manage your competences and skills.</p>
+                    <a href="{{ path('student_competences') }}" class="btn btn-light">View Competences</a>
                 </div>
             </div>
         </div>
 
-        <!-- Completed -->
-        <div class="col-md-6 col-lg-3">
-            <div class="card border-0 shadow-sm h-100 gradient-card-success">
+        <div class="col-md-4 mb-4">
+            <div class="card bg-success text-white">
                 <div class="card-body">
-                    <div class="d-flex justify-content-between align-items-start">
-                        <div>
-                            <p class="card-text text-muted small mb-2">Completed</p>
-                            <h3 class="card-title text-success mb-0">{{ completedEvaluations }}</h3>
-                        </div>
-                        <i class="fas fa-check-circle fa-2x text-success opacity-25"></i>
-                    </div>
+                    <h5 class="card-title">Evaluations</h5>
+                    <p class="card-text">Check your evaluations and progress.</p>
+                    <a href="{{ path('student_evaluations') }}" class="btn btn-light">View Evaluations</a>
                 </div>
             </div>
         </div>
 
-        <!-- Pending -->
-        <div class="col-md-6 col-lg-3">
-            <div class="card border-0 shadow-sm h-100 gradient-card-warning">
+        <div class="col-md-4 mb-4">
+            <div class="card bg-info text-white">
                 <div class="card-body">
-                    <div class="d-flex justify-content-between align-items-start">
-                        <div>
-                            <p class="card-text text-muted small mb-2">Pending</p>
-                            <h3 class="card-title text-warning mb-0">{{ pendingEvaluations }}</h3>
-                        </div>
-                        <i class="fas fa-hourglass-half fa-2x text-warning opacity-25"></i>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <!-- Average Score -->
-        <div class="col-md-6 col-lg-3">
-            <div class="card border-0 shadow-sm h-100 gradient-card-info">
-                <div class="card-body">
-                    <div class="d-flex justify-content-between align-items-start">
-                        <div>
-                            <p class="card-text text-muted small mb-2">Average Score</p>
-                            <h3 class="card-title text-info mb-0">{{ averageScore }}%</h3>
-                        </div>
-                        <i class="fas fa-chart-line fa-2x text-info opacity-25"></i>
-                    </div>
+                    <h5 class="card-title">Progress</h5>
+                    <p class="card-text">Track your learning progress and achievements.</p>
+                    <a href="{{ path('student_my_progress') }}" class="btn btn-light">View Progress</a>
                 </div>
             </div>
         </div>
     </div>
 
-    <!-- Quick Actions -->
-    <div class="row mb-4">
-        <div class="col-12">
-            <div class="card border-0 shadow-sm">
-                <div class="card-header bg-light border-bottom">
-                    <h5 class="card-title mb-0 d-flex align-items-center">
-                        <i class="fas fa-lightning-bolt me-2 text-warning"></i>
-                        Quick Actions
-                    </h5>
-                </div>
+    <div class="row">
+        <div class="col-md-6 mb-4">
+            <div class="card">
                 <div class="card-body">
-                    <div class="row g-2">
-                        <div class="col-md-3">
-                            <a href="{{ path('student_my_evaluations') }}" class="btn btn-outline-primary btn-sm w-100">
-                                <i class="fas fa-list me-2"></i>My Evaluations
-                            </a>
-                        </div>
-                        <div class="col-md-3">
-                            <a href="{{ path('student_my_progress') }}" class="btn btn-outline-success btn-sm w-100">
-                                <i class="fas fa-chart-bar me-2"></i>My Progress
-                            </a>
-                        </div>
-                        <div class="col-md-3">
-                            <a href="{{ path('student_calendar') }}" class="btn btn-outline-info btn-sm w-100">
-                                <i class="fas fa-calendar me-2"></i>Calendar
-                            </a>
-                        </div>
-                        <div class="col-md-3">
-                            <a href="{{ path('student_profile') }}" class="btn btn-outline-secondary btn-sm w-100">
-                                <i class="fas fa-user me-2"></i>Profile
-                            </a>
-                        </div>
+                    <h5 class="card-title">Quick Actions</h5>
+                    <div class="list-group">
+                        <a href="{{ path('student_overview') }}" class="list-group-item list-group-item-action">Overview</a>
+                        <a href="{{ path('student_my_evaluations') }}" class="list-group-item list-group-item-action">My Evaluations</a>
+                        <a href="{{ path('student_calendar') }}" class="list-group-item list-group-item-action">Calendar</a>
+                        <a href="{{ path('student_profile') }}" class="list-group-item list-group-item-action">Profile</a>
                     </div>
                 </div>
             </div>
         </div>
-    </div>
 
-    <!-- Recent Activity / Upcoming Deadlines -->
-    <div class="row g-4">
-        <div class="col-lg-8">
-            <div class="card border-0 shadow-sm">
-                <div class="card-header bg-light border-bottom">
-                    <h5 class="card-title mb-0 d-flex align-items-center">
-                        <i class="fas fa-bell me-2 text-info"></i>
-                        Upcoming Deadlines
-                    </h5>
-                </div>
+        <div class="col-md-6 mb-4">
+            <div class="card">
                 <div class="card-body">
-                    <p class="text-muted text-center py-4">
-                        <i class="fas fa-inbox fa-3x opacity-25 mb-2"></i><br>
-                        No upcoming deadlines. Great job staying on top of things! 🎉
-                    </p>
-                </div>
-            </div>
-        </div>
-
-        <!-- Resources -->
-        <div class="col-lg-4">
-            <div class="card border-0 shadow-sm">
-                <div class="card-header bg-light border-bottom">
-                    <h5 class="card-title mb-0 d-flex align-items-center">
-                        <i class="fas fa-book me-2 text-primary"></i>
-                        Resources
-                    </h5>
-                </div>
-                <div class="card-body">
-                    <ul class="list-unstyled">
-                        <li class="mb-2">
-                            <a href="#" class="text-decoration-none">
-                                <i class="fas fa-question-circle me-2 text-primary"></i>Help Center
-                            </a>
-                        </li>
-                        <li class="mb-2">
-                            <a href="#" class="text-decoration-none">
-                                <i class="fas fa-video me-2 text-danger"></i>Video Tutorials
-                            </a>
-                        </li>
-                        <li class="mb-2">
-                            <a href="#" class="text-decoration-none">
-                                <i class="fas fa-file-pdf me-2 text-danger"></i>Documentation
-                            </a>
-                        </li>
-                        <li>
-                            <a href="#" class="text-decoration-none">
-                                <i class="fas fa-comments me-2 text-success"></i>Contact Support
-                            </a>
-                        </li>
-                    </ul>
+                    <h5 class="card-title">Recent Activity</h5>
+                    <p class="card-text">Stay updated with your recent learning activities and notifications.</p>
+                    <div class="alert alert-info">
+                        No recent activity to display.
+                    </div>
                 </div>
             </div>
         </div>
     </div>
 </div>
-
-<style>
-    .gradient-text {
-        background: linear-gradient(135deg, #6366f1 0%, #a855f7 100%);
-        -webkit-background-clip: text;
-        -webkit-text-fill-color: transparent;
-        background-clip: text;
-    }
-
-    .gradient-card-primary {
-        border-left: 4px solid #6366f1 !important;
-    }
-
-    .gradient-card-success {
-        border-left: 4px solid #10b981 !important;
-    }
-
-    .gradient-card-warning {
-        border-left: 4px solid #f59e0b !important;
-    }
-
-    .gradient-card-info {
-        border-left: 4px solid #3b82f6 !important;
-    }
-</style>
 {% endblock %}

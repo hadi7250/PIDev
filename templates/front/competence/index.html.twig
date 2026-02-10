@@ -1,0 +1,62 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Student Competences{% endblock %}
+
+{% block body %}
+<div class="container mt-4">
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <h1>Student Competence Management</h1>
+        <a href="{{ path('app_home') }}" class="btn btn-secondary">Back to Admin</a>
+    </div>
+
+    <div class="row">
+        <div class="col-md-12">
+            <div class="card">
+                <div class="card-header">
+                    <h5 class="mb-0">Available Competences</h5>
+                </div>
+                <div class="card-body">
+                    {% if competences|length > 0 %}
+                        <div class="table-responsive">
+                            <table class="table table-striped">
+                                <thead>
+                                    <tr>
+                                        <th>ID</th>
+                                        <th>Name</th>
+                                        <th>Description</th>
+                                        <th>Category</th>
+                                        <th>Max Level</th>
+                                        <th>Actions</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {% for competence in competences %}
+                                        <tr>
+                                            <td>{{ competence.id }}</td>
+                                            <td>{{ competence.name }}</td>
+                                            <td>{{ competence.description|length > 50 ? competence.description[:50] ~ '...' : competence.description }}</td>
+                                            <td>{{ competence.category }}</td>
+                                            <td>{{ competence.maxLevel }}</td>
+                                            <td>
+                                                <span class="text-muted">No details available</span>
+                                            </td>
+                                        </tr>
+                                    {% endfor %}
+                                </tbody>
+                            </table>
+                        </div>
+                    {% else %}
+                        <div class="alert alert-info">
+                            No competences available yet.
+                        </div>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="mt-4">
+        <a href="{{ path('student_dashboard') }}" class="btn btn-outline-primary">Back to Student Dashboard</a>
+    </div>
+</div>
+{% endblock %}
