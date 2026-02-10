@@ -30,7 +30,6 @@ class Evaluation
 
     #[ORM\Column(type: Types::DATETIME_MUTABLE)]
     #[Assert\NotBlank(message: "La date est obligatoire")]
-    #[Assert\GreaterThanOrEqual('today', message: "La date ne peut pas être dans le passé")]
     private ?\DateTimeInterface $evaluationDate = null;
 
     #[ORM\Column(nullable: true)]
