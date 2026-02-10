@@ -1,0 +1,13 @@
+framework:
+    asset_mapper:
+        # The paths to make available to the asset mapper.
+        paths:
+            - assets/
+        # In dev, don't fail hard when a CSS file references a missing asset.
+        # This avoids 500 errors for non-critical icon/flag images.
+        missing_import_mode: warn
+
+when@prod:
+    framework:
+        asset_mapper:
+            missing_import_mode: warn

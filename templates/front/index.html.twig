@@ -1,0 +1,11 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}EduConnect - Accueil{% endblock %}
+
+{% block body %}
+<div class="container mt-5 text-center">
+    <h1>Bienvenue sur EduConnect</h1>
+    <p>Votre plateforme d'apprentissage et d'événements.</p>
+    <a href="{{ path('app_event_index_front') }}" class="btn btn-primary">Voir les événements</a>
+</div>
+{% endblock %}

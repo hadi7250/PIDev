@@ -1,0 +1,47 @@
+{% extends 'event/indexFront.twig' %}
+
+{% block title %}Events List{% endblock %}
+
+{% block body %}
+    <div class="page-title" data-aos="fade">
+        <div class="heading">
+            <div class="container text-center">
+                <h1>Nos Événements</h1>
+                <p class="mb-4 text-muted fs-5">Découvrez nos prochains événements et rejoignez-nous.</p>
+            </div>
+        </div>
+    </div>
+
+    <section class="section events-list">
+        <div class="container" data-aos="fade-up">
+            <div class="row">
+                {% for event in events %}
+                    <div class="col-lg-4 col-md-6 mb-4">
+                        <div class="card h-100 shadow border-0">
+                            {% if event.image %}
+                                <img src="{{ asset('uploads/events/' ~ event.image) }}" class="card-img-top" alt="{{ event.titre }}" style="height: 200px; object-fit: cover;">
+                            {% else %}
+                                <div class="card-img-top bg-secondary text-white d-flex align-items-center justify-content-center" style="height: 200px;">
+                                    <span>Aucune image</span>
+                                </div>
+                            {% endif %}
+                            <div class="card-body">
+                                <h5 class="card-title text-primary fw-bold">{{ event.titre }}</h5>
+                                <p class="card-text text-muted mb-2"><i class="bi bi-calendar-event me-2"></i>{{ event.dateDebut|date('d M Y') }}</p>
+                                <p class="card-text text-muted mb-3"><i class="bi bi-geo-alt me-2"></i>{{ event.lieu }}</p>
+                                <p class="card-text">{{ event.description|slice(0, 100) ~ (event.description|length > 100 ? '...' : '') }}</p>
+                            </div>
+                            <div class="card-footer bg-white border-0 pt-0">
+                                <a href="{{ path('app_event_show_front', {'id': event.id}) }}" class="btn btn-outline-primary w-100 rounded-pill">Voir Plus</a>
+                            </div>
+                        </div>
+                    </div>
+                {% else %}
+                    <div class="col-12 text-center">
+                        <p class="alert alert-info">Aucun événement disponible pour le moment.</p>
+                    </div>
+                {% endfor %}
+            </div>
+        </div>
+    </section>
+{% endblock %}
