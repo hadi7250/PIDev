@@ -1,0 +1,69 @@
+{# templates/quiz/show.html.twig #}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>{{ quiz.title }}</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        body { background-color: #121212; color: #ffffff; }
+        .card { background-color: #1e1e1e; color: white; border: none; }
+        .text-violet { color: #a855f7; }
+        .btn-violet { background-color: #a855f7; color: white; font-weight: bold; border: none; }
+        .btn-violet:hover { background-color: #9333ea; color: white; }
+    </style>
+</head>
+<body>
+
+<div class="container mt-5">
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+            <div class="card shadow-lg p-4">
+                
+                <div class="d-flex justify-content-between align-items-center mb-4">
+                    <h1 class="display-5 fw-bold">{{ quiz.title }}</h1>
+                    <span class="badge bg-secondary fs-6">{{ quiz.timeLimit }} mins</span>
+                </div>
+
+                <div class="mb-4">
+                    <h5 class="text-violet">Description</h5>
+                    <p class="lead text-secondary">{{ quiz.description }}</p>
+                </div>
+
+                <div class="row text-center mb-4 g-3">
+                    <div class="col-6">
+                        <div class="p-3 bg-dark rounded border border-secondary">
+                            <h3 class="fw-bold">{{ quiz.questions|length }}</h3>
+                            <small class="text-white">Questions</small>
+                        </div>
+                    </div>
+                    <div class="col-6">
+                        <div class="p-3 bg-dark rounded border border-secondary">
+                            <h3 class="fw-bold">{{ quiz.totalScore }}</h3>
+                            <small class="text-white">Total Points</small>
+                        </div>
+                    </div>
+                </div>
+
+                <hr class="border-secondary mb-4">
+
+                <form action="{{ path('app_quiz_start', {'id': quiz.id}) }}" method="POST">
+                    <button type="submit" class="btn btn-violet w-100 py-3 fs-5">
+                        Start Quiz Now 🚀
+                    </button>
+                </form>
+
+                <div class="text-center mt-3">
+                    <a href="{{ path('app_quiz_index') }}" class="text-decoration-none text-secondary">
+                        ← Back to Quiz List
+                    </a>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

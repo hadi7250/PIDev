@@ -1,0 +1,124 @@
+<!doctype html>
+<html lang="en" data-bs-theme="blue-theme">
+<head>
+  <meta charset="utf-8">
+  <title>Manage Questions | EduConnect</title>
+  <link href="{{ asset('back/css/bootstrap.min.css') }}" rel="stylesheet">
+  <link href="{{ asset('back/css/bootstrap-extended.css') }}" rel="stylesheet">
+  <link href="{{ asset('back/sass/main.css') }}" rel="stylesheet">
+  <link href="{{ asset('back/sass/dark-theme.css') }}" rel="stylesheet">
+  <link href="{{ asset('back/sass/blue-theme.css') }}" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css?family=Material+Icons+Outlined" rel="stylesheet">
+</head>
+
+<body>
+
+<div class="container-fluid mt-4">
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <div>
+            <h4 class="mb-0">Manage Questions</h4>
+            <p class="text-secondary">Quiz: <strong>{{ quiz.title }}</strong></p>
+        </div>
+        <a href="{{ path('app_admin_quiz_datatable') }}" class="btn btn-outline-secondary">
+            <i class="material-icons-outlined" style="vertical-align: middle;">arrow_back</i> Back to Quizzes
+        </a>
+    </div>
+
+    <div class="row">
+        <div class="col-lg-7">
+            <div class="card">
+                <div class="card-header bg-transparent">
+                    <h5 class="mb-0">Existing Questions ({{ quiz.questions|length }})</h5>
+                </div>
+                <div class="card-body">
+                    {% for q in quiz.questions %}
+                        <div class="border rounded p-3 mb-3">
+                            <div class="d-flex justify-content-between">
+                                <h6 class="fw-bold">Q{{ loop.index }}: {{ q.questionText }}</h6>
+                                <span class="badge bg-primary rounded-pill">{{ q.points }} Pts</span>
+                            </div>
+                            
+                            <ul class="list-group list-group-flush mt-2">
+                                {% for opt in q.options %}
+                                    <li class="list-group-item py-1 
+                                        {% if opt == q.correctAnswer %} bg-success text-white rounded {% endif %}">
+                                        {{ opt }}
+                                    </li>
+                                {% endfor %}
+                            </ul>
+
+                            <div class="mt-2 text-end d-flex justify-content-end gap-2">
+                                <a href="{{ path('app_admin_question_edit', {'id': q.id}) }}" class="btn btn-sm btn-warning">
+                                    Edit
+                                </a>
+
+                                <form method="post" action="{{ path('app_admin_question_delete', {'id': q.id}) }}" onsubmit="return confirm('Delete this question?');">
+                                    <input type="hidden" name="_token" value="{{ csrf_token('delete' ~ q.id) }}">
+                                    <button class="btn btn-sm btn-danger">Delete</button>
+                                </form>
+                            </div>
+                        </div>
+                    {% else %}
+                        <div class="alert alert-info">No questions added yet. Use the form to add one!</div>
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+
+        <div class="col-lg-5">
+            <div class="card shadow-sm border-primary">
+                <div class="card-header bg-primary text-white">
+                    <h5 class="mb-0 text-white">Add New Question</h5>
+                </div>
+                <div class="card-body">
+                    {{ form_start(form) }}
+                        
+                        <div class="mb-3">
+                            <label class="form-label fw-bold">Question Text</label>
+                            {{ form_widget(form.questionText) }}
+                        </div>
+
+                        <div class="row g-2 mb-3">
+                            <div class="col-md-6">
+                                <label class="form-label">Option A</label>
+                                {{ form_widget(form.option1) }}
+                            </div>
+                            <div class="col-md-6">
+                                <label class="form-label">Option B</label>
+                                {{ form_widget(form.option2) }}
+                            </div>
+                            <div class="col-md-6">
+                                <label class="form-label">Option C</label>
+                                {{ form_widget(form.option3) }}
+                            </div>
+                            <div class="col-md-6">
+                                <label class="form-label">Option D</label>
+                                {{ form_widget(form.option4) }}
+                            </div>
+                        </div>
+
+                        <div class="row mb-3">
+                            <div class="col-md-8">
+                                <label class="form-label fw-bold text-success">Select Correct Answer</label>
+                                {{ form_widget(form.correctAnswerChoice) }}
+                            </div>
+                            <div class="col-md-4">
+                                <label class="form-label fw-bold">Points</label>
+                                {{ form_widget(form.points) }}
+                            </div>
+                        </div>
+
+                        <div class="d-grid">
+                            <button type="submit" class="btn btn-primary btn-lg">Add Question</button>
+                        </div>
+
+                    {{ form_end(form) }}
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="{{ asset('back/js/bootstrap.bundle.min.js') }}"></script>
+</body>
+</html>

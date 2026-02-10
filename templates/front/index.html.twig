@@ -1,0 +1,265 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>{% block title %}Braine Digital Agency | EduConnect{% endblock %}</title>
+<link href="{{ asset('front/css/bootstrap.css') }}" rel="stylesheet">
+<link href="{{ asset('front/css/style.css') }}" rel="stylesheet">
+<link href="{{ asset('front/css/meanmenu.min.css') }}" rel="stylesheet">
+<link href="{{ asset('front/css/responsive.css') }}" rel="stylesheet">
+
+<link href="https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,400;0,500;0,600;0,700;1,600;1,700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+
+<link rel="shortcut icon" href="{{ asset('front/images/favicon.png') }}" type="image/x-icon">
+<link rel="icon" href="{{ asset('front/images/favicon.png') }}" type="image/x-icon">
+
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0">
+
+{% block stylesheets %}{% endblock %}
+</head>
+
+<body>
+
+<div class="page-wrapper">
+	
+	<div class="cursor"></div>
+	<div class="cursor-follower"></div>
+	
+	<div class="loader-wrap">
+		<div class="preloader">
+			<div class="preloader-close">x</div>
+			<div id="handle-preloader" class="handle-preloader">
+				<div class="animation-preloader">
+					<div class="txt-loading">
+						<span data-text-preloader="L" class="letters-loading">L</span>
+						<span data-text-preloader="O" class="letters-loading">O</span>
+						<span data-text-preloader="A" class="letters-loading">A</span>
+						<span data-text-preloader="D" class="letters-loading">D</span>
+						<span data-text-preloader="I" class="letters-loading">I</span>
+						<span data-text-preloader="N" class="letters-loading">N</span>
+						<span data-text-preloader="G" class="letters-loading">G</span>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	
+	<header class="main-header header-style-one">
+		<div class="header-lower">
+			<div class="auto-container">
+				<div class="inner-container">
+					<div class="d-flex justify-content-between align-items-center flex-wrap">
+						
+						<div class="logo-box">
+							<div class="logo"><a href="{{ path('app_quiz_index') }}"><img src="{{ asset('front/images/logo.svg') }}" alt="Logo"></a></div>
+						</div>
+						
+						<div class="nav-outer d-flex flex-wrap">
+							<nav class="main-menu navbar-expand-md">
+								<div class="navbar-header">
+									<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+										<span class="icon-bar"></span>
+										<span class="icon-bar"></span>
+										<span class="icon-bar"></span>
+									</button>
+								</div>
+								
+								<div class="navbar-collapse collapse clearfix" id="navbarSupportedContent">
+									<ul class="navigation clearfix">
+										<li><a href="{{ path('app_quiz_index') }}">Home</a></li>
+										<li><a href="#">About</a></li>
+										<li class="dropdown"><a href="#">Services</a>
+											<ul>
+												{# This ID link makes the page scroll down to the quiz list #}
+												<li><a href="{{ path('app_quiz_index') }}#quiz-list">Available Quizzes</a></li>
+												<li><a href="#">Courses</a></li>
+											</ul>
+										</li>
+										<li><a href="#">Contact</a></li>
+									</ul>
+								</div>
+							</nav>
+						</div>
+
+						<div class="outer-box d-flex align-items-center flex-wrap">
+							<div class="language-dropdown">
+								<button class="btn dropdown-toggle" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown">
+									<span class="flag"><img src="{{ asset('front/images/icons/flag.png') }}" alt="" /></span>
+								</button>
+							</div>
+
+							<div class="main-header_buttons">
+								<a href="#" class="template-btn btn-style-two">
+									<span class="btn-wrap"><span class="text-one">Login</span></span>
+								</a>
+								<a href="#" class="template-btn btn-style-one">
+									<span class="btn-wrap"><span class="text-one">Join now</span></span>
+								</a>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</header>
+
+	{% block body %}
+	<section class="slider-one">
+		<div class="main-slider swiper-container">
+			<div class="swiper-wrapper">
+				<div class="swiper-slide">
+					<div class="slider-one_icon" style="background-image:url({{ asset('front/images/main-slider/icon-1.png') }})"></div>
+					<div class="slider-one_icon-two" style="background-image:url({{ asset('front/images/main-slider/icon-1.png') }})"></div>
+					<div class="slider-one_pattern" style="background-image:url({{ asset('front/images/main-slider/pattern-1.png') }})"></div>
+					<div class="slider-one_pattern-two" style="background-image:url({{ asset('front/images/main-slider/pattern-2.png') }})"></div>
+					<div class="slider-one_pattern-four" style="background-image:url({{ asset('front/images/main-slider/pattern-4.png') }})"></div>
+					<div class="auto-container">
+						<div class="row clearfix">
+							<div class="slider-one_content col-lg-7 col-md-12 col-sm-12">
+								<div class="slider-one_content-inner">
+									<div class="slider-one_title"><i><img src="{{ asset('front/images/main-slider/hand.png') }}" alt="" /></i> Unlock Your Potential</div>
+									<h1 class="slider-one_heading">Master new skills with our Quizzes.</h1>
+									<div class="slider-one_text">Interactive learning at your fingertips.</div>
+									<div class="slider-one_button d-flex align-items-center flex-wrap">
+										<a href="#quiz-list" class="template-btn btn-style-one">
+											<span class="btn-wrap">
+												<span class="text-one">Get started free</span>
+												<span class="text-two">Get started free</span>
+											</span>
+										</a>
+									</div>
+								</div>
+							</div>
+							<div class="slider-one_image-column col-lg-5 col-md-12 col-sm-12">
+								<div class="slider-one_pattern-three" style="background-image:url({{ asset('front/images/main-slider/pattern-3.png') }})"></div>
+								<div class="slider-one_image-outer">
+									<div class="slider-one_image">
+										<img src="{{ asset('front/images/main-slider/image-1.png') }}" alt="" />
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</section>
+
+	<section class="services-one" id="quiz-list">
+		<div class="auto-container">
+			<div class="sec-title centered">
+				<div class="sec-title_title">Quizzes</div>
+				<h2 class="sec-title_heading">Test your <br> <span>Knowledge</span></h2>
+			</div>
+			<div class="row clearfix">
+
+                {# START: Dynamic Quiz Loop #}
+                {% for quiz in quizzes %}
+				<div class="service-block_one col-lg-4 col-md-6 col-sm-12">
+					<div class="service-block_one-inner wow fadeInLeft">
+						<div class="service-block_one-icon">
+							<i class="icon-users"></i>
+						</div>
+						<h5 class="service-block_one-heading">
+                            <a href="{{ path('app_quiz_show', {'id': quiz.id}) }}">{{ quiz.title }}</a>
+                        </h5>
+						<div class="service-block_one-text">{{ quiz.description|slice(0, 100) }}...</div>
+						<div class="lower-box d-flex justify-content-between align-items-center flex-wrap">
+							<div class="service-block_one-number">{{ loop.index }}</div>
+							<a class="service-block_one-join" href="{{ path('app_quiz_show', {'id': quiz.id}) }}">
+                                Start Quiz <i class="fa-solid fa-plus fa-fw"></i>
+                            </a>
+						</div>
+					</div>
+				</div>
+                {% else %}
+                <div class="col-12 text-center">
+                    <div class="service-block_one-inner">
+                        <h3>No quizzes available right now.</h3>
+                    </div>
+                </div>
+                {% endfor %}
+                {# END: Dynamic Quiz Loop #}
+
+			</div>
+		</div>
+	</section>
+	
+	<section class="about-one">
+		<div class="about-one_pattern" style="background-image:url({{ asset('front/images/background/about-pattern.png') }})"></div>
+		<div class="about-one_icon" style="background-image:url({{ asset('front/images/icons/about-1.png') }})"></div>
+		<div class="about-one_icon-two" style="background-image:url({{ asset('front/images/icons/about-2.png') }})"></div>
+		<div class="auto-container">
+			<div class="row clearfix">
+				<div class="about-one_tab-column col-xl-6 col-lg-6 col-md-12 col-sm-12">
+					<div class="about-one_tab-outer">
+						<div class="about-one_tab-shadow" style="background-image:url({{ asset('front/images/background/tab-shadow.png') }})"></div>
+						<div class="about-one_tab-image">
+							<img src="{{ asset('front/images/resource/tabs.png') }}" alt="" />
+						</div>
+					</div>
+				</div>
+				<div class="about-one_content-column col-xl-6 col-lg-6 col-md-12 col-sm-12">
+					<div class="about-one_content-outer">
+						<div class="sec-title">
+							<div class="sec-title_title">About us</div>
+							<h2 class="sec-title_heading"><span>What you need to Know</span></h2>
+						</div>
+						<p>We empower students by combining expert-led courses and interactive quizzes.</p>
+						<div class="about-one_options d-flex align-items-center flex-wrap">
+							<a href="#" class="template-btn btn-style-one">
+								<span class="btn-wrap"><span class="text-one">Know more</span></span>
+							</a>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</section>
+
+	<footer class="main-footer">
+		<div class="footer_pattern" style="background-image: url({{ asset('front/images/background/footer-pattern.png') }})"></div>
+		<div class="footer-bottom">
+			<div class="auto-container">
+				<div class="inner-container d-flex justify-content-between align-items-center flex-wrap">
+					<div class="footer-logo"><img src="{{ asset('front/images/logo.svg') }}" alt="Logo"></div>
+					<div class="footer-copyright">&copy; 2026 EduConnect. All rights reserved.</div>
+				</div>
+			</div>
+		</div>
+	</footer>
+	{% endblock %}
+
+</div>
+
+<script src="{{ asset('front/js/jquery.js') }}"></script>
+<script src="{{ asset('front/js/popper.min.js') }}"></script>
+<script src="{{ asset('front/js/bootstrap.min.js') }}"></script>
+<script src="{{ asset('front/js/appear.js') }}"></script>
+<script src="{{ asset('front/js/parallax.min.js') }}"></script>
+<script src="{{ asset('front/js/tilt.jquery.min.js') }}"></script>
+<script src="{{ asset('front/js/jquery.paroller.min.js') }}"></script>
+<script src="{{ asset('front/js/wow.js') }}"></script>
+<script src="{{ asset('front/js/swiper.min.js') }}"></script>
+<script src="{{ asset('front/js/backtotop.js') }}"></script>
+<script src="{{ asset('front/js/odometer.js') }}"></script>
+<script src="{{ asset('front/js/parallax-scroll.js') }}"></script>
+<script src="{{ asset('front/js/gsap.min.js') }}"></script>
+<script src="{{ asset('front/js/SplitText.min.js') }}"></script>
+<script src="{{ asset('front/js/ScrollTrigger.min.js') }}"></script>
+<script src="{{ asset('front/js/ScrollToPlugin.min.js') }}"></script>
+<script src="{{ asset('front/js/ScrollSmoother.min.js') }}"></script>
+<script src="{{ asset('front/js/touchspin.js') }}"></script>
+<script src="{{ asset('front/js/jquery.marquee.min.js') }}"></script>
+<script src="{{ asset('front/js/magnific-popup.min.js') }}"></script>
+<script src="{{ asset('front/js/nav-tool.js') }}"></script>
+<script src="{{ asset('front/js/jquery-ui.js') }}"></script>
+<script src="{{ asset('front/js/element-in-view.js') }}"></script>
+<script src="{{ asset('front/js/script.js') }}"></script>
+
+{% block javascripts %}{% endblock %}
+
+</body>
+</html>

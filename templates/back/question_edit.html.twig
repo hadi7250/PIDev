@@ -1,0 +1,74 @@
+<!doctype html>
+<html lang="en" data-bs-theme="blue-theme">
+<head>
+  <meta charset="utf-8">
+  <title>Edit Question | EduConnect</title>
+  <link href="{{ asset('back/css/bootstrap.min.css') }}" rel="stylesheet">
+  <link href="{{ asset('back/css/bootstrap-extended.css') }}" rel="stylesheet">
+  <link href="{{ asset('back/sass/main.css') }}" rel="stylesheet">
+  <link href="{{ asset('back/sass/dark-theme.css') }}" rel="stylesheet">
+  <link href="{{ asset('back/sass/blue-theme.css') }}" rel="stylesheet">
+</head>
+
+<body>
+
+<div class="container mt-5">
+    <div class="row justify-content-center">
+        <div class="col-lg-8">
+            <div class="card shadow-sm border-warning">
+                <div class="card-header bg-warning text-dark">
+                    <h5 class="mb-0">Edit Question</h5>
+                </div>
+                <div class="card-body">
+                    {{ form_start(form) }}
+                        
+                        <div class="mb-3">
+                            <label class="form-label fw-bold">Question Text</label>
+                            {{ form_widget(form.questionText) }}
+                        </div>
+
+                        <div class="row g-2 mb-3">
+                            <div class="col-md-6">
+                                <label class="form-label">Option A</label>
+                                {{ form_widget(form.option1) }}
+                            </div>
+                            <div class="col-md-6">
+                                <label class="form-label">Option B</label>
+                                {{ form_widget(form.option2) }}
+                            </div>
+                            <div class="col-md-6">
+                                <label class="form-label">Option C</label>
+                                {{ form_widget(form.option3) }}
+                            </div>
+                            <div class="col-md-6">
+                                <label class="form-label">Option D</label>
+                                {{ form_widget(form.option4) }}
+                            </div>
+                        </div>
+
+                        <div class="row mb-3">
+                            <div class="col-md-8">
+                                <label class="form-label fw-bold text-success">Select Correct Answer</label>
+                                {{ form_widget(form.correctAnswerChoice) }}
+                            </div>
+                            <div class="col-md-4">
+                                <label class="form-label fw-bold">Points</label>
+                                {{ form_widget(form.points) }}
+                            </div>
+                        </div>
+
+                        <div class="d-flex justify-content-between">
+                            <a href="{{ path('app_admin_question_index', {'id': question.quiz.id}) }}" class="btn btn-secondary">Cancel</a>
+                            <button type="submit" class="btn btn-warning px-4">Update Question</button>
+                        </div>
+
+                    {{ form_end(form) }}
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="{{ asset('back/js/bootstrap.bundle.min.js') }}"></script>
+</body>
+</html>

@@ -1,0 +1,220 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>{% block title %}Available Quizzes | EduConnect{% endblock %}</title>
+<link href="{{ asset('front/css/bootstrap.css') }}" rel="stylesheet">
+<link href="{{ asset('front/css/style.css') }}" rel="stylesheet">
+<link href="{{ asset('front/css/meanmenu.min.css') }}" rel="stylesheet">
+<link href="{{ asset('front/css/responsive.css') }}" rel="stylesheet">
+
+<link href="https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,400;0,500;0,600;0,700;1,600;1,700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+
+<link rel="shortcut icon" href="{{ asset('front/images/favicon.png') }}" type="image/x-icon">
+<link rel="icon" href="{{ asset('front/images/favicon.png') }}" type="image/x-icon">
+
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0">
+
+{% block stylesheets %}{% endblock %}
+</head>
+
+<body>
+
+<div class="page-wrapper">
+    
+    <div class="cursor"></div>
+    <div class="cursor-follower"></div>
+    
+    <div class="loader-wrap">
+        <div class="preloader">
+            <div class="preloader-close">x</div>
+            <div id="handle-preloader" class="handle-preloader">
+                <div class="animation-preloader">
+                    <div class="txt-loading">
+                        <span data-text-preloader="L" class="letters-loading">L</span>
+                        <span data-text-preloader="O" class="letters-loading">O</span>
+                        <span data-text-preloader="A" class="letters-loading">A</span>
+                        <span data-text-preloader="D" class="letters-loading">D</span>
+                        <span data-text-preloader="I" class="letters-loading">I</span>
+                        <span data-text-preloader="N" class="letters-loading">N</span>
+                        <span data-text-preloader="G" class="letters-loading">G</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <header class="main-header header-style-two alternate">
+        <div class="header-lower">
+            <div class="auto-container">
+                <div class="inner-container">
+                    <div class="d-flex align-items-center justify-content-between flex-wrap">
+                        
+                        <div class="nav-outer d-flex align-items-center flex-wrap">
+                            <div class="logo-box">
+                                <div class="logo"><a href="{{ path('app_quiz_index') }}"><img src="{{ asset('front/images/logo.svg') }}" alt="Logo"></a></div>
+                            </div>
+                            <nav class="main-menu navbar-expand-md">
+                                <div class="navbar-header">
+                                    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent">
+                                        <span class="icon-bar"></span>
+                                        <span class="icon-bar"></span>
+                                        <span class="icon-bar"></span>
+                                    </button>
+                                </div>
+                                <div class="navbar-collapse collapse clearfix" id="navbarSupportedContent">
+                                    <ul class="navigation clearfix">
+                                        <li><a href="{{ path('app_home') }}">Home</a></li> 
+                                        
+                                        <li class="dropdown"><a href="#">Services</a>
+                                            <ul>
+                                                <li><a href="{{ path('app_quiz_index') }}">Quizzes</a></li>
+                                                <li><a href="#">Courses</a></li>
+                                            </ul>
+                                        </li>
+                                        <li><a href="#">Contact</a></li>
+                                    </ul>
+                                </div>
+                            </nav>
+                        </div>
+
+                        <div class="outer-box d-flex align-items-center flex-wrap">
+                            <div class="main-header_buttons">
+                                <a href="#" class="template-btn btn-style-two"><span class="btn-wrap"><span class="text-one">Login</span></span></a>
+                                <a href="#" class="template-btn btn-style-one"><span class="btn-wrap"><span class="text-one">Join now</span></span></a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </header>
+    
+    <section class="page-title">
+        <div class="page-title-icon" style="background-image:url({{ asset('front/images/icons/page-title_icon-1.png') }})"></div>
+        <div class="page-title-icon-two" style="background-image:url({{ asset('front/images/icons/page-title_icon-2.png') }})"></div>
+        <div class="page-title-shadow" style="background-image:url({{ asset('front/images/background/page-title-1.png') }})"></div>
+        <div class="page-title-shadow_two" style="background-image:url({{ asset('front/images/background/page-title-2.png') }})"></div>
+        <div class="auto-container">
+            <h2>Available Quizzes</h2>
+            <ul class="bread-crumb clearfix">
+                <li><a href="{{ path('app_home') }}">Home</a></li>
+                <li>Quiz List</li>
+            </ul>
+        </div>
+    </section>
+
+    <section class="news-three">
+        <div class="auto-container">
+            <div class="row clearfix">
+
+                {# START: Dynamic Quiz Loop #}
+                {% for quiz in quizzes %}
+                <div class="news-block_one col-lg-4 col-md-6 col-sm-12">
+                    <div class="news-block_one-inner">
+                        <div class="news-block_one-image">
+                            {# Using a static image for now, you can make this dynamic later #}
+                            <a href="{{ path('app_quiz_show', {'id': quiz.id}) }}">
+                                <img src="{{ asset('front/images/resource/news-7.jpg') }}" alt="Quiz Image" />
+                            </a>
+                        </div>
+                        <div class="news-block_one-content">
+                            <div class="news-block_one-time">Time Limit: <span>{{ quiz.timeLimit }} min</span></div>
+                            <h5 class="news-block_one-title">
+                                <a href="{{ path('app_quiz_show', {'id': quiz.id}) }}">{{ quiz.title }}</a>
+                            </h5>
+                            <div class="text">{{ quiz.description|slice(0, 100) }}...</div>
+                            <a class="news-block_one-more" href="{{ path('app_quiz_show', {'id': quiz.id}) }}">
+                                Start Quiz <i class="fa-solid fa-plus fa-fw"></i>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+                {% else %}
+                <div class="col-12 text-center">
+                    <h3>No quizzes available at the moment.</h3>
+                </div>
+                {% endfor %}
+                {# END: Loop #}
+
+            </div>
+        </div>
+    </section>
+    
+    <section class="cta-one style-two">
+        <div class="cta-one_shadow" style="background-image:url({{ asset('front/images/background/cta-shadow.png') }})"></div>
+        <div class="auto-container">
+            <div class="inner-container">
+                <div class="cta-icon_one" style="background-image:url({{ asset('front/images/icons/cta-icon-1.png') }})"></div>
+                <div class="cta-icon_two" style="background-image:url({{ asset('front/images/icons/cta-icon-2.png') }})"></div>
+                <div class="cta-one_card">
+                    <img src="{{ asset('front/images/icons/cta-card.png') }}" alt="" />
+                </div>
+                <div class="row clearfix">
+                    <div class="cta-one_title-column col-lg-6 col-md-12 col-sm-12">
+                        <div class="cta-one_title-outer">
+                            <h2 class="cta-one_title">Ready to test your <span>skills?</span></h2>
+                            <div class="cta-one_button">
+                                <a href="#" class="template-btn btn-style-three">
+                                    <span class="btn-wrap"><span class="text-one">Join Free</span></span>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="cta-one_image-column col-lg-6 col-md-12 col-sm-12">
+                        <div class="cta-one_image-outer">
+                            <div class="image">
+                                <img src="{{ asset('front/images/resource/cta.png') }}" alt="" />
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <footer class="main-footer">
+        <div class="footer_pattern" style="background-image: url({{ asset('front/images/background/footer-pattern.png') }})"></div>
+        <div class="footer-bottom">
+            <div class="auto-container">
+                <div class="inner-container d-flex justify-content-between align-items-center flex-wrap">
+                    <div class="footer-logo"><img src="{{ asset('front/images/logo.svg') }}" alt=""></div>
+                    <div class="footer-copyright">&copy; 2026 EduConnect. All rights reserved.</div>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+</div>
+
+<script src="{{ asset('front/js/jquery.js') }}"></script>
+<script src="{{ asset('front/js/popper.min.js') }}"></script>
+<script src="{{ asset('front/js/bootstrap.min.js') }}"></script>
+<script src="{{ asset('front/js/appear.js') }}"></script>
+<script src="{{ asset('front/js/parallax.min.js') }}"></script>
+<script src="{{ asset('front/js/tilt.jquery.min.js') }}"></script>
+<script src="{{ asset('front/js/jquery.paroller.min.js') }}"></script>
+<script src="{{ asset('front/js/wow.js') }}"></script>
+<script src="{{ asset('front/js/swiper.min.js') }}"></script>
+<script src="{{ asset('front/js/backtotop.js') }}"></script>
+<script src="{{ asset('front/js/odometer.js') }}"></script>
+<script src="{{ asset('front/js/parallax-scroll.js') }}"></script>
+<script src="{{ asset('front/js/gsap.min.js') }}"></script>
+<script src="{{ asset('front/js/SplitText.min.js') }}"></script>
+<script src="{{ asset('front/js/ScrollTrigger.min.js') }}"></script>
+<script src="{{ asset('front/js/ScrollToPlugin.min.js') }}"></script>
+<script src="{{ asset('front/js/ScrollSmoother.min.js') }}"></script>
+<script src="{{ asset('front/js/touchspin.js') }}"></script>
+<script src="{{ asset('front/js/jquery.marquee.min.js') }}"></script>
+<script src="{{ asset('front/js/magnific-popup.min.js') }}"></script>
+<script src="{{ asset('front/js/nav-tool.js') }}"></script>
+<script src="{{ asset('front/js/jquery-ui.js') }}"></script>
+<script src="{{ asset('front/js/element-in-view.js') }}"></script>
+<script src="{{ asset('front/js/script.js') }}"></script>
+
+{% block javascripts %}{% endblock %}
+
+</body>
+</html>

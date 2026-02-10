@@ -1,0 +1,41 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Attempt index{% endblock %}
+
+{% block body %}
+    <h1>Attempt index</h1>
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Started_at</th>
+                <th>Completed_at</th>
+                <th>Score</th>
+                <th>Answers</th>
+                <th>actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for attempt in attempts %}
+            <tr>
+                <td>{{ attempt.id }}</td>
+                <td>{{ attempt.startedAt ? attempt.startedAt|date('Y-m-d H:i:s') : '' }}</td>
+                <td>{{ attempt.completedAt ? attempt.completedAt|date('Y-m-d H:i:s') : '' }}</td>
+                <td>{{ attempt.score }}</td>
+                <td>{{ attempt.answers ? attempt.answers|json_encode : '' }}</td>
+                <td>
+                    <a href="{{ path('app_attempt_show', {'id': attempt.id}) }}">show</a>
+                    <a href="{{ path('app_attempt_edit', {'id': attempt.id}) }}">edit</a>
+                </td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="6">no records found</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    <a href="{{ path('app_attempt_new') }}">Create new</a>
+{% endblock %}

@@ -1,0 +1,38 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Attempt{% endblock %}
+
+{% block body %}
+    <h1>Attempt</h1>
+
+    <table class="table">
+        <tbody>
+            <tr>
+                <th>Id</th>
+                <td>{{ attempt.id }}</td>
+            </tr>
+            <tr>
+                <th>Started_at</th>
+                <td>{{ attempt.startedAt ? attempt.startedAt|date('Y-m-d H:i:s') : '' }}</td>
+            </tr>
+            <tr>
+                <th>Completed_at</th>
+                <td>{{ attempt.completedAt ? attempt.completedAt|date('Y-m-d H:i:s') : '' }}</td>
+            </tr>
+            <tr>
+                <th>Score</th>
+                <td>{{ attempt.score }}</td>
+            </tr>
+            <tr>
+                <th>Answers</th>
+                <td>{{ attempt.answers ? attempt.answers|json_encode : '' }}</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <a href="{{ path('app_attempt_index') }}">back to list</a>
+
+    <a href="{{ path('app_attempt_edit', {'id': attempt.id}) }}">edit</a>
+
+    {{ include('attempt/_delete_form.html.twig') }}
+{% endblock %}
