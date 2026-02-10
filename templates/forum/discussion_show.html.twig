@@ -1,0 +1,171 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}{{ discussion.title }} - Forum{% endblock %}
+
+{% block body %}
+<!-- Page Title -->
+<section class="page-title">
+    <div class="page-title-icon" style="background-image:url({{ asset('assets/front/images/icons/page-title_icon-1.png') }})"></div>
+    <div class="page-title-icon-two" style="background-image:url({{ asset('assets/front/images/icons/page-title_icon-2.png') }})"></div>
+    <div class="page-title-shadow" style="background-image:url({{ asset('assets/front/images/background/page-title-1.png') }})"></div>
+    <div class="page-title-shadow_two" style="background-image:url({{ asset('assets/front/images/background/page-title-2.png') }})"></div>
+    <div class="auto-container">
+        <h2>{{ discussion.title }}</h2>
+        <ul class="bread-crumb clearfix">
+            <li><a href="{{ path('app_forum_index') }}">Home</a></li>
+            <li><a href="{{ path('app_forum_discussions') }}">Discussions</a></li>
+            <li>{{ discussion.title }}</li>
+        </ul>
+    </div>
+</section>
+<!-- End Page Title -->
+
+<!-- Sidebar Page Container -->
+<div class="sidebar-page-container">
+    <div class="auto-container">
+        <div class="row clearfix">
+            <!-- Content Side -->
+            <div class="content-side col-lg-8 col-md-12 col-sm-12">
+                <div class="blog-classic">
+                    <!-- Flash Messages -->
+                    {% for message in app.flashes('success') %}
+                    <div class="alert alert-success alert-dismissible fade show" role="alert">
+                        {{ message }}
+                        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                    </div>
+                    {% endfor %}
+                    
+                    <!-- Discussion Details -->
+                    <div class="news-block">
+                        <div class="inner-box">
+                            <div class="lower-content">
+                                <ul class="post-info">
+                                    <li><span class="far fa-user"></span> {{ discussion.authorName }}</li>
+                                    <li><span class="far fa-calendar"></span> {{ discussion.createdAt|date('M d, Y H:i') }}</li>
+                                    <li><span class="far fa-eye"></span> {{ discussion.views }} views</li>
+                                    {% if discussion.category %}
+                                    <li><span class="fas fa-folder"></span> {{ discussion.category.name }}</li>
+                                    {% endif %}
+                                    {% if discussion.isPinned %}
+                                    <li><span class="fas fa-thumbtack"></span> Pinned</li>
+                                    {% endif %}
+                                    {% if discussion.isLocked %}
+                                    <li><span class="fas fa-lock"></span> Locked</li>
+                                    {% endif %}
+                                </ul>
+                                <h3>{{ discussion.title }}</h3>
+                                <div class="text">{{ discussion.content|nl2br }}</div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Messages Section -->
+                    <div class="comments-section">
+                        <h4>Messages ({{ messages|length }})</h4>
+                        
+                        {% for message in messages %}
+                        <div class="comment">
+                            <div class="comment-info">
+                                <strong>{{ message.authorName }}</strong>
+                                <span class="comment-date">{{ message.createdAt|date('M d, Y H:i') }}</span>
+                                {% if message.isAuthor %}
+                                <span class="badge bg-primary">Author</span>
+                                {% endif %}
+                            </div>
+                            <div class="comment-content">
+                                {{ message.content|nl2br }}
+                            </div>
+                        </div>
+                        {% endfor %}
+                        
+                        {% if messages is empty %}
+                        <div class="alert alert-info">
+                            No messages yet. Be the first to reply!
+                        </div>
+                        {% endif %}
+                        
+                        <!-- Add Message Form -->
+                        {% if not discussion.isLocked %}
+                        <div class="comment-form">
+                            <h5>Add a Message</h5>
+                            {{ form_start(form) }}
+                            <div class="row g-3">
+                                <div class="col-12">
+                                    {{ form_label(form.content) }}
+                                    {{ form_widget(form.content) }}
+                                    {{ form_errors(form.content) }}
+                                </div>
+                                <div class="col-md-6">
+                                    {{ form_label(form.authorName) }}
+                                    {{ form_widget(form.authorName) }}
+                                    {{ form_errors(form.authorName) }}
+                                </div>
+                                <div class="col-md-6">
+                                    {{ form_label(form.authorEmail) }}
+                                    {{ form_widget(form.authorEmail) }}
+                                    {{ form_errors(form.authorEmail) }}
+                                </div>
+                                <div class="col-12">
+                                    <button type="submit" class="btn btn-primary">Post Message</button>
+                                </div>
+                            </div>
+                            {{ form_end(form) }}
+                        </div>
+                        {% else %}
+                        <div class="alert alert-warning">
+                            <h5>Discussion Locked</h5>
+                            <p>This discussion has been locked and no new messages can be added.</p>
+                        </div>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Sidebar Side -->
+            <div class="sidebar-side col-lg-4 col-md-12 col-sm-12">
+                <aside class="sidebar">
+                    <div class="sidebar-inner">
+                        <!-- Discussion Info -->
+                        <div class="sidebar-widget">
+                            <div class="widget-content">
+                                <h5 class="sidebar-widget_title">Discussion Info</h5>
+                                <ul class="list-unstyled">
+                                    <li><strong>Started by:</strong> {{ discussion.authorName }}</li>
+                                    <li><strong>Created:</strong> {{ discussion.createdAt|date('M d, Y') }}</li>
+                                    <li><strong>Views:</strong> {{ discussion.views }}</li>
+                                    <li><strong>Replies:</strong> {{ messages|length }}</li>
+                                    {% if discussion.category %}
+                                    <li><strong>Category:</strong> <a href="{{ path('app_forum_category_show', {'id': discussion.category.id}) }}">{{ discussion.category.name }}</a></li>
+                                    {% endif %}
+                                </ul>
+                            </div>
+                        </div>
+                        
+                        <!-- Quick Actions -->
+                        <div class="sidebar-widget">
+                            <div class="widget-content">
+                                <h5 class="sidebar-widget_title">Quick Actions</h5>
+                                <div class="d-grid gap-2">
+                                    <a href="{{ path('app_forum_discussions') }}" class="btn btn-outline-primary">Back to Discussions</a>
+                                    {% if discussion.category %}
+                                    <a href="{{ path('app_forum_category_show', {'id': discussion.category.id}) }}" class="btn btn-outline-secondary">View Category</a>
+                                    {% endif %}
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- Related Discussions -->
+                        <div class="sidebar-widget popular-posts">
+                            <div class="widget-content">
+                                <h5 class="sidebar-widget_title">Related Discussions</h5>
+                                <p>More discussions coming soon...</p>
+                            </div>
+                        </div>
+                    </div>
+                </aside>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- End Sidebar Page Container -->
+{% endblock %}

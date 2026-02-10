@@ -1,0 +1,229 @@
+<!doctype html>
+<html lang="en" data-bs-theme="blue-theme">
+
+<head>
+  <meta charset="utf-8">
+  <title>{% block title %}Forum Admin{% endblock %}</title>
+  <!--favicon-->
+  <link rel="icon" href="{{ asset('assets/admin/images/favicon-32x32.png') }}" type="image/png">
+  <!-- loader-->
+	<link href="{{ asset('assets/admin/css/pace.min.css') }}" rel="stylesheet">
+	<script src="{{ asset('assets/admin/js/pace.min.js') }}"></script>
+
+  <!--plugins-->
+  <link href="{{ asset('assets/admin/plugins/perfect-scrollbar/css/perfect-scrollbar.css') }}" rel="stylesheet">
+  <link rel="stylesheet" type="text/css" href="{{ asset('assets/admin/plugins/metismenu/metisMenu.min.css') }}">
+  <link rel="stylesheet" type="text/css" href="{{ asset('assets/admin/plugins/metismenu/mm-vertical.css') }}">
+  <link rel="stylesheet" type="text/css" href="{{ asset('assets/admin/plugins/simplebar/css/simplebar.css') }}">
+  <!--bootstrap css-->
+  <link href="{{ asset('assets/admin/css/bootstrap.min.css') }}" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css?family=Material+Icons+Outlined" rel="stylesheet">
+  <!--main css-->
+  <link href="{{ asset('assets/admin/css/bootstrap-extended.css') }}" rel="stylesheet">
+  <link href="{{ asset('assets/admin/sass/main.css') }}" rel="stylesheet">
+  <link href="{{ asset('assets/admin/sass/dark-theme.css') }}" rel="stylesheet">
+  <link href="{{ asset('assets/admin/sass/blue-theme.css') }}" rel="stylesheet">
+  <link href="{{ asset('assets/admin/sass/semi-dark.css') }}" rel="stylesheet">
+  <link href="{{ asset('assets/admin/sass/bordered-theme.css') }}" rel="stylesheet">
+  <link href="{{ asset('assets/admin/sass/responsive.css') }}" rel="stylesheet">
+
+  <script src="{{ asset('assets/front/js/form-handler.js') }}"></script>
+
+  {% block stylesheets %}{% endblock %}
+</head>
+
+<body>
+
+  <!--start header-->
+  <header class="top-header">
+    <nav class="navbar navbar-expand align-items-center gap-4">
+      <div class="btn-toggle">
+        <a href="javascript:;"><i class="material-icons-outlined">menu</i></a>
+      </div>
+      <div class="search-bar flex-grow-1">
+        <div class="position-relative">
+          <input class="form-control rounded-5 px-5 search-control d-lg-block d-none" type="text" placeholder="Search">
+          <span class="material-icons-outlined position-absolute d-lg-block d-none ms-3 translate-middle-y start-0 top-50">search</span>
+          <span class="material-icons-outlined position-absolute me-3 translate-middle-y end-0 top-50 search-close">close</span>
+        </div>
+      </div>
+      <div class="header-theme-box">
+        <button class="btn" id="theme-btn">
+          <i class="material-icons-outlined">light_mode</i>
+        </button>
+      </div>
+      <div class="header-box">
+        <div class="header-notification-list">
+          <a href="javascript:;" class="dropdown-toggle" data-bs-toggle="dropdown">
+            <i class="material-icons-outlined">notifications</i>
+            <span class="badge bg-danger rounded-pill">4</span>
+          </a>
+          <div class="dropdown-menu dropdown-menu-end">
+            <h6 class="dropdown-title">Notifications</h6>
+            <div class="list-group">
+              <a href="#" class="list-group-item list-group-item-action">
+                <div class="d-flex">
+                  <div class="flex-shrink-0">
+                    <div class="avatar-sm bg-light rounded">
+                      <i class="material-icons-outlined fs-6">mail</i>
+                    </div>
+                  </div>
+                  <div class="flex-grow-1 ms-3">
+                    <h6 class="fs-14 mb-1">New message from Admin</h6>
+                    <p class="fs-12 text-muted mb-0">You have 3 unread messages</p>
+                  </div>
+                </div>
+              </a>
+              <a href="#" class="list-group-item list-group-item-action">
+                <div class="d-flex">
+                  <div class="flex-shrink-0">
+                    <div class="avatar-sm bg-light rounded">
+                      <i class="material-icons-outlined fs-6">person</i>
+                    </div>
+                  </div>
+                  <div class="flex-grow-1 ms-3">
+                    <h6 class="fs-14 mb-1">New user registered</h6>
+                    <p class="fs-12 text-muted mb-0">5 new users joined today</p>
+                  </div>
+                </div>
+              </a>
+            </div>
+            <a href="#" class="dropdown-item text-center">View all</a>
+          </div>
+        </div>
+        <div class="header-message-list">
+          <a href="javascript:;" class="dropdown-toggle" data-bs-toggle="dropdown">
+            <i class="material-icons-outlined">mail</i>
+            <span class="badge bg-danger rounded-pill">2</span>
+          </a>
+          <div class="dropdown-menu dropdown-menu-end">
+            <h6 class="dropdown-title">Messages</h6>
+            <div class="list-group">
+              <a href="#" class="list-group-item list-group-item-action">
+                <div class="d-flex">
+                  <div class="flex-shrink-0">
+                    <div class="avatar-sm bg-light rounded">
+                      <i class="material-icons-outlined fs-6">person</i>
+                    </div>
+                  </div>
+                  <div class="flex-grow-1 ms-3">
+                    <h6 class="fs-14 mb-1">Admin User</h6>
+                    <p class="fs-12 text-muted mb-0">New forum post created</p>
+                  </div>
+                </div>
+              </a>
+            </div>
+            <a href="#" class="dropdown-item text-center">View all</a>
+          </div>
+        </div>
+        <div class="header-user-list">
+          <a href="javascript:;" class="dropdown-toggle" data-bs-toggle="dropdown">
+            <div class="avatar avatar-sm">
+              <img src="{{ asset('assets/admin/images/avatar-1.jpg') }}" alt="user" class="rounded-circle">
+            </div>
+          </a>
+          <div class="dropdown-menu dropdown-menu-end">
+            <a class="dropdown-item" href="#"><i class="material-icons-outlined me-2">person</i>Profile</a>
+            <a class="dropdown-item" href="#"><i class="material-icons-outlined me-2">settings</i>Settings</a>
+            <hr class="dropdown-divider">
+            <a class="dropdown-item" href="#"><i class="material-icons-outlined me-2">logout</i>Logout</a>
+          </div>
+        </div>
+      </div>
+    </nav>
+  </header>
+  <!--end header-->
+
+  <!--start sidebar-->
+  <aside class="sidebar-wrapper" data-simplebar="true">
+    <div class="sidebar-header">
+      <div class="logo-icon">
+        <i class="material-icons-outlined">forum</i>
+      </div>
+      <div>
+        <h4 class="logo-title">Forum Admin</h4>
+      </div>
+      <div class="sidebar-close">
+        <i class="material-icons-outlined">close</i>
+      </div>
+    </div>
+    <!--navigation-->
+    <ul class="metismenu" id="menu">
+      <li>
+        <a href="{{ path('admin_dashboard') }}" class="has-arrow">
+          <div class="parent-icon"><i class="material-icons-outlined">dashboard</i></div>
+          <div class="menu-title">Dashboard</div>
+        </a>
+      </li>
+      <li>
+        <a href="{{ path('admin_forum_discussions') }}" class="has-arrow">
+          <div class="parent-icon"><i class="material-icons-outlined">forum</i></div>
+          <div class="menu-title">Discussions</div>
+        </a>
+      </li>
+      <li>
+        <a href="{{ path('admin_forum_messages') }}" class="has-arrow">
+          <div class="parent-icon"><i class="material-icons-outlined">chat</i></div>
+          <div class="menu-title">Messages</div>
+        </a>
+      </li>
+      <li>
+        <a href="{{ path('admin_forum_categories') }}" class="has-arrow">
+          <div class="parent-icon"><i class="material-icons-outlined">category</i></div>
+          <div class="menu-title">Categories</div>
+        </a>
+      </li>
+      <li>
+        <a href="javascript:;" class="has-arrow">
+          <div class="parent-icon"><i class="material-icons-outlined">bar_chart</i></div>
+          <div class="menu-title">Reports</div>
+        </a>
+        <ul>
+          <li><a href="#"><i class="material-icons-outlined me-2">assessment</i>Forum Statistics</a></li>
+          <li><a href="#"><i class="material-icons-outlined me-2">people</i>User Activity</a></li>
+          <li><a href="#"><i class="material-icons-outlined me-2">trending_up</i>Popular Topics</a></li>
+        </ul>
+      </li>
+      <li>
+        <a href="javascript:;" class="has-arrow">
+          <div class="parent-icon"><i class="material-icons-outlined">settings</i></div>
+          <div class="menu-title">Settings</div>
+        </a>
+        <ul>
+          <li><a href="#"><i class="material-icons-outlined me-2">admin_panel_settings</i>General Settings</a></li>
+          <li><a href="#"><i class="material-icons-outlined me-2">security</i>Security</a></li>
+          <li><a href="#"><i class="material-icons-outlined me-2">notifications</i>Notifications</a></li>
+        </ul>
+      </li>
+    </ul>
+  </aside>
+  <!--end sidebar-->
+
+  <!--start main content-->
+  <main class="main-content">
+    <div class="page-content">
+      {% block body %}{% endblock %}
+    </div>
+  </main>
+  <!--end main content-->
+
+  <!--start overlay-->
+  <div class="overlay"></div>
+  <!--end overlay-->
+
+  <!--start back to top button-->
+  <button class="back-to-top"><i class="material-icons-outlined">arrow_upward</i></button>
+  <!--end back to top button-->
+
+  <!--start scripts-->
+  <script src="{{ asset('assets/admin/js/bootstrap.bundle.min.js') }}"></script>
+  <script src="{{ asset('assets/admin/plugins/perfect-scrollbar/js/perfect-scrollbar.js') }}"></script>
+  <script src="{{ asset('assets/admin/plugins/metismenu/metisMenu.min.js') }}"></script>
+  <script src="{{ asset('assets/admin/plugins/simplebar/js/simplebar.min.js') }}"></script>
+  <script src="{{ asset('assets/admin/js/main.js') }}"></script>
+
+  {% block javascripts %}{% endblock %}
+</body>
+
+</html>

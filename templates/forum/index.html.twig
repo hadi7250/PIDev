@@ -1,0 +1,125 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Forum - Home{% endblock %}
+
+{% block body %}
+<!-- Page Title -->
+<section class="page-title">
+    <div class="page-title-icon" style="background-image:url({{ asset('assets/front/images/icons/page-title_icon-1.png') }})"></div>
+    <div class="page-title-icon-two" style="background-image:url({{ asset('assets/front/images/icons/page-title_icon-2.png') }})"></div>
+    <div class="page-title-shadow" style="background-image:url({{ asset('assets/front/images/background/page-title-1.png') }})"></div>
+    <div class="page-title-shadow_two" style="background-image:url({{ asset('assets/front/images/background/page-title-2.png') }})"></div>
+    <div class="auto-container">
+        <h2>Forum Home</h2>
+        <ul class="bread-crumb clearfix">
+            <li><a href="{{ path('app_forum_index') }}">Home</a></li>
+            <li>Forum</li>
+        </ul>
+    </div>
+</section>
+<!-- End Page Title -->
+
+<!-- Sidebar Page Container -->
+<div class="sidebar-page-container">
+    <div class="auto-container">
+        <div class="row clearfix">
+            <!-- Content Side -->
+            <div class="content-side col-lg-8 col-md-12 col-sm-12">
+                <div class="blog-classic">
+                    <h3>Welcome to Our Forum</h3>
+                    <p>Join our community discussions, share your thoughts, and connect with others.</p>
+                    
+                    <!-- Latest Discussions -->
+                    <div class="sec-title">
+                        <h3>Latest Discussions</h3>
+                    </div>
+                    
+                    {% for discussion in latest_discussions %}
+                    <div class="news-block">
+                        <div class="inner-box">
+                            <div class="image-box">
+                                <a href="{{ path('app_forum_discussion_show', {'id': discussion.id}) }}">
+                                    <img src="{{ asset('assets/front/images/resource/news-1.jpg') }}" alt="">
+                                </a>
+                            </div>
+                            <div class="lower-content">
+                                <ul class="post-info">
+                                    <li><span class="far fa-user"></span> {{ discussion.authorName }}</li>
+                                    <li><span class="far fa-calendar"></span> {{ discussion.createdAt|date('M d, Y') }}</li>
+                                    <li><span class="far fa-comments"></span> {{ discussion.messageCount }} replies</li>
+                                    <li><span class="far fa-eye"></span> {{ discussion.views }} views</li>
+                                </ul>
+                                <h4><a href="{{ path('app_forum_discussion_show', {'id': discussion.id}) }}">{{ discussion.title }}</a></h4>
+                                <div class="text">{{ discussion.content|slice(0, 150) ~ '...' }}</div>
+                                {% if discussion.category %}
+                                <div class="category-tag">
+                                    <span class="badge" style="background-color: {{ discussion.category.color ?: '#007bff' }}">
+                                        {{ discussion.category.name }}
+                                    </span>
+                                </div>
+                                {% endif %}
+                            </div>
+                        </div>
+                    </div>
+                    {% endfor %}
+                    
+                    {% if latest_discussions is empty %}
+                    <div class="alert alert-info">
+                        <h4>No discussions yet</h4>
+                        <p>Be the first to start a discussion!</p>
+                        <a href="{{ path('app_forum_discussions') }}" class="btn btn-primary">Start a Discussion</a>
+                    </div>
+                    {% endif %}
+                </div>
+            </div>
+            
+            <!-- Sidebar Side -->
+            <div class="sidebar-side col-lg-4 col-md-12 col-sm-12">
+                <aside class="sidebar">
+                    <div class="sidebar-inner">
+                        <!-- Most Viewed -->
+                        <div class="sidebar-widget popular-posts">
+                            <div class="widget-content">
+                                <h5 class="sidebar-widget_title">Most Viewed Discussions</h5>
+                                {% for discussion in most_viewed_discussions %}
+                                <article class="post">
+                                    <figure class="post-thumb"><img src="{{ asset('assets/front/images/resource/post-thumb-1.png') }}" alt=""></figure>
+                                    <div class="text"><a href="{{ path('app_forum_discussion_show', {'id': discussion.id}) }}">{{ discussion.title }}</a></div>
+                                    <div class="post-info">{{ discussion.views }} views</div>
+                                </article>
+                                {% endfor %}
+                            </div>
+                        </div>
+                        
+                        <!-- Quick Actions -->
+                        <div class="sidebar-widget">
+                            <div class="widget-content">
+                                <h5 class="sidebar-widget_title">Quick Actions</h5>
+                                <div class="d-grid gap-2">
+                                    <a href="{{ path('app_forum_discussions') }}" class="btn btn-primary">View All Discussions</a>
+                                    <a href="{{ path('app_forum_categories') }}" class="btn btn-outline-primary">Browse Categories</a>
+                                    <a href="{{ path('app_forum_discussions') }}#new-discussion" class="btn btn-success">Start New Discussion</a>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- Search Widget -->
+                        <div class="sidebar-widget search-box">
+                            <div class="widget-content">
+                                <h5 class="sidebar-widget_title">Search Discussions</h5>
+                                <form method="get" action="{{ path('app_forum_discussions') }}">
+                                    <div class="form-group">
+                                        <input type="search" name="search" value="{{ app.request.query.get('search') }}" placeholder="Search discussions..." required>
+                                        <button type="submit"><span class="icon fa fa-search"></span></button>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </aside>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- End Sidebar Page Container -->
+{% endblock %}

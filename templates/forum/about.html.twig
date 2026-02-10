@@ -1,0 +1,89 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}About - Forum{% endblock %}
+
+{% block body %}
+<!-- Page Title -->
+<section class="page-title">
+    <div class="page-title-icon" style="background-image:url({{ asset('assets/front/images/icons/page-title_icon-1.png') }})"></div>
+    <div class="page-title-icon-two" style="background-image:url({{ asset('assets/front/images/icons/page-title_icon-2.png') }})"></div>
+    <div class="page-title-shadow" style="background-image:url({{ asset('assets/front/images/background/page-title-1.png') }})"></div>
+    <div class="page-title-shadow_two" style="background-image:url({{ asset('assets/front/images/background/page-title-2.png') }})"></div>
+    <div class="auto-container">
+        <h2>About</h2>
+        <ul class="bread-crumb clearfix">
+            <li><a href="{{ path('app_forum_index') }}">Home</a></li>
+            <li>About</li>
+        </ul>
+    </div>
+</section>
+<!-- End Page Title -->
+
+<!-- Sidebar Page Container -->
+<div class="sidebar-page-container">
+    <div class="auto-container">
+        <div class="row clearfix">
+            <!-- Content Side -->
+            <div class="content-side col-lg-8 col-md-12 col-sm-12">
+                <div class="blog-classic">
+                    <h3>About Our Forum</h3>
+                    <p>Welcome to our community forum! This is a space where people can come together to share ideas, ask questions, and engage in meaningful discussions.</p>
+                    
+                    <h4>Our Mission</h4>
+                    <p>We believe in creating an inclusive and respectful environment where everyone feels welcome to participate. Our forum is designed to facilitate knowledge sharing and community building.</p>
+                    
+                    <h4>Community Guidelines</h4>
+                    <ul>
+                        <li>Be respectful and courteous to all members</li>
+                        <li>Stay on topic and contribute constructively</li>
+                        <li>No spam or promotional content</li>
+                        <li>Respect privacy and personal information</li>
+                        <li>Follow all applicable laws and regulations</li>
+                    </ul>
+                    
+                    <h4>Getting Started</h4>
+                    <p>Getting started is easy! Simply browse our discussions, find topics that interest you, and join the conversation. You can also start your own discussions to engage with the community.</p>
+                    
+                    <h4>Contact Us</h4>
+                    <p>If you have any questions or need assistance, please don't hesitate to reach out through our contact page.</p>
+                </div>
+            </div>
+            
+            <!-- Sidebar Side -->
+            <div class="sidebar-side col-lg-4 col-md-12 col-sm-12">
+                <aside class="sidebar">
+                    <div class="sidebar-inner">
+                        <!-- Quick Actions -->
+                        <div class="sidebar-widget">
+                            <div class="widget-content">
+                                <h5 class="sidebar-widget_title">Quick Actions</h5>
+                                <div class="d-grid gap-2">
+                                    <a href="{{ path('app_forum_index') }}" class="btn btn-primary">Forum Home</a>
+                                    <a href="{{ path('app_forum_discussions') }}" class="btn btn-outline-primary">Browse Discussions</a>
+                                    <a href="{{ path('app_forum_categories') }}" class="btn btn-outline-secondary">View Categories</a>
+                                    <a href="{{ path('app_forum_contact') }}" class="btn btn-success">Contact Us</a>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- Forum Stats -->
+                        <div class="sidebar-widget">
+                            <div class="widget-content">
+                                <h5 class="sidebar-widget_title">Forum Features</h5>
+                                <ul class="list-unstyled">
+                                    <li>✓ Create and join discussions</li>
+                                    <li>✓ Browse by categories</li>
+                                    <li>✓ Search for topics</li>
+                                    <li>✓ Reply to messages</li>
+                                    <li>✓ Community guidelines</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </aside>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- End Sidebar Page Container -->
+{% endblock %}

@@ -1,0 +1,182 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Forum - Discussions{% endblock %}
+
+{% block body %}
+<!-- Page Title -->
+<section class="page-title">
+    <div class="page-title-icon" style="background-image:url({{ asset('assets/front/images/icons/page-title_icon-1.png') }})"></div>
+    <div class="page-title-icon-two" style="background-image:url({{ asset('assets/front/images/icons/page-title_icon-2.png') }})"></div>
+    <div class="page-title-shadow" style="background-image:url({{ asset('assets/front/images/background/page-title-1.png') }})"></div>
+    <div class="page-title-shadow_two" style="background-image:url({{ asset('assets/front/images/background/page-title-2.png') }})"></div>
+    <div class="auto-container">
+        <h2>Discussions</h2>
+        <ul class="bread-crumb clearfix">
+            <li><a href="{{ path('app_forum_index') }}">Home</a></li>
+            <li>Discussions</li>
+        </ul>
+    </div>
+</section>
+<!-- End Page Title -->
+
+<!-- Sidebar Page Container -->
+<div class="sidebar-page-container">
+    <div class="auto-container">
+        <div class="row clearfix">
+            <!-- Content Side -->
+            <div class="content-side col-lg-8 col-md-12 col-sm-12">
+                <div class="blog-classic">
+                    <!-- Flash Messages -->
+                    {% for message in app.flashes('success') %}
+                    <div class="alert alert-success alert-dismissible fade show" role="alert">
+                        {{ message }}
+                        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                    </div>
+                    {% endfor %}
+                    
+                    {% for message in app.flashes('error') %}
+                    <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                        {{ message }}
+                        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                    </div>
+                    {% endfor %}
+                    
+                    <!-- Search and Filter -->
+                    <div class="row mb-4">
+                        <div class="col-md-6">
+                            <form method="get" action="{{ path('app_forum_discussions') }}">
+                                <div class="input-group">
+                                    <input type="search" name="search" class="form-control" placeholder="Search discussions..." value="{{ search }}">
+                                    <button class="btn btn-outline-secondary" type="submit">Search</button>
+                                </div>
+                            </form>
+                        </div>
+                        <div class="col-md-6">
+                            <form method="get" action="{{ path('app_forum_discussions') }}">
+                                <select name="category" class="form-select" onchange="this.form.submit()">
+                                    <option value="">All Categories</option>
+                                    {% for category in categories %}
+                                    <option value="{{ category.id }}" {% if selected_category and selected_category.id == category.id %}selected{% endif %}>
+                                        {{ category.name }}
+                                    </option>
+                                    {% endfor %}
+                                </select>
+                            </form>
+                        </div>
+                    </div>
+                    
+                    <!-- New Discussion Form -->
+                    <div id="new-discussion" class="post-form mb-5">
+                        <h3>Start a New Discussion</h3>
+                        {{ form_start(form) }}
+                        <div class="row g-3">
+                            <div class="col-12">
+                                {{ form_label(form.title) }}
+                                {{ form_widget(form.title) }}
+                                {{ form_errors(form.title) }}
+                            </div>
+                            <div class="col-12">
+                                {{ form_label(form.content) }}
+                                {{ form_widget(form.content) }}
+                                {{ form_errors(form.content) }}
+                            </div>
+                            <div class="col-md-6">
+                                {{ form_label(form.authorName) }}
+                                {{ form_widget(form.authorName) }}
+                                {{ form_errors(form.authorName) }}
+                            </div>
+                            <div class="col-md-6">
+                                {{ form_label(form.authorEmail) }}
+                                {{ form_widget(form.authorEmail) }}
+                                {{ form_errors(form.authorEmail) }}
+                            </div>
+                            <div class="col-12">
+                                {{ form_label(form.category) }}
+                                {{ form_widget(form.category) }}
+                                {{ form_errors(form.category) }}
+                            </div>
+                            <div class="col-12">
+                                <button type="submit" class="btn btn-primary">Create Discussion</button>
+                            </div>
+                        </div>
+                        {{ form_end(form) }}
+                    </div>
+                    
+                    <!-- Discussions List -->
+                    <h3>Discussions</h3>
+                    {% for discussion in discussions %}
+                    <div class="news-block">
+                        <div class="inner-box">
+                            <div class="image-box">
+                                <a href="{{ path('app_forum_discussion_show', {'id': discussion.id}) }}">
+                                    <img src="{{ asset('assets/front/images/resource/news-1.jpg') }}" alt="">
+                                </a>
+                            </div>
+                            <div class="lower-content">
+                                <ul class="post-info">
+                                    <li><span class="far fa-user"></span> {{ discussion.authorName }}</li>
+                                    <li><span class="far fa-calendar"></span> {{ discussion.createdAt|date('M d, Y') }}</li>
+                                    <li><span class="far fa-comments"></span> {{ discussion.messageCount }} replies</li>
+                                    <li><span class="far fa-eye"></span> {{ discussion.views }} views</li>
+                                    {% if discussion.isPinned %}
+                                    <li><span class="fas fa-thumbtack"></span> Pinned</li>
+                                    {% endif %}
+                                    {% if discussion.isLocked %}
+                                    <li><span class="fas fa-lock"></span> Locked</li>
+                                    {% endif %}
+                                </ul>
+                                <h4><a href="{{ path('app_forum_discussion_show', {'id': discussion.id}) }}">{{ discussion.title }}</a></h4>
+                                <div class="text">{{ discussion.content|slice(0, 150) ~ '...' }}</div>
+                                {% if discussion.category %}
+                                <div class="category-tag">
+                                    <span class="badge" style="background-color: {{ discussion.category.color ?: '#007bff' }}">
+                                        {{ discussion.category.name }}
+                                    </span>
+                                </div>
+                                {% endif %}
+                            </div>
+                        </div>
+                    </div>
+                    {% endfor %}
+                    
+                    {% if discussions is empty %}
+                    <div class="alert alert-info">
+                        <h4>No discussions found</h4>
+                        <p>Try adjusting your search or filters, or start a new discussion.</p>
+                    </div>
+                    {% endif %}
+                </div>
+            </div>
+            
+            <!-- Sidebar Side -->
+            <div class="sidebar-side col-lg-4 col-md-12 col-sm-12">
+                <aside class="sidebar">
+                    <div class="sidebar-inner">
+                        <!-- Categories -->
+                        <div class="sidebar-widget popular-tags">
+                            <div class="widget-content">
+                                <h5 class="sidebar-widget_title">Categories</h5>
+                                {% for category in categories %}
+                                <a href="{{ path('app_forum_discussions', {'category': category.id}) }}">{{ category.name }}</a>
+                                {% endfor %}
+                            </div>
+                        </div>
+                        
+                        <!-- Quick Stats -->
+                        <div class="sidebar-widget">
+                            <div class="widget-content">
+                                <h5 class="sidebar-widget_title">Forum Stats</h5>
+                                <ul class="list-unstyled">
+                                    <li><strong>Total Discussions:</strong> {{ discussions|length }}</li>
+                                    <li><strong>Total Categories:</strong> {{ categories|length }}</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </aside>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- End Sidebar Page Container -->
+{% endblock %}

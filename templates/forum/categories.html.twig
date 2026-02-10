@@ -1,0 +1,100 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Forum - Categories{% endblock %}
+
+{% block body %}
+<!-- Page Title -->
+<section class="page-title">
+    <div class="page-title-icon" style="background-image:url({{ asset('assets/front/images/icons/page-title_icon-1.png') }})"></div>
+    <div class="page-title-icon-two" style="background-image:url({{ asset('assets/front/images/icons/page-title_icon-2.png') }})"></div>
+    <div class="page-title-shadow" style="background-image:url({{ asset('assets/front/images/background/page-title-1.png') }})"></div>
+    <div class="page-title-shadow_two" style="background-image:url({{ asset('assets/front/images/background/page-title-2.png') }})"></div>
+    <div class="auto-container">
+        <h2>Categories</h2>
+        <ul class="bread-crumb clearfix">
+            <li><a href="{{ path('app_forum_index') }}">Home</a></li>
+            <li>Categories</li>
+        </ul>
+    </div>
+</section>
+<!-- End Page Title -->
+
+<!-- Sidebar Page Container -->
+<div class="sidebar-page-container">
+    <div class="auto-container">
+        <div class="row clearfix">
+            <!-- Content Side -->
+            <div class="content-side col-lg-8 col-md-12 col-sm-12">
+                <div class="blog-classic">
+                    <h3>Browse Categories</h3>
+                    <p>Find discussions organized by topic categories.</p>
+                    
+                    <div class="row">
+                        {% for category in categories %}
+                        <div class="col-md-6 mb-4">
+                            <div class="service-block-one">
+                                <div class="inner-box">
+                                    <div class="icon-box">
+                                        <i class="fas fa-folder"></i>
+                                    </div>
+                                    <h4><a href="{{ path('app_forum_category_show', {'id': category.id}) }}">{{ category.name }}</a></h4>
+                                    <div class="text">{{ category.description|default('No description available.') }}</div>
+                                    <div class="category-stats">
+                                        <span class="badge" style="background-color: {{ category.color ?: '#007bff' }}">
+                                            {{ category.discussions|length }} discussions
+                                        </span>
+                                    </div>
+                                    <div class="link-box">
+                                        <a href="{{ path('app_forum_category_show', {'id': category.id}) }}" class="theme-btn">
+                                            <span class="btn-title">View Discussions</span>
+                                        </a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        {% endfor %}
+                    </div>
+                    
+                    {% if categories is empty %}
+                    <div class="alert alert-info">
+                        <h4>No Categories Yet</h4>
+                        <p>Categories haven't been created yet. Check back soon!</p>
+                    </div>
+                    {% endif %}
+                </div>
+            </div>
+            
+            <!-- Sidebar Side -->
+            <div class="sidebar-side col-lg-4 col-md-12 col-sm-12">
+                <aside class="sidebar">
+                    <div class="sidebar-inner">
+                        <!-- Quick Actions -->
+                        <div class="sidebar-widget">
+                            <div class="widget-content">
+                                <h5 class="sidebar-widget_title">Quick Actions</h5>
+                                <div class="d-grid gap-2">
+                                    <a href="{{ path('app_forum_index') }}" class="btn btn-primary">Forum Home</a>
+                                    <a href="{{ path('app_forum_discussions') }}" class="btn btn-outline-primary">All Discussions</a>
+                                    <a href="{{ path('app_forum_discussions') }}#new-discussion" class="btn btn-success">Start Discussion</a>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- Category Stats -->
+                        <div class="sidebar-widget">
+                            <div class="widget-content">
+                                <h5 class="sidebar-widget_title">Category Stats</h5>
+                                <ul class="list-unstyled">
+                                    <li><strong>Total Categories:</strong> {{ categories|length }}</li>
+                                    <li><strong>Total Discussions:</strong> {{ categories|reduce((carry, category) => carry + category.discussions|length, 0) }}</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </aside>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- End Sidebar Page Container -->
+{% endblock %}
