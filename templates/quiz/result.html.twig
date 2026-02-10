@@ -1,0 +1,30 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Quiz Results{% endblock %}
+
+{% block body %}
+<div class="container mt-5">
+    <div class="row justify-content-center">
+        <div class="col-md-6 text-center">
+            <div class="card shadow-lg border-0 p-5">
+                <div class="mb-4">
+                    {% if attempt.score >= (quiz.totalScore / 2) %}
+                        <i class="material-icons-outlined text-success" style="font-size: 80px;">emoji_events</i>
+                        <h2 class="text-success mt-3">Great Job!</h2>
+                    {% else %}
+                        <i class="material-icons-outlined text-warning" style="font-size: 80px;">sentiment_dissatisfied</i>
+                        <h2 class="text-warning mt-3">Keep Practicing!</h2>
+                    {% endif %}
+                </div>
+
+                <h4 class="text-muted mb-2">Your Score</h4>
+                <h1 class="display-1 fw-bold mb-4">{{ attempt.score }} <span class="fs-4 text-muted">/ {{ quiz.totalScore }}</span></h1>
+
+                <div class="d-grid gap-2">
+                    <a href="{{ path('app_quiz_index') }}" class="btn btn-outline-primary btn-lg">Back to Quizzes</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,139 @@
+{% extends 'admin/base_admin.html.twig' %}
+
+{% block title %}Quiz List{% endblock %}
+
+{% block body %}
+    <div class="page-breadcrumb d-none d-sm-flex align-items-center mb-3">
+        <div class="breadcrumb-title pe-3">Tables</div>
+        <div class="ps-3">
+            <nav aria-label="breadcrumb">
+                <ol class="breadcrumb mb-0 p-0">
+                    <li class="breadcrumb-item"><a href="javascript:;"><i class="bx bx-home-alt"></i></a></li>
+                    <li class="breadcrumb-item active" aria-current="page">Quiz Data Table</li>
+                </ol>
+            </nav>
+        </div>
+        <div class="ms-auto">
+            <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#addQuizModal">
+                Add New Quiz
+            </button>
+        </div>
+    </div>
+
+    <div class="card">
+        <div class="card-body">
+            <div class="table-responsive">
+                <table id="example" class="table table-striped table-bordered" style="width:100%">
+                    <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>Title</th>
+                            <th>Description</th>
+                            <th>Time Limit</th>
+                            <th>Total Score</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for quiz in quizzes %}
+                            <tr>
+                                <td>{{ quiz.id }}</td>
+                                <td>
+                                    <div class="d-flex align-items-center gap-3">
+                                        <div class="product-info">
+                                            <h6 class="product-name mb-1">{{ quiz.title }}</h6>
+                                        </div>
+                                    </div>
+                                </td>
+                                <td>{{ quiz.description|slice(0, 50) }}...</td>
+                                <td>{{ quiz.timeLimit }} mins</td>
+                                <td>{{ quiz.totalScore }}</td>
+                                <td>
+                                    <div class="d-flex align-items-center gap-3 fs-6">
+                                        {# Manage Questions #}
+                                        <a href="{{ path('app_admin_question_index', {'id': quiz.id}) }}" class="text-info" data-bs-toggle="tooltip" title="Manage Questions">
+                                            <i class="material-icons-outlined">format_list_bulleted</i>
+                                        </a>
+                                        
+                                        {# Edit #}
+                                        <a href="{{ path('app_admin_quiz_edit', {'id': quiz.id}) }}" class="text-warning">
+                                            <i class="material-icons-outlined">edit</i>
+                                        </a>
+                                        
+                                        {# Delete #}
+                                        <form method="post" action="{{ path('app_admin_quiz_delete', {'id': quiz.id}) }}" onsubmit="return confirm('Are you sure? This will delete all questions!');" style="display:inline;">
+                                            <input type="hidden" name="_token" value="{{ csrf_token('delete' ~ quiz.id) }}">
+                                            <button type="submit" class="text-danger border-0 bg-transparent">
+                                                <i class="material-icons-outlined">delete</i>
+                                            </button>
+                                        </form>
+                                    </div>
+                                </td>
+                            </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+    {# Add Quiz Modal #}
+    <div class="modal fade" id="addQuizModal" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Create New Quiz</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    {{ form_start(form) }}
+                    <div class="mb-3">
+                        <label class="form-label">Title</label>
+                        {{ form_widget(form.title, {'attr': {'class': 'form-control'}}) }}
+                        <div class="text-danger">{{ form_errors(form.title) }}</div>
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">Description</label>
+                        {{ form_widget(form.description, {'attr': {'class': 'form-control'}}) }}
+                        <div class="text-danger">{{ form_errors(form.description) }}</div>
+                    </div>
+                    <div class="row mb-3">
+                        <div class="col">
+                            <label class="form-label">Time (min)</label>
+                            {{ form_widget(form.timeLimit, {'attr': {'class': 'form-control'}}) }}
+                        </div>
+                        <div class="col">
+                            <label class="form-label">Score</label>
+                            {{ form_widget(form.totalScore, {'attr': {'class': 'form-control'}}) }}
+                        </div>
+                    </div>
+                    <div class="d-grid mt-3">
+                        <button type="submit" class="btn btn-primary px-4">Save Quiz</button>
+                    </div>
+                    {{ form_end(form) }}
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}
+
+{% block javascripts %}
+    <script>
+        $(document).ready(function() {
+            var table = $('#example').DataTable({
+                lengthChange: false,
+                buttons: ['copy', 'excel', 'pdf', 'print']
+            });
+            
+            // This line moves the buttons to the correct place in the Bootstrap layout
+            table.buttons().container()
+                .appendTo('#example_wrapper .col-md-6:eq(0)');
+        });
+
+        // Re-open modal if there are form errors
+        {% if not form.vars.valid %}
+            var myModal = new bootstrap.Modal(document.getElementById('addQuizModal'));
+            myModal.show();
+        {% endif %}
+    </script>
+{% endblock %}

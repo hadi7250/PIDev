@@ -1,0 +1,74 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Taking: {{ quiz.title }}{% endblock %}
+
+{% block body %}
+<div class="container mt-4">
+    <div class="row">
+        <div class="col-md-8">
+            <h2 class="mb-4 text-primary">{{ quiz.title }}</h2>
+            
+            <form method="POST" id="quizForm">
+                {% for question in questions %}
+                    <div class="card mb-4 shadow-sm border-0">
+                        <div class="card-body">
+                            <div class="d-flex justify-content-between">
+                                <h5 class="fw-bold">Q{{ loop.index }}: {{ question.questionText }}</h5>
+                                <span class="badge bg-info text-dark">{{ question.points }} pts</span>
+                            </div>
+                            <hr>
+                            <div class="list-group">
+                                {% for option in question.options %}
+                                    <label class="list-group-item list-group-item-action cursor-pointer">
+                                        <input class="form-check-input me-2" type="radio" 
+                                               name="q_{{ question.id }}" 
+                                               value="{{ option }}">
+                                        {{ option }}
+                                    </label>
+                                {% endfor %}
+                            </div>
+                        </div>
+                    </div>
+                {% else %}
+                    <div class="alert alert-warning">No questions found.</div>
+                {% endfor %}
+
+                <button type="submit" class="btn btn-success btn-lg w-100 mb-5 py-3 fw-bold">Submit Answers ✅</button>
+            </form>
+        </div>
+
+        <div class="col-md-4">
+            <div class="card bg-dark text-white text-center sticky-top" style="top: 20px; z-index: 100;">
+                <div class="card-header bg-warning text-dark fw-bold">TIME REMAINING</div>
+                <div class="card-body">
+                    <h1 id="timer" class="display-4 fw-bold mb-0">00:00</h1>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    let timeLimit = {{ quiz.timeLimit }} * 60;
+    let now = new Date().getTime();
+    let countDownDate = now + (timeLimit * 1000);
+
+    let x = setInterval(function() {
+        let now = new Date().getTime();
+        let distance = countDownDate - now;
+
+        let minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+        let seconds = Math.floor((distance % (1000 * 60)) / 1000);
+
+        document.getElementById("timer").innerHTML = 
+            (minutes < 10 ? "0" : "") + minutes + ":" + (seconds < 10 ? "0" : "") + seconds;
+
+        if (distance < 0) {
+            clearInterval(x);
+            document.getElementById("timer").innerHTML = "00:00";
+            alert("Time is up! Submitting...");
+            document.getElementById("quizForm").submit();
+        }
+    }, 1000);
+</script>
+{% endblock %}

@@ -1,0 +1,62 @@
+{% extends 'admin/base_admin.html.twig' %}
+
+{% block title %}Edit Quiz{% endblock %}
+
+{% block body %}
+<div class="page-breadcrumb d-none d-sm-flex align-items-center mb-3">
+    <div class="breadcrumb-title pe-3">Management</div>
+    <div class="ps-3">
+        <nav aria-label="breadcrumb">
+            <ol class="breadcrumb mb-0 p-0">
+                <li class="breadcrumb-item"><a href="{{ path('app_admin_quiz_datatable') }}"><i class="bx bx-home-alt"></i></a></li>
+                <li class="breadcrumb-item active" aria-current="page">Edit Quiz</li>
+            </ol>
+        </nav>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-lg-8 mx-auto">
+        <div class="card">
+            <div class="card-header px-4 py-3 border-bottom">
+                <h5 class="card-title mb-0">Edit Quiz: {{ quiz.title }}</h5>
+            </div>
+            <div class="card-body p-4">
+                {{ form_start(form) }}
+                
+                <div class="mb-3">
+                    <label class="form-label">Quiz Title</label>
+                    {{ form_widget(form.title, {'attr': {'class': 'form-control'}}) }}
+                    <div class="text-danger">{{ form_errors(form.title) }}</div>
+                </div>
+
+                <div class="mb-3">
+                    <label class="form-label">Description</label>
+                    {{ form_widget(form.description, {'attr': {'class': 'form-control', 'rows': '3'}}) }}
+                    <div class="text-danger">{{ form_errors(form.description) }}</div>
+                </div>
+
+                <div class="row mb-3">
+                    <div class="col-md-6">
+                        <label class="form-label">Time Limit (Minutes)</label>
+                        {{ form_widget(form.timeLimit, {'attr': {'class': 'form-control'}}) }}
+                        <div class="text-danger">{{ form_errors(form.timeLimit) }}</div>
+                    </div>
+                    <div class="col-md-6">
+                        <label class="form-label">Total Score</label>
+                        {{ form_widget(form.totalScore, {'attr': {'class': 'form-control'}}) }}
+                        <div class="text-danger">{{ form_errors(form.totalScore) }}</div>
+                    </div>
+                </div>
+
+                <div class="d-flex align-items-center gap-3 mt-4">
+                    <a href="{{ path('app_admin_quiz_datatable') }}" class="btn btn-outline-secondary flex-fill">Cancel</a>
+                    <button type="submit" class="btn btn-primary flex-fill">Update Quiz</button>
+                </div>
+
+                {{ form_end(form) }}
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

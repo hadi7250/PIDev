@@ -1,0 +1,267 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Home | Braine Education{% endblock %}
+
+{% block body %}
+
+    <section class="slider-one">
+        <div class="main-slider swiper-container">
+            <div class="swiper-wrapper">
+
+                <div class="swiper-slide">
+                    <div class="slider-one_icon" style="background-image:url({{ asset('assets/front/images/main-slider/icon-1.png') }})"></div>
+                    <div class="slider-one_icon-two" style="background-image:url({{ asset('assets/front/images/main-slider/icon-1.png') }})"></div>
+                    <div class="slider-one_pattern" style="background-image:url({{ asset('assets/front/images/main-slider/pattern-1.png') }})"></div>
+                    <div class="slider-one_pattern-two" style="background-image:url({{ asset('assets/front/images/main-slider/pattern-2.png') }})"></div>
+                    <div class="slider-one_pattern-four" style="background-image:url({{ asset('assets/front/images/main-slider/pattern-4.png') }})"></div>
+                    <div class="auto-container">
+                        <div class="row clearfix">
+                            <div class="slider-one_content col-lg-7 col-md-12 col-sm-12">
+                                <div class="slider-one_content-inner">
+                                    <div class="slider-one_title"><i><img src="{{ asset('assets/front/images/main-slider/hand.png') }}" alt="" /></i> AI makes content fast & easy</div>
+                                    <h1 class="slider-one_heading">Present your ideas in captivating live pitch sessions.</h1>
+                                    <div class="slider-one_text">Shine in real time.</div>
+                                    <div class="slider-one_button d-flex align-items-center flex-wrap">
+                                        <a href="#" class="template-btn btn-style-one">
+                                            <span class="btn-wrap">
+                                                <span class="text-one">Get started free</span>
+                                                <span class="text-two">Get started free</span>
+                                            </span>
+                                        </a>
+                                        <div class="slider-one_video">
+                                            <a href="https://www.youtube.com/watch?v=kxPCFljwJws" class="lightbox-video play-box"><span class="fa fa-play"></span></a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="slider-one_image-column col-lg-5 col-md-12 col-sm-12">
+                                <div class="slider-one_pattern-three" style="background-image:url({{ asset('assets/front/images/main-slider/pattern-3.png') }})"></div>
+                                <div class="slider-one_image-outer">
+                                    <div class="slider-one_author">
+                                        <i><img src="{{ asset('assets/front/images/main-slider/icon-2.png') }}" alt="" /></i>
+                                        <h5 class="slider-one_author-name">Aarfaoui Yassine</h5>
+                                        <div class="slider-one_author-text">Social media manager</div>
+                                    </div>
+                                    <div class="slider-one_percentage">
+                                        <i class="fa-solid fa-arrow-up fa-fw"></i>
+                                        <div class="slider-one_percent">90<sub>%</sub></div>
+                                        <div class="slider-one_percentage-text">efficiency</div>
+                                    </div>
+                                    <div class="slider-one_graph">
+                                        <div class="slider-one_graph-title">Annual goal <span>$98,541 <sup><i class="fa-solid fa-caret-up fa-fw"></i>110%</sup></span></div>
+                                        <img src="{{ asset('assets/front/images/main-slider/graph.png') }}" alt="" />
+                                    </div>
+                                    <div class="slider-one_image">
+                                        <img src="{{ asset('assets/front/images/main-slider/image-1.png') }}" alt="" />
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <section class="services-one">
+        <div class="auto-container">
+            <div class="sec-title centered">
+                <div class="sec-title_title">Our Service</div>
+                <h2 class="sec-title_heading">Experience our latest <br> <span>new features</span></h2>
+            </div>
+            <div class="row clearfix">
+                <div class="service-block_one col-lg-4 col-md-6 col-sm-12">
+                    <div class="service-block_one-inner wow fadeInLeft" data-wow-delay="0ms" data-wow-duration="1500ms">
+                        <div class="service-block_one-icon">
+                            <i class="icon-speaker1"></i>
+                        </div>
+                        <h5 class="service-block_one-heading"><a href="#">Events</a></h5>
+                        <div class="service-block_one-text">Discover exciting events tailored to connect, inspire, and empower individuals.</div>
+                        <div class="lower-box d-flex justify-content-between align-items-center flex-wrap">
+                            <div class="service-block_one-number">01</div>
+                            <a class="service-block_one-join" href="#">Join now <i class="fa-solid fa-plus fa-fw"></i></a>
+                        </div>
+                    </div>
+                </div>
+                <div class="service-block_one col-lg-4 col-md-6 col-sm-12">
+                    <div class="service-block_one-inner wow fadeInUp" data-wow-delay="0ms" data-wow-duration="1500ms">
+                        <div class="service-block_one-icon">
+                            <i class="icon-marketing"></i>
+                        </div>
+                        <h5 class="service-block_one-heading"><a href="#">Feeds</a></h5>
+                        <div class="service-block_one-text">Stay updated with real-time feeds showcasing the latest news and insights.</div>
+                        <div class="lower-box d-flex justify-content-between align-items-center flex-wrap">
+                            <div class="service-block_one-number">02</div>
+                            <a class="service-block_one-join" href="#">Join now <i class="fa-solid fa-plus fa-fw"></i></a>
+                        </div>
+                    </div>
+                </div>
+                <div class="service-block_one col-lg-4 col-md-6 col-sm-12">
+                    <div class="service-block_one-inner wow fadeInRight" data-wow-delay="0ms" data-wow-duration="1500ms">
+                        <div class="service-block_one-icon">
+                            <i class="icon-users"></i>
+                        </div>
+                        <h5 class="service-block_one-heading"><a href="#">Quiz</a></h5>
+                        <div class="service-block_one-text">Test your knowledge and track your progress with interactive quizzes.</div>
+                        <div class="lower-box d-flex justify-content-between align-items-center flex-wrap">
+                            <div class="service-block_one-number">03</div>
+                            <a class="service-block_one-join" href="#">Join now <i class="fa-solid fa-plus fa-fw"></i></a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <section class="about-one">
+        <div class="about-one_pattern" style="background-image:url({{ asset('assets/front/images/background/about-pattern.png') }})"></div>
+        <div class="about-one_icon" style="background-image:url({{ asset('assets/front/images/icons/about-1.png') }})"></div>
+        <div class="about-one_icon-two" style="background-image:url({{ asset('assets/front/images/icons/about-2.png') }})"></div>
+        <div class="auto-container">
+            <div class="row clearfix">
+                <div class="about-one_tab-column col-xl-6 col-lg-6 col-md-12 col-sm-12">
+                    <div class="about-one_tab-outer">
+                        <div class="about-one_tab-shadow" style="background-image:url({{ asset('assets/front/images/background/tab-shadow.png') }})"></div>
+                        <div class="about-one_tab-image">
+                            <img src="{{ asset('assets/front/images/resource/tabs.png') }}" alt="" />
+                        </div>
+                    </div>
+                </div>
+                <div class="about-one_content-column col-xl-6 col-lg-6 col-md-12 col-sm-12">
+                    <div class="about-one_content-outer">
+                        <div class="sec-title">
+                            <div class="sec-title_title">About us</div>
+                            <h2 class="sec-title_heading"><span>what you need to Know</span></h2>
+                        </div>
+                        <p>At our platform, <span>entrepreneurs, investors, and students</span> we empower by combining expert-led courses, live pitch events, and a collaborative community.</p>
+                        <div class="about-one_options d-flex align-items-center flex-wrap">
+                            <a href="#" class="template-btn btn-style-one">
+                                <span class="btn-wrap">
+                                    <span class="text-one">Know more</span>
+                                    <span class="text-two">Know more</span>
+                                </span>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <section class="news-one">
+        <div class="news-one_shadow" style="background-image:url({{ asset('assets/front/images/background/news-shadow-1.png') }})"></div>
+        <div class="news-one_shadow-two" style="background-image:url({{ asset('assets/front/images/background/news-shadow-2.png') }})"></div>
+        <div class="auto-container">
+            <div class="sec-title title-anim centered">
+                <div class="sec-title_title">our courses</div>
+                <h2 class="sec-title_heading">join our latest <span>courses</span></h2>
+            </div>
+            
+            <div class="row clearfix">
+                {% for course in courses %}
+                    <div class="col-lg-4 col-md-6 col-sm-12">
+                        <div class="news-block_one">
+                            <div class="news-block_one-inner">
+                                <div class="news-block_one-image">
+                                    <a href="#"><img src="{{ asset('assets/front/images/resource/news-1.jpg') }}" alt="" /></a>
+                                </div>
+                                <div class="news-block_one-content">
+                                    <h5 class="news-block_one-title"><a href="#">{{ course.titre }}</a></h5>
+                                    <div class="news-block_one-text">{{ course.description }}</div>
+                                    <div class="news-block_one-button">
+                                        <a href="#" class="template-btn btn-style-two">
+                                            <span class="btn-wrap">
+                                                <span class="text-one">Details</span>
+                                                <span class="text-two">Details</span>
+                                            </span>
+                                        </a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                {% else %}
+                    <div class="col-12 text-center">
+                        <p>No courses found in the database.</p>
+                    </div>
+                {% endfor %}
+            </div>
+        </div>
+    </section>
+    <section class="steps-one">
+        <div class="steps-one_bg" style="background-image:url({{ asset('assets/front/images/background/step-1_bg.png') }})"></div>
+        <div class="steps-one_icon" style="background-image:url({{ asset('assets/front/images/icons/step.png') }})"></div>
+        <div class="auto-container">
+            <div class="inner-container">
+                <div class="circle-layer"></div>
+                <div class="dots-layer">
+                    <span class="dot-one"></span>
+                    <span class="dot-two"></span>
+                </div>
+                <div class="sec-title">
+                    <div class="sec-title_title">How its work</div>
+                    <h2 class="sec-title_heading">Braine <span>typically operate</span> in <br> a three steps</h2>
+                </div>
+                <div class="row clearfix">
+                    <div class="column col-lg-6 col-md-12 col-sm-12">
+                        <div class="step-block_one">
+                            <div class="step-block_one-inner">
+                                <div class="step-block_one-steps">step 01</div>
+                                <h5 class="step-block_one-title">Join the Community</h5>
+                                <div class="step-block_one-text">Sign up as an entrepreneur, investor, or student.</div>
+                                <div class="step-block_one-content">
+                                    <div class="image"><img src="{{ asset('assets/front/images/resource/step-1.png') }}" alt="" /></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="column col-lg-6 col-md-12 col-sm-12">
+                        <div class="step-block_one">
+                            <div class="step-block_one-inner">
+                                <div class="step-block_one-steps">step 02</div>
+                                <h5 class="step-block_one-title">Learn & Prepare</h5>
+                                <div class="step-block_one-text">Explore e-learning courses and take quizzes.</div>
+                                <div class="step-block_one-content">
+                                    <div class="image"><img src="{{ asset('assets/front/images/resource/step-2.png') }}" alt="" /></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <section class="cta-one">
+        <div class="auto-container">
+            <div class="inner-container">
+                <div class="cta-icon_one" style="background-image:url({{ asset('assets/front/images/icons/cta-icon-1.png') }})"></div>
+                <div class="cta-icon_two" style="background-image:url({{ asset('assets/front/images/icons/cta-icon-2.png') }})"></div>
+                <div class="cta-one_card">
+                    <img src="{{ asset('assets/front/images/icons/cta-card.png') }}" alt="" />
+                </div>
+                <div class="row clearfix">
+                    <div class="cta-one_title-column col-lg-6 col-md-12 col-sm-12">
+                        <div class="cta-one_title-outer">
+                            <h2 class="cta-one_title">Craft your great <span> future</span></h2>
+                            <div class="cta-one_button">
+                                <a href="#" class="template-btn btn-style-three">
+                                    <span class="btn-wrap">
+                                        <span class="text-one">Get started free</span>
+                                        <span class="text-two">Get started free</span>
+                                    </span>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="cta-one_image-column col-lg-6 col-md-12 col-sm-12">
+                        <div class="cta-one_image-outer">
+                            <div class="cta-one_cards">
+                                <img src="{{ asset('assets/front/images/icons/cta-cards.png') }}" alt="" />
+                            </div>
+                            <div class="image">
+                                <img src="{{ asset('assets/front/images/resource/cta.png') }}" alt="" />
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    {% endblock %}

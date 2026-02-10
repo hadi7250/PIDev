@@ -1,0 +1,50 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}{{ quiz.title }}{% endblock %}
+
+{% block body %}
+<div class="container mt-5">
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+            <div class="card shadow-lg p-4 border-0">
+                <div class="text-center mb-4">
+                    <h1 class="display-5 fw-bold text-primary">{{ quiz.title }}</h1>
+                    <span class="badge bg-warning text-dark fs-6">{{ quiz.timeLimit }} Minutes</span>
+                </div>
+
+                <div class="mb-4">
+                    <h5 class="text-muted">Description</h5>
+                    <p class="lead">{{ quiz.description }}</p>
+                </div>
+
+                <div class="row text-center mb-4 g-3">
+                    <div class="col-6">
+                        <div class="p-3 bg-light rounded border">
+                            <h3 class="fw-bold">{{ quiz.questions|length }}</h3>
+                            <small class="text-muted">Questions</small>
+                        </div>
+                    </div>
+                    <div class="col-6">
+                        <div class="p-3 bg-light rounded border">
+                            <h3 class="fw-bold">{{ quiz.totalScore }}</h3>
+                            <small class="text-muted">Total Points</small>
+                        </div>
+                    </div>
+                </div>
+
+                <form action="{{ path('app_quiz_start', {'id': quiz.id}) }}" method="POST">
+                    <button type="submit" class="btn btn-primary w-100 py-3 fs-5 fw-bold shadow">
+                        Start Quiz Now 🚀
+                    </button>
+                </form>
+
+                <div class="text-center mt-3">
+                    <a href="{{ path('app_quiz_index') }}" class="text-decoration-none text-secondary">
+                        ← Back to Quiz List
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

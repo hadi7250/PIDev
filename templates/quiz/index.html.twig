@@ -1,0 +1,96 @@
+<?php
+
+namespace App\Controller;
+
+use App\Entity\Attempt;
+use App\Entity\Quiz;
+use App\Repository\QuizRepository;
+use Doctrine\ORM\EntityManagerInterface;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\Routing\Annotation\Route;
+
+#[Route('/quiz')]
+class QuizController extends AbstractController
+{
+    #[Route('/', name: 'app_quiz_index', methods: ['GET'])]
+    public function index(QuizRepository $quizRepository): Response
+    {
+        // This MUST match the file location: templates/quiz/index.html.twig
+        return $this->render('quiz/index.html.twig', [
+            'quizzes' => $quizRepository->findAll(),
+        ]);
+    }
+
+    #[Route('/{id}', name: 'app_quiz_show', methods: ['GET'])]
+    public function show(Quiz $quiz): Response
+    {
+        return $this->render('quiz/show.html.twig', [
+            'quiz' => $quiz,
+        ]);
+    }
+
+    #[Route('/{id}/start', name: 'app_quiz_start', methods: ['POST'])]
+    public function start(Quiz $quiz, EntityManagerInterface $em): Response
+    {
+        $attempt = new Attempt();
+        $attempt->setQuiz($quiz);
+        // Removed setStartedAt to prevent crashing if the column doesn't exist
+
+        $em->persist($attempt);
+        $em->flush();
+
+        return $this->redirectToRoute('app_quiz_take', ['id' => $attempt->getId()]);
+    }
+
+    #[Route('/attempt/{id}', name: 'app_quiz_take', methods: ['GET', 'POST'])]
+    public function take(Attempt $attempt, Request $request, EntityManagerInterface $em): Response
+    {
+        // If the attempt already has a score, show the result immediately
+        if ($attempt->getScore() !== null) { 
+            return $this->redirectToRoute('app_quiz_result', ['id' => $attempt->getId()]);
+        }
+
+        $quiz = $attempt->getQuiz();
+
+        if ($request->isMethod('POST')) {
+            $submittedAnswers = $request->request->all();
+            $score = 0;
+            
+            // Calculate Score
+            foreach ($quiz->getQuestions() as $question) {
+                $inputName = 'q_' . $question->getId();
+                if (isset($submittedAnswers[$inputName])) {
+                    // Compare submitted answer with correct answer
+                    if ($submittedAnswers[$inputName] === $question->getCorrectAnswer()) {
+                        $score += $question->getPoints();
+                    }
+                }
+            }
+
+            // Save Result
+            $attempt->setScore($score);
+            // $attempt->setCompletedAt(new \DateTimeImmutable()); // Uncomment only if you have this column
+            
+            $em->flush();
+
+            return $this->redirectToRoute('app_quiz_result', ['id' => $attempt->getId()]);
+        }
+
+        return $this->render('quiz/take.html.twig', [
+            'attempt' => $attempt,
+            'quiz' => $quiz,
+            'questions' => $quiz->getQuestions(),
+        ]);
+    }
+
+    #[Route('/result/{id}', name: 'app_quiz_result', methods: ['GET'])]
+    public function result(Attempt $attempt): Response
+    {
+        return $this->render('quiz/result.html.twig', [
+            'attempt' => $attempt,
+            'quiz' => $attempt->getQuiz(),
+        ]);
+    }
+}
