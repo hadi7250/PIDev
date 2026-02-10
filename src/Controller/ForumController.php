@@ -52,11 +52,6 @@ class ForumController extends AbstractController
             $entityManager->flush();
             $this->addFlash('success', 'Discussion created successfully!');
             return $this->redirectToRoute('app_forum_discussions');
-        } elseif ($form->isSubmitted()) {
-            // Add error messages for debugging
-            foreach ($form->getErrors(true) as $error) {
-                $this->addFlash('error', $error->getMessage());
-            }
         }
 
         $search = $request->query->get('search');
@@ -131,6 +126,35 @@ class ForumController extends AbstractController
             'category' => $category,
             'discussions' => $discussions,
         ]);
+    }
+
+    #[Route('/test-no-html5', name: 'app_forum_test_no_html5', methods: ['GET'])]
+    public function testNoHtml5(Request $request, DiscussionRepository $discussionRepository, CategoryRepository $categoryRepository, EntityManagerInterface $entityManager): Response
+    {
+        $discussion = new Discussion();
+        $form = $this->createForm(DiscussionType::class, $discussion);
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            if ($discussion->getCreatedAt() === null) {
+                $discussion->setCreatedAt(new \DateTime());
+            }
+            
+            $entityManager->persist($discussion);
+            $entityManager->flush();
+            $this->addFlash('success', 'Form submitted successfully with server-side validation only!');
+            return $this->redirectToRoute('app_forum_test_no_html5');
+        }
+
+        return $this->render('forum/test-no-html5.html.twig', [
+            'form' => $form->createView(),
+        ]);
+    }
+
+    #[Route('/validation-test', name: 'app_forum_validation_test', methods: ['GET'])]
+    public function validationTest(): Response
+    {
+        return $this->render('forum/validation_test.html.twig');
     }
 
     #[Route('/test', name: 'app_forum_test', methods: ['GET'])]

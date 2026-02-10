@@ -21,12 +21,8 @@ class Message
 
     #[ORM\Column(name: 'forum_message_author_name', type: 'string', length: 255)]
     #[Assert\NotBlank(message: 'Please enter your name')]
-    #[Assert\Length(max: 255, maxMessage: 'Name cannot be longer than {{ limit }} characters')]
+    #[Assert\Length(min: 2, max: 255, minMessage: 'Name must be at least {{ limit }} characters', maxMessage: 'Name cannot be longer than {{ limit }} characters')]
     private ?string $authorName = null;
-
-    #[ORM\Column(name: 'forum_message_author_email', type: 'string', length: 255, nullable: true)]
-    #[Assert\Email(message: 'Please enter a valid email address')]
-    private ?string $authorEmail = null;
 
     #[ORM\Column(name: 'forum_message_is_author', type: 'boolean')]
     private bool $isAuthor = false;

@@ -22,7 +22,9 @@ class DiscussionType extends AbstractType
                 'label' => 'Discussion Title',
                 'attr' => [
                     'class' => 'form-control',
-                    'placeholder' => 'Enter discussion title'
+                    'placeholder' => 'Enter discussion title',
+                    'autocomplete' => 'off',
+                    'novalidate' => 'novalidate'
                 ],
                 'required' => false
             ])
@@ -31,7 +33,9 @@ class DiscussionType extends AbstractType
                 'attr' => [
                     'class' => 'form-control',
                     'rows' => 6,
-                    'placeholder' => 'Enter discussion content'
+                    'placeholder' => 'Enter discussion content',
+                    'autocomplete' => 'off',
+                    'novalidate' => 'novalidate'
                 ],
                 'required' => false
             ])
@@ -39,17 +43,11 @@ class DiscussionType extends AbstractType
                 'label' => 'Your Name',
                 'attr' => [
                     'class' => 'form-control',
-                    'placeholder' => 'Enter your name'
+                    'placeholder' => 'Enter your name',
+                    'autocomplete' => 'off',
+                    'novalidate' => 'novalidate'
                 ],
                 'required' => false
-            ])
-            ->add('authorEmail', EmailType::class, [
-                'label' => 'Email (optional)',
-                'required' => false,
-                'attr' => [
-                    'class' => 'form-control',
-                    'placeholder' => 'Enter your email'
-                ]
             ])
             ->add('category', EntityType::class, [
                 'label' => 'Category',

@@ -1,0 +1,107 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}No HTML5 Validation Test{% endblock %}
+
+{% block body %}
+<!-- Page Title -->
+<section class="page-title">
+    <div class="auto-container">
+        <h2>No HTML5 Validation Test</h2>
+    </div>
+</section>
+
+<div class="sidebar-page-container">
+    <div class="auto-container">
+        <div class="row clearfix">
+            <div class="content-side col-lg-8 col-md-12 col-sm-12">
+                <div class="blog-classic">
+                    <div class="alert alert-success">
+                        <h5>✅ HTML5 Validation Completely Disabled!</h5>
+                        <p>This form should NOT show any HTML5 validation messages.</p>
+                        <ul>
+                            <li>✅ No "Please include an '@' in email address" messages</li>
+                            <li>✅ No orange validation bubbles</li>
+                            <li>✅ No browser validation popups</li>
+                            <li>✅ Only server-side validation</li>
+                        </ul>
+                    </div>
+                    
+                    <!-- Flash Messages -->
+                    {% for message in app.flashes('success') %}
+                    <div class="alert alert-success alert-dismissible fade show" role="alert">
+                        {{ message }}
+                        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                    </div>
+                    {% endfor %}
+                    
+                    {% for message in app.flashes('error') %}
+                    <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                        {{ message }}
+                        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                    </div>
+                    {% endfor %}
+                    
+                    <!-- Test Form -->
+                    <div class="post-form mb-5" style="background: rgba(0,0,0,0.8); padding: 20px; border-radius: 8px;">
+                        <h3 style="color: #fff; margin-bottom: 20px;">Test Form (No HTML5 Validation)</h3>
+                        {{ form_start(form, {'attr': {'novalidate': 'novalidate', 'autocomplete': 'off'}}) }}
+                        <div class="row g-3">
+                            <div class="col-12">
+                                <label style="color: #fff; font-weight: bold; display: block; margin-bottom: 10px; font-size: 16px;">Title (try empty):</label>
+                                {{ form_widget(form.title) }}
+                                {% if form_errors(form.title) %}
+                                    <div style="color: #ff6b6b; margin-top: 8px; font-size: 14px; background: rgba(255,255,255,0.9); padding: 8px; border-radius: 4px;">
+                                        {{ form_errors(form.title) }}
+                                    </div>
+                                {% endif %}
+                            </div>
+                            <div class="col-12">
+                                <label style="color: #fff; font-weight: bold; display: block; margin-bottom: 10px; font-size: 16px;">Content (try empty):</label>
+                                {{ form_widget(form.content) }}
+                                {% if form_errors(form.content) %}
+                                    <div style="color: #ff6b6b; margin-top: 8px; font-size: 14px; background: rgba(255,255,255,0.9); padding: 8px; border-radius: 4px;">
+                                        {{ form_errors(form.content) }}
+                                    </div>
+                                {% endif %}
+                            </div>
+                            <div class="col-md-6">
+                                <label style="color: #fff; font-weight: bold; display: block; margin-bottom: 10px; font-size: 16px;">Name (try empty):</label>
+                                {{ form_widget(form.authorName) }}
+                                {% if form_errors(form.authorName) %}
+                                    <div style="color: #ff6b6b; margin-top: 8px; font-size: 14px; background: rgba(255,255,255,0.9); padding: 8px; border-radius: 4px;">
+                                        {{ form_errors(form.authorName) }}
+                                    </div>
+                                {% endif %}
+                            </div>
+                            <div class="col-md-6">
+                                <label style="color: #fff; font-weight: bold; display: block; margin-bottom: 10px; font-size: 16px;">Category:</label>
+                                {{ form_widget(form.category) }}
+                                {% if form_errors(form.category) %}
+                                    <div style="color: #ff6b6b; margin-top: 8px; font-size: 14px; background: rgba(255,255,255,0.9); padding: 8px; border-radius: 4px;">
+                                        {{ form_errors(form.category) }}
+                                    </div>
+                                {% endif %}
+                            </div>
+                            <div class="col-12">
+                                <button type="submit" class="btn btn-primary" style="background: #007bff; border: none; padding: 12px 24px; font-size: 16px; font-weight: bold;">Submit (Server Will Validate)</button>
+                            </div>
+                        </div>
+                        {{ form_end(form) }}
+                    </div>
+                    
+                    <div class="alert alert-info">
+                        <h5>🧪 Test Instructions:</h5>
+                        <ol>
+                            <li>Try submitting empty form - should work without HTML5 errors</li>
+                            <li>Try empty name - should show server red error</li>
+                            <li>Try empty title - should show server red error</li>
+                            <li>Check browser console - should see "HTML5 validation disabled"</li>
+                            <li>Only server validation should show errors (red text)</li>
+                        </ol>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

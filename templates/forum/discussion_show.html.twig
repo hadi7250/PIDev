@@ -86,27 +86,35 @@
                         
                         <!-- Add Message Form -->
                         {% if not discussion.isLocked %}
-                        <div class="comment-form">
-                            <h5>Add a Message</h5>
-                            {{ form_start(form) }}
+                        <div class="comment-form" style="background: rgba(0,0,0,0.8); padding: 20px; border-radius: 8px;">
+                            <h5 style="color: #fff; margin-bottom: 15px;">Add a Message</h5>
+                            {{ form_start(form, {'attr': {'novalidate': 'novalidate', 'autocomplete': 'off'}}) }}
                             <div class="row g-3">
                                 <div class="col-12">
-                                    {{ form_label(form.content) }}
+                                    <label style="color: #fff; font-weight: bold; display: block; margin-bottom: 10px; font-size: 16px;">{{ form_label(form.content) }}</label>
                                     {{ form_widget(form.content) }}
-                                    {{ form_errors(form.content) }}
+                                    {% if form_errors(form.content) %}
+                                        <div style="color: #ff6b6b; margin-top: 8px; font-size: 14px; background: rgba(255,255,255,0.9); padding: 8px; border-radius: 4px;">
+                                            {{ form_errors(form.content) }}
+                                        </div>
+                                    {% endif %}
                                 </div>
                                 <div class="col-md-6">
-                                    {{ form_label(form.authorName) }}
+                                    <label style="color: #fff; font-weight: bold; display: block; margin-bottom: 10px; font-size: 16px;">{{ form_label(form.authorName) }}</label>
                                     {{ form_widget(form.authorName) }}
-                                    {{ form_errors(form.authorName) }}
+                                    {% if form_errors(form.authorName) %}
+                                        <div style="color: #ff6b6b; margin-top: 8px; font-size: 14px; background: rgba(255,255,255,0.9); padding: 8px; border-radius: 4px;">
+                                            {{ form_errors(form.authorName) }}
+                                        </div>
+                                    {% endif %}
                                 </div>
                                 <div class="col-md-6">
-                                    {{ form_label(form.authorEmail) }}
-                                    {{ form_widget(form.authorEmail) }}
-                                    {{ form_errors(form.authorEmail) }}
+                                    <label style="color: #fff; font-weight: bold; display: block; margin-bottom: 10px; font-size: 16px;">Admin Options:</label>
+                                    {{ form_widget(form.isAuthor, {'attr': {'class': 'form-check-input', 'style': 'margin-right: 8px;'}}) }}
+                                    {{ form_label(form.isAuthor, {'label_attr': {'style': 'color: #fff; font-weight: normal;'}}) }}
                                 </div>
                                 <div class="col-12">
-                                    <button type="submit" class="btn btn-primary">Post Message</button>
+                                    <button type="submit" class="btn btn-primary" style="background: #007bff; border: none; padding: 12px 24px; font-size: 16px; font-weight: bold;">Post Message</button>
                                 </div>
                             </div>
                             {{ form_end(form) }}

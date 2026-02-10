@@ -1,0 +1,172 @@
+<!doctype html>
+<html lang="en" data-bs-theme="blue-theme">
+
+<head>
+  <meta charset="utf-8">
+  <title>{% block title %}Forum Admin{% endblock %}</title>
+  <!--favicon-->
+  <link rel="icon" href="{{ asset('projetweb/Back_Office/assets/images/favicon-32x32.png') }}" type="image/png">
+  <!-- loader-->
+	<link href="{{ asset('projetweb/Back_Office/assets/css/pace.min.css') }}" rel="stylesheet">
+	<script src="{{ asset('projetweb/Back_Office/assets/js/pace.min.js') }}"></script>
+
+  <!--plugins-->
+  <link href="{{ asset('projetweb/Back_Office/assets/plugins/perfect-scrollbar/css/perfect-scrollbar.css') }}" rel="stylesheet">
+  <link rel="stylesheet" type="text/css" href="{{ asset('projetweb/Back_Office/assets/plugins/metismenu/metisMenu.min.css') }}">
+  <link rel="stylesheet" type="text/css" href="{{ asset('projetweb/Back_Office/assets/plugins/metismenu/mm-vertical.css') }}">
+  <link rel="stylesheet" type="text/css" href="{{ asset('projetweb/Back_Office/assets/plugins/simplebar/css/simplebar.css') }}">
+  <!--bootstrap css-->
+  <link href="{{ asset('projetweb/Back_Office/assets/css/bootstrap.min.css') }}" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css?family=Material+Icons+Outlined" rel="stylesheet">
+  <!--main css-->
+  <link href="{{ asset('projetweb/Back_Office/assets/css/bootstrap-extended.css') }}" rel="stylesheet">
+  <link href="{{ asset('projetweb/Back_Office/sass/main.css') }}" rel="stylesheet">
+  <link href="{{ asset('projetweb/Back_Office/sass/dark-theme.css') }}" rel="stylesheet">
+  <link href="{{ asset('projetweb/Back_Office/sass/blue-theme.css') }}" rel="stylesheet">
+  <link href="{{ asset('projetweb/Back_Office/sass/semi-dark.css') }}" rel="stylesheet">
+  <link href="{{ asset('projetweb/Back_Office/sass/bordered-theme.css') }}" rel="stylesheet">
+  <link href="{{ asset('projetweb/Back_Office/sass/responsive.css') }}" rel="stylesheet">
+
+</head>
+
+<body>
+
+  <!--start header-->
+  <header class="top-header">
+    <nav class="navbar navbar-expand align-items-center gap-4">
+      <div class="btn-toggle">
+        <a href="javascript:;"><i class="material-icons-outlined">menu</i></a>
+      </div>
+      <div class="search-bar flex-grow-1">
+        <div class="position-relative">
+          <input class="form-control rounded-5 px-5 search-control d-lg-block d-none" type="text" placeholder="Search">
+          <span class="material-icons-outlined position-absolute d-lg-block d-none ms-3 translate-middle-y start-0 top-50">search</span>
+          <span class="material-icons-outlined position-absolute me-3 translate-middle-y end-0 top-50 search-close">close</span>
+        </div>
+      </div>
+      <div class="header-misc">
+        <button class="btn btn-light btn-sm rounded-circle d-inline-flex align-items-center" type="button">
+          <span class="material-icons-outlined">light_mode</span>
+        </button>
+        <button class="btn btn-light btn-sm rounded-circle d-inline-flex align-items-center" type="button">
+          <span class="material-icons-outlined">language</span>
+        </button>
+        <div class="dropdown">
+          <button class="btn btn-light p-0 rounded-circle dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+            <img src="{{ asset('projetweb/Back_Office/assets/images/avatars/01.png') }}" class="avatar-xs rounded-circle" alt="">
+          </button>
+          <div class="dropdown-menu dropdown-menu-end">
+            <div class="mx-3">
+              <div class="d-flex align-items-center">
+                <img src="{{ asset('projetweb/Back_Office/assets/images/avatars/01.png') }}" class="avatar-sm rounded-circle" alt="">
+                <div class="ms-3">
+                  <h6 class="mb-0 fw-semibold">Admin User</h6>
+                  <small class="text-muted mb-0">Administrator</small>
+                </div>
+              </div>
+            </div>
+            <div class="dropdown-divider"></div>
+            <a class="dropdown-item" href="javascript:;"><i class="material-icons-outlined me-2">person</i>Profile</a>
+            <a class="dropdown-item" href="javascript:;"><i class="material-icons-outlined me-2">settings</i>Settings</a>
+            <a class="dropdown-item" href="javascript:;"><i class="material-icons-outlined me-2">logout</i>Logout</a>
+          </div>
+        </div>
+      </div>
+    </nav>
+  </header>
+  <!--end top header-->
+
+   <!--start sidebar-->
+   <aside class="sidebar-wrapper" data-simplebar="true">
+    <div class="sidebar-header">
+      <div class="logo-icon">
+        <img src="{{ asset('projetweb/Back_Office/assets/images/logo-icon.png') }}" class="logo-img" alt="">
+      </div>
+      <div class="logo-name flex-grow-1">
+        <h5 class="mb-0">Forum Admin</h5>
+      </div>
+      <div class="sidebar-close">
+        <span class="material-icons-outlined">close</span>
+      </div>
+    </div>
+    <div class="sidebar-nav">
+        <!--navigation-->
+        <ul class="metismenu" id="sidenav">
+          <li class="mm-active">
+            <a href="{{ path('admin_dashboard') }}" class="has-arrow">
+              <div class="parent-icon"><i class="material-icons-outlined">home</i></div>
+              <div class="menu-title">Dashboard</div>
+            </a>
+          </li>
+          <li>
+            <a href="{{ path('admin_forum_categories') }}" class="has-arrow">
+              <div class="parent-icon"><i class="material-icons-outlined">category</i></div>
+              <div class="menu-title">Categories</div>
+            </a>
+          </li>
+          <li>
+            <a href="{{ path('admin_forum_discussions') }}" class="has-arrow">
+              <div class="parent-icon"><i class="material-icons-outlined">forum</i></div>
+              <div class="menu-title">Discussions</div>
+            </a>
+          </li>
+          <li>
+            <a href="{{ path('admin_forum_messages') }}" class="has-arrow">
+              <div class="parent-icon"><i class="material-icons-outlined">chat</i></div>
+              <div class="menu-title">Messages</div>
+            </a>
+          </li>
+          <li>
+            <a href="{{ path('app_forum_index') }}" class="has-arrow" target="_blank">
+              <div class="parent-icon"><i class="material-icons-outlined">visibility</i></div>
+              <div class="menu-title">View Forum</div>
+            </a>
+          </li>
+        </ul>
+        <!--end navigation-->
+    </div>
+  </aside>
+<!--end sidebar-->
+
+  <!--start main wrapper-->
+  <main class="main-wrapper">
+    <div class="main-content">
+      <!--breadcrumb-->
+			<div class="page-breadcrumb d-none d-sm-flex align-items-center mb-3">
+				<div class="breadcrumb-title pe-3">{% block breadcrumb %}Dashboard{% endblock %}</div>
+				<div class="ps-3">
+					<nav aria-label="breadcrumb">
+						<ol class="breadcrumb mb-0 p-0">
+							<li class="breadcrumb-item"><a href="{{ path('admin_dashboard') }}"><i class="material-icons-outlined">home</i></a></li>
+							<li class="breadcrumb-item active" aria-current="page">{% block breadcrumb_active %}Dashboard{% endblock %}</li>
+						</ol>
+					</nav>
+				</div>
+			</div>
+      <!--end breadcrumb-->
+      
+      {% block body %}{% endblock %}
+    </div>
+  </main>
+  <!--end main wrapper-->
+
+  <!--start overlay-->
+  <div class="overlay"></div>
+  <!--end overlay-->
+
+  <!--start back to top button-->
+  <button class="back-to-top"><i class="material-icons-outlined">arrow_upward</i></button>
+  <!--end back to top button-->
+
+  <!--start scripts-->
+  <script src="{{ asset('projetweb/Back_Office/assets/js/bootstrap.bundle.min.js') }}"></script>
+  <script src="{{ asset('projetweb/Back_Office/assets/plugins/perfect-scrollbar/js/perfect-scrollbar.js') }}"></script>
+  <script src="{{ asset('projetweb/Back_Office/assets/plugins/metismenu/metisMenu.min.js') }}"></script>
+  <script src="{{ asset('projetweb/Back_Office/assets/plugins/simplebar/js/simplebar.min.js') }}"></script>
+  <script src="{{ asset('projetweb/Back_Office/assets/js/main.js') }}"></script>
+
+  {% block javascripts %}{% endblock %}
+</body>
+
+</html>

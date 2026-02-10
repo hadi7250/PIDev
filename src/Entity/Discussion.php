@@ -28,12 +28,8 @@ class Discussion
 
     #[ORM\Column(name: 'forum_discussion_author_name', type: 'string', length: 255)]
     #[Assert\NotBlank(message: 'Please enter your name')]
-    #[Assert\Length(max: 255, maxMessage: 'Name cannot be longer than {{ limit }} characters')]
+    #[Assert\Length(min: 2, max: 255, minMessage: 'Name must be at least {{ limit }} characters', maxMessage: 'Name cannot be longer than {{ limit }} characters')]
     private ?string $authorName = null;
-
-    #[ORM\Column(name: 'forum_discussion_author_email', type: 'string', length: 255, nullable: true)]
-    #[Assert\Email(message: 'Please enter a valid email address')]
-    private ?string $authorEmail = null;
 
     #[ORM\Column(name: 'forum_discussion_is_pinned', type: 'boolean')]
     private bool $isPinned = false;
@@ -98,17 +94,6 @@ class Discussion
     public function setAuthorName(string $authorName): static
     {
         $this->authorName = $authorName;
-        return $this;
-    }
-
-    public function getAuthorEmail(): ?string
-    {
-        return $this->authorEmail;
-    }
-
-    public function setAuthorEmail(?string $authorEmail): static
-    {
-        $this->authorEmail = $authorEmail;
         return $this;
     }
 

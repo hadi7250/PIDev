@@ -21,7 +21,9 @@ class MessageType extends AbstractType
                 'attr' => [
                     'class' => 'form-control',
                     'rows' => 4,
-                    'placeholder' => 'Enter your message'
+                    'placeholder' => 'Enter your message',
+                    'autocomplete' => 'off',
+                    'novalidate' => 'novalidate'
                 ],
                 'required' => false
             ])
@@ -29,7 +31,9 @@ class MessageType extends AbstractType
                 'label' => 'Your Name',
                 'attr' => [
                     'class' => 'form-control',
-                    'placeholder' => 'Enter your name'
+                    'placeholder' => 'Enter your name',
+                    'autocomplete' => 'off',
+                    'novalidate' => 'novalidate'
                 ],
                 'required' => false
             ])
