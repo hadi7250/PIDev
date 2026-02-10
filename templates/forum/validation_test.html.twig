@@ -1,0 +1,138 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Form Validation Test{% endblock %}
+
+{% block body %}
+<!-- Page Title -->
+<section class="page-title">
+    <div class="page-title-icon" style="background-image:url({{ asset('assets/front/images/icons/page-title_icon-1.png') }})"></div>
+    <div class="page-title-icon-two" style="background-image:url({{ asset('assets/front/images/icons/page-title_icon-2.png') }})"></div>
+    <div class="page-title-shadow" style="background-image:url({{ asset('assets/front/images/background/page-title-1.png') }})"></div>
+    <div class="page-title-shadow_two" style="background-image:url({{ asset('assets/front/images/background/page-title-2.png') }})"></div>
+    <div class="auto-container">
+        <h2>Form Validation Test</h2>
+        <ul class="bread-crumb clearfix">
+            <li><a href="{{ path('app_forum_index') }}">Home</a></li>
+            <li>Validation Test</li>
+        </ul>
+    </div>
+</section>
+<!-- End Page Title -->
+
+<!-- Sidebar Page Container -->
+<div class="sidebar-page-container">
+    <div class="auto-container">
+        <div class="row clearfix">
+            <!-- Content Side -->
+            <div class="content-side col-lg-8 col-md-12 col-sm-12">
+                <div class="blog-classic">
+                    <div class="alert alert-info">
+                        <h5>✅ Server-Side Validation Only!</h5>
+                        <p>This form uses server-side validation only - no HTML5 validation attributes.</p>
+                        <ul>
+                            <li>✅ No 'required' attributes</li>
+                            <li>✅ No HTML5 validation</li>
+                            <li>✅ Server-side validation only</li>
+                            <li>✅ No Node.js dependencies</li>
+                        </ul>
+                    </div>
+                    
+                    <!-- Flash Messages -->
+                    {% for message in app.flashes('success') %}
+                    <div class="alert alert-success alert-dismissible fade show" role="alert">
+                        {{ message }}
+                        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                    </div>
+                    {% endfor %}
+                    
+                    {% for message in app.flashes('error') %}
+                    <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                        {{ message }}
+                        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                    </div>
+                    {% endfor %}
+                    
+                    <!-- Test Form -->
+                    <div class="post-form mb-5">
+                        <h3>Test Discussion Form</h3>
+                        <form method="post" action="{{ path('app_forum_discussions') }}" novalidate>
+                            <div class="row g-3">
+                                <div class="col-12">
+                                    <label for="test_title" class="form-label">Discussion Title</label>
+                                    <input type="text" id="test_title" name="discussion[title]" class="form-control" placeholder="Enter discussion title">
+                                    <small class="text-muted">No HTML5 validation - server will validate</small>
+                                </div>
+                                <div class="col-12">
+                                    <label for="test_content" class="form-label">Content</label>
+                                    <textarea id="test_content" name="discussion[content]" class="form-control" rows="6" placeholder="Enter discussion content"></textarea>
+                                    <small class="text-muted">No HTML5 validation - server will validate</small>
+                                </div>
+                                <div class="col-md-6">
+                                    <label for="test_author" class="form-label">Your Name</label>
+                                    <input type="text" id="test_author" name="discussion[authorName]" class="form-control" placeholder="Enter your name">
+                                    <small class="text-muted">No HTML5 validation - server will validate</small>
+                                </div>
+                                <div class="col-md-6">
+                                    <label for="test_email" class="form-label">Email (optional)</label>
+                                    <input type="email" id="test_email" name="discussion[authorEmail]" class="form-control" placeholder="Enter your email">
+                                    <small class="text-muted">No HTML5 validation - server will validate</small>
+                                </div>
+                                <div class="col-12">
+                                    <button type="submit" class="btn btn-primary">Test Submit (Server Will Validate)</button>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                    
+                    <div class="alert alert-warning">
+                        <h5>🧪 Test Instructions:</h5>
+                        <ol>
+                            <li>Try submitting empty form - server should show validation errors</li>
+                            <li>Try submitting with valid data - should work</li>
+                            <li>Check browser console - no HTML5 validation errors</li>
+                            <li>All validation happens on server-side</li>
+                        </ol>
+                    </div>
+                    
+                    <div class="text-center">
+                        <a href="{{ path('app_forum_discussions') }}" class="btn btn-success">Go to Real Discussion Form</a>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Sidebar Side -->
+            <div class="sidebar-side col-lg-4 col-md-12 col-sm-12">
+                <aside class="sidebar">
+                    <div class="sidebar-inner">
+                        <!-- Validation Info -->
+                        <div class="sidebar-widget">
+                            <div class="widget-content">
+                                <h5 class="sidebar-widget_title">Validation Method</h5>
+                                <div class="alert alert-success">
+                                    <strong>✅ Server-Side Only</strong><br>
+                                    No HTML5 validation<br>
+                                    No Node.js dependencies<br>
+                                    Symfony Validator only
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- Quick Links -->
+                        <div class="sidebar-widget">
+                            <div class="widget-content">
+                                <h5 class="sidebar-widget_title">Quick Links</h5>
+                                <div class="d-grid gap-2">
+                                    <a href="{{ path('app_forum_index') }}" class="btn btn-outline-primary btn-sm">Forum Home</a>
+                                    <a href="{{ path('app_forum_discussions') }}" class="btn btn-outline-primary btn-sm">Discussions</a>
+                                    <a href="{{ path('app_forum_categories') }}" class="btn btn-outline-primary btn-sm">Categories</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </aside>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- End Sidebar Page Container -->
+{% endblock %}
