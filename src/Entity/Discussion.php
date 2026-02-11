@@ -2,6 +2,8 @@
 
 namespace App\Entity;
 
+use App\Entity\Category;
+use App\Entity\User;
 use App\Repository\DiscussionRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
@@ -46,11 +48,15 @@ class Discussion
     #[ORM\Column(name: 'forum_discussion_updated_at', type: 'datetime', nullable: true)]
     private ?\DateTimeInterface $updatedAt = null;
 
-    #[ORM\ManyToOne(inversedBy: 'discussions')]
+    #[ORM\ManyToOne(targetEntity: Category::class)]
     #[ORM\JoinColumn(name: 'id_forum_category', referencedColumnName: 'id_forum_category', nullable: true)]
     private ?Category $category = null;
 
-    #[ORM\OneToMany(mappedBy: 'discussion', targetEntity: Message::class)]
+    #[ORM\ManyToOne(targetEntity: User::class)]
+    #[ORM\JoinColumn(name: 'id_user', referencedColumnName: 'id')]
+    private ?User $author = null;
+
+    #[ORM\OneToMany(targetEntity: Message::class, mappedBy: 'discussion', cascade: ['persist', 'remove'])]
     private Collection $messages;
 
     public function __construct()
@@ -94,6 +100,17 @@ class Discussion
     public function setAuthorName(string $authorName): static
     {
         $this->authorName = $authorName;
+        return $this;
+    }
+
+    public function getAuthor(): ?User
+    {
+        return $this->author;
+    }
+
+    public function setAuthor(?User $author): static
+    {
+        $this->author = $author;
         return $this;
     }
 

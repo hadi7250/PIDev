@@ -2,6 +2,8 @@
 
 namespace App\Entity;
 
+use App\Entity\Discussion;
+use App\Entity\User;
 use App\Repository\MessageRepository;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
@@ -19,10 +21,9 @@ class Message
     #[Assert\NotBlank(message: 'Please enter a message')]
     private ?string $content = null;
 
-    #[ORM\Column(name: 'forum_message_author_name', type: 'string', length: 255)]
-    #[Assert\NotBlank(message: 'Please enter your name')]
-    #[Assert\Length(min: 2, max: 255, minMessage: 'Name must be at least {{ limit }} characters', maxMessage: 'Name cannot be longer than {{ limit }} characters')]
-    private ?string $authorName = null;
+    #[ORM\ManyToOne(targetEntity: User::class)]
+    #[ORM\JoinColumn(name: 'id_user', referencedColumnName: 'id')]
+    private ?User $author = null;
 
     #[ORM\Column(name: 'forum_message_is_author', type: 'boolean')]
     private bool $isAuthor = false;
@@ -58,25 +59,14 @@ class Message
         return $this;
     }
 
-    public function getAuthorName(): ?string
+    public function getAuthor(): ?User
     {
-        return $this->authorName;
+        return $this->author;
     }
 
-    public function setAuthorName(string $authorName): static
+    public function setAuthor(?User $author): static
     {
-        $this->authorName = $authorName;
-        return $this;
-    }
-
-    public function getAuthorEmail(): ?string
-    {
-        return $this->authorEmail;
-    }
-
-    public function setAuthorEmail(?string $authorEmail): static
-    {
-        $this->authorEmail = $authorEmail;
+        $this->author = $author;
         return $this;
     }
 

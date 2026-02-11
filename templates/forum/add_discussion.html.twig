@@ -1,0 +1,126 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Add Discussion - Forum{% endblock %}
+
+{% block body %}
+<!-- Page Title -->
+<section class="page-title">
+    <div class="page-title-icon" style="background-image:url({{ asset('assets/front/images/icons/page-title_icon-1.png') }})"></div>
+    <div class="page-title-icon-two" style="background-image:url({{ asset('assets/front/images/icons/page-title_icon-2.png') }})"></div>
+    <div class="page-title-shadow" style="background-image:url({{ asset('assets/front/images/background/page-title-1.png') }})"></div>
+    <div class="page-title-shadow_two" style="background-image:url({{ asset('assets/front/images/background/page-title-2.png') }})"></div>
+    <div class="auto-container">
+        <h2>Add New Discussion</h2>
+        <ul class="bread-crumb clearfix">
+            <li><a href="{{ path('app_forum_index') }}">Home</a></li>
+            <li><a href="{{ path('app_forum_discussions') }}">Discussions</a></li>
+            <li>Add Discussion</li>
+        </ul>
+    </div>
+</section>
+<!-- End Page Title -->
+
+<!-- Sidebar Page Container -->
+<div class="sidebar-page-container">
+    <div class="auto-container">
+        <div class="row clearfix">
+            <!-- Content Side -->
+            <div class="content-side col-lg-8 col-md-12 col-sm-12">
+                <div class="blog-classic">
+                    <!-- Flash Messages -->
+                    {% for message in app.flashes('success') %}
+                    <div class="alert alert-success alert-dismissible fade show" role="alert">
+                        {{ message }}
+                        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                    </div>
+                    {% endfor %}
+                    
+                    {% for message in app.flashes('error') %}
+                    <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                        {{ message }}
+                        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                    </div>
+                    {% endfor %}
+                    
+                    <!-- Add Discussion Form -->
+                    <div class="post-form mb-5" style="background: rgba(0,0,0,0.8); padding: 20px; border-radius: 8px;">
+                        <h3 style="color: #fff; margin-bottom: 20px;">Start a New Discussion</h3>
+                        {{ form_start(form, {'attr': {'novalidate': 'novalidate', 'autocomplete': 'off'}}) }}
+                        <div class="row g-3">
+                            <div class="col-12">
+                                <label style="color: #fff; font-weight: bold; display: block; margin-bottom: 10px; font-size: 16px;">{{ form_label(form.title) }}</label>
+                                {{ form_widget(form.title) }}
+                                {% if form_errors(form.title) %}
+                                    <div style="color: #ff6b6b; margin-top: 8px; font-size: 14px; background: rgba(255,255,255,0.9); padding: 8px; border-radius: 4px;">
+                                        {{ form_errors(form.title) }}
+                                    </div>
+                                {% endif %}
+                            </div>
+                            <div class="col-12">
+                                <label style="color: #fff; font-weight: bold; display: block; margin-bottom: 10px; font-size: 16px;">{{ form_label(form.content) }}</label>
+                                {{ form_widget(form.content) }}
+                                {% if form_errors(form.content) %}
+                                    <div style="color: #ff6b6b; margin-top: 8px; font-size: 14px; background: rgba(255,255,255,0.9); padding: 8px; border-radius: 4px;">
+                                        {{ form_errors(form.content) }}
+                                    </div>
+                                {% endif %}
+                            </div>
+                            <div class="col-12">
+                                <label style="color: #fff; font-weight: bold; display: block; margin-bottom: 10px; font-size: 16px;">{{ form_label(form.authorName) }}</label>
+                                {{ form_widget(form.authorName) }}
+                                {% if form_errors(form.authorName) %}
+                                    <div style="color: #ff6b6b; margin-top: 8px; font-size: 14px; background: rgba(255,255,255,0.9); padding: 8px; border-radius: 4px;">
+                                        {{ form_errors(form.authorName) }}
+                                    </div>
+                                {% endif %}
+                            </div>
+                            <div class="col-12">
+                                <label style="color: #fff; font-weight: bold; display: block; margin-bottom: 10px; font-size: 16px;">{{ form_label(form.category) }}</label>
+                                {{ form_widget(form.category) }}
+                                {% if form_errors(form.category) %}
+                                    <div style="color: #ff6b6b; margin-top: 8px; font-size: 14px; background: rgba(255,255,255,0.9); padding: 8px; border-radius: 4px;">
+                                        {{ form_errors(form.category) }}
+                                    </div>
+                                {% endif %}
+                            </div>
+                            <div class="col-12">
+                                <button type="submit" class="btn btn-primary" style="background: #007bff; border: none; padding: 12px 24px; font-size: 16px; font-weight: bold;">Create Discussion</button>
+                                <a href="{{ path('app_forum_discussions') }}" class="btn btn-outline-secondary" style="margin-left: 10px;">Cancel</a>
+                            </div>
+                        </div>
+                        {{ form_end(form) }}
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Sidebar Side -->
+            <div class="sidebar-side col-lg-4 col-md-12 col-sm-12">
+                <aside class="sidebar">
+                    <div class="sidebar-inner">
+                        <!-- Categories -->
+                        <div class="sidebar-widget popular-tags">
+                            <div class="widget-content">
+                                <h5 class="sidebar-widget_title">Categories</h5>
+                                {% for category in categories %}
+                                <a href="{{ path('app_forum_discussions', {'category': category.id}) }}">{{ category.name }}</a>
+                                {% endfor %}
+                            </div>
+                        </div>
+                        
+                        <!-- Quick Stats -->
+                        <div class="sidebar-widget">
+                            <div class="widget-content">
+                                <h5 class="sidebar-widget_title">Forum Stats</h5>
+                                <ul class="list-unstyled">
+                                    <li><strong>Total Categories:</strong> {{ categories|length }}</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </aside>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- End Sidebar Page Container -->
+{% endblock %}

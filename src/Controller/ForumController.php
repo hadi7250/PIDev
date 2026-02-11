@@ -31,10 +31,35 @@ class ForumController extends AbstractController
         ]);
     }
 
-    #[Route('/discussions', name: 'app_forum_discussions', methods: ['GET', 'POST'])]
+    #[Route('/discussions', name: 'app_forum_discussions', methods: ['GET'])]
     public function discussions(
         Request $request,
         DiscussionRepository $discussionRepository,
+        CategoryRepository $categoryRepository
+    ): Response {
+        $search = $request->query->get('search');
+        $categoryId = $request->query->get('category');
+        $category = $categoryId ? $categoryRepository->find($categoryId) : null;
+
+        if ($search) {
+            $discussions = $discussionRepository->findBySearch($search);
+        } else {
+            $discussions = $discussionRepository->findByCategory($category);
+        }
+
+        $categories = $categoryRepository->findAll();
+
+        return $this->render('forum/discussions.html.twig', [
+            'discussions' => $discussions,
+            'categories' => $categories,
+            'selected_category' => $category,
+            'search' => $search,
+        ]);
+    }
+
+    #[Route('/discussions/add', name: 'app_forum_discussion_add', methods: ['GET', 'POST'])]
+    public function addDiscussion(
+        Request $request,
         CategoryRepository $categoryRepository,
         EntityManagerInterface $entityManager
     ): Response {
@@ -54,24 +79,11 @@ class ForumController extends AbstractController
             return $this->redirectToRoute('app_forum_discussions');
         }
 
-        $search = $request->query->get('search');
-        $categoryId = $request->query->get('category');
-        $category = $categoryId ? $categoryRepository->find($categoryId) : null;
-
-        if ($search) {
-            $discussions = $discussionRepository->findBySearch($search);
-        } else {
-            $discussions = $discussionRepository->findByCategory($category);
-        }
-
         $categories = $categoryRepository->findAll();
 
-        return $this->render('forum/discussions.html.twig', [
-            'discussions' => $discussions,
-            'categories' => $categories,
+        return $this->render('forum/add_discussion.html.twig', [
             'form' => $form->createView(),
-            'selected_category' => $category,
-            'search' => $search,
+            'categories' => $categories,
         ]);
     }
 

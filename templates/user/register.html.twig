@@ -1,0 +1,140 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Register - Forum{% endblock %}
+
+{% block body %}
+<!-- Page Title -->
+<section class="page-title">
+    <div class="page-title-icon" style="background-image:url({{ asset('assets/front/images/icons/page-title_icon-1.png') }})"></div>
+    <div class="page-title-icon-two" style="background-image:url({{ asset('assets/front/images/icons/page-title_icon-2.png') }})"></div>
+    <div class="page-title-shadow" style="background-image:url({{ asset('assets/front/images/background/page-title-1.png') }})"></div>
+    <div class="page-title-shadow_two" style="background-image:url({{ asset('assets/front/images/background/page-title-2.png') }})"></div>
+    <div class="auto-container">
+        <h2>Register</h2>
+        <ul class="bread-crumb clearfix">
+            <li><a href="{{ path('app_forum_index') }}">Home</a></li>
+            <li>Register</li>
+        </ul>
+    </div>
+</section>
+<!-- End Page Title -->
+
+<div class="sidebar-page-container">
+    <div class="auto-container">
+        <div class="row clearfix">
+
+            <!-- Content Side -->
+            <div class="content-side col-lg-8 col-md-12 col-sm-12">
+                <div class="blog-classic">
+
+                    <!-- Flash Messages -->
+                    {% for message in app.flashes('success') %}
+                        <div class="alert alert-success alert-dismissible fade show" role="alert">
+                            {{ message }}
+                            <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+                        </div>
+                    {% endfor %}
+
+                    {% for message in app.flashes('error') %}
+                        <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                            {{ message }}
+                            <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+                        </div>
+                    {% endfor %}
+
+                    <!-- Registration Form -->
+                    <div class="post-form mb-5" style="background: rgba(0,0,0,0.8); padding: 20px; border-radius: 8px;">
+                        <h3 style="color: #fff; margin-bottom: 20px;">Create Your Account</h3>
+
+                        {{ form_start(registrationForm, {
+                            'attr': {
+                                'novalidate': 'novalidate',
+                                'autocomplete': 'off'
+                            }
+                        }) }}
+
+                        <div class="row g-3">
+
+                            <!-- Email -->
+                            <div class="col-12">
+                                <label style="color:#fff;font-weight:bold;margin-bottom:10px;display:block;">
+                                    {{ form_label(registrationForm.email) }}
+                                </label>
+                                {{ form_widget(registrationForm.email) }}
+                                {{ form_errors(registrationForm.email) }}
+                            </div>
+
+                            <!-- Name -->
+                            <div class="col-12">
+                                <label style="color:#fff;font-weight:bold;margin-bottom:10px;display:block;">
+                                    {{ form_label(registrationForm.name) }}
+                                </label>
+                                {{ form_widget(registrationForm.name) }}
+                                {{ form_errors(registrationForm.name) }}
+                            </div>
+
+                            <!-- Password -->
+                            <div class="col-12">
+                                <label style="color:#fff;font-weight:bold;margin-bottom:10px;display:block;">
+                                    {{ form_label(registrationForm.plainPassword) }}
+                                </label>
+                                {{ form_widget(registrationForm.plainPassword) }}
+                                {{ form_errors(registrationForm.plainPassword) }}
+                            </div>
+
+                            <!-- Buttons -->
+                            <div class="col-12">
+                                <button type="submit" class="btn btn-primary"
+                                        style="background:#007bff;border:none;padding:12px 24px;font-size:16px;font-weight:bold;">
+                                    Create Account
+                                </button>
+
+                                <a href="{{ path('app_login') }}"
+                                   class="btn btn-outline-secondary"
+                                   style="margin-left:10px;">
+                                    Back to Login
+                                </a>
+                            </div>
+
+                        </div>
+
+                        {{ form_end(registrationForm) }}
+                    </div>
+
+                </div>
+            </div>
+
+            <!-- Sidebar -->
+            <div class="sidebar-side col-lg-4 col-md-12 col-sm-12">
+                <aside class="sidebar">
+                    <div class="sidebar-inner">
+
+                        <div class="sidebar-widget">
+                            <div class="widget-content">
+                                <h5 class="sidebar-widget_title">Quick Links</h5>
+                                <ul class="list-unstyled">
+                                    <li><a href="{{ path('app_forum_index') }}">Forum Home</a></li>
+                                    <li><a href="{{ path('app_forum_discussions') }}">Discussions</a></li>
+                                    <li><a href="{{ path('app_login') }}">Login</a></li>
+                                </ul>
+                            </div>
+                        </div>
+
+                        <div class="sidebar-widget">
+                            <div class="widget-content">
+                                <h5 class="sidebar-widget_title">Forum Stats</h5>
+                                <ul class="list-unstyled">
+                                    <li><strong>Total Users:</strong> Growing</li>
+                                    <li><strong>Total Discussions:</strong> Many</li>
+                                </ul>
+                            </div>
+                        </div>
+
+                    </div>
+                </aside>
+            </div>
+
+        </div>
+    </div>
+</div>
+{% endblock %}

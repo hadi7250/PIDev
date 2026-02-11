@@ -27,22 +27,14 @@ class MessageType extends AbstractType
                 ],
                 'required' => false
             ])
-            ->add('authorName', TextType::class, [
-                'label' => 'Your Name',
-                'attr' => [
-                    'class' => 'form-control',
-                    'placeholder' => 'Enter your name',
-                    'autocomplete' => 'off',
-                    'novalidate' => 'novalidate'
-                ],
-                'required' => false
-            ])
-            ->add('authorEmail', EmailType::class, [
-                'label' => 'Email (optional)',
+            ->add('author', EntityType::class, [
+                'label' => 'Author',
+                'class' => User::class,
+                'choice_label' => 'name',
                 'required' => false,
+                'placeholder' => 'Select author (optional)',
                 'attr' => [
-                    'class' => 'form-control',
-                    'placeholder' => 'Enter your email'
+                    'class' => 'form-select'
                 ]
             ])
         ;

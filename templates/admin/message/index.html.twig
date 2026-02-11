@@ -41,9 +41,6 @@
                         </td>
                         <td>
                             {{ message.authorName }}
-                            {% if message.authorEmail %}
-                            <br><small class="text-muted">{{ message.authorEmail }}</small>
-                            {% endif %}
                         </td>
                         <td>
                             <a href="{{ path('app_forum_discussion_show', {'id': message.discussion.id}) }}" target="_blank">

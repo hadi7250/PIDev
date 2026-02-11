@@ -34,13 +34,6 @@
                             {{ form_errors(form.authorName) }}
                         </div>
                     </div>
-                    <div class="col-md-6">
-                        <div class="mb-3">
-                            {{ form_label(form.authorEmail) }}
-                            {{ form_widget(form.authorEmail) }}
-                            {{ form_errors(form.authorEmail) }}
-                        </div>
-                    </div>
                 </div>
                 <div class="mb-3">
                     <div class="form-check">
@@ -71,22 +64,12 @@
                         <td>{{ message.id }}</td>
                     </tr>
                     <tr>
-                        <td><strong>Author:</strong></td>
+                        <td><strong>Author Name:</strong></td>
                         <td>{{ message.authorName }}</td>
                     </tr>
                     <tr>
-                        <td><strong>Email:</strong></td>
-                        <td>{{ message.authorEmail|default('Not provided') }}</td>
-                    </tr>
-                    <tr>
                         <td><strong>Is Author:</strong></td>
-                        <td>
-                            {% if message.isAuthor %}
-                            <span class="badge bg-primary">Yes</span>
-                            {% else %}
-                            <span class="badge bg-secondary">No</span>
-                            {% endif %}
-                        </td>
+                        <td>{{ message.isAuthor ? 'Yes' : 'No' }}</td>
                     </tr>
                     <tr>
                         <td><strong>Discussion:</strong></td>

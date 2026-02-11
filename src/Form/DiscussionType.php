@@ -39,15 +39,15 @@ class DiscussionType extends AbstractType
                 ],
                 'required' => false
             ])
-            ->add('authorName', TextType::class, [
-                'label' => 'Your Name',
+            ->add('author', EntityType::class, [
+                'label' => 'Author',
+                'class' => User::class,
+                'choice_label' => 'name',
+                'required' => false,
+                'placeholder' => 'Select author (optional)',
                 'attr' => [
-                    'class' => 'form-control',
-                    'placeholder' => 'Enter your name',
-                    'autocomplete' => 'off',
-                    'novalidate' => 'novalidate'
-                ],
-                'required' => false
+                    'class' => 'form-select'
+                ]
             ])
             ->add('category', EntityType::class, [
                 'label' => 'Category',

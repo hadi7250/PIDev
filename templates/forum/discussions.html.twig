@@ -65,52 +65,11 @@
                         </div>
                     </div>
                     
-                    <!-- New Discussion Form -->
-                    <div id="new-discussion" class="post-form mb-5" style="background: rgba(0,0,0,0.8); padding: 20px; border-radius: 8px;">
-                        <h3 style="color: #fff; margin-bottom: 20px;">Start a New Discussion</h3>
-                        {{ form_start(form, {'attr': {'novalidate': 'novalidate', 'autocomplete': 'off'}}) }}
-                        <div class="row g-3">
-                            <div class="col-12">
-                                <label style="color: #fff; font-weight: bold; display: block; margin-bottom: 10px; font-size: 16px;">{{ form_label(form.title) }}</label>
-                                {{ form_widget(form.title) }}
-                                {% if form_errors(form.title) %}
-                                    <div style="color: #ff6b6b; margin-top: 8px; font-size: 14px; background: rgba(255,255,255,0.9); padding: 8px; border-radius: 4px;">
-                                        {{ form_errors(form.title) }}
-                                    </div>
-                                {% endif %}
-                            </div>
-                            <div class="col-12">
-                                <label style="color: #fff; font-weight: bold; display: block; margin-bottom: 10px; font-size: 16px;">{{ form_label(form.content) }}</label>
-                                {{ form_widget(form.content) }}
-                                {% if form_errors(form.content) %}
-                                    <div style="color: #ff6b6b; margin-top: 8px; font-size: 14px; background: rgba(255,255,255,0.9); padding: 8px; border-radius: 4px;">
-                                        {{ form_errors(form.content) }}
-                                    </div>
-                                {% endif %}
-                            </div>
-                            <div class="col-12">
-                                <label style="color: #fff; font-weight: bold; display: block; margin-bottom: 10px; font-size: 16px;">{{ form_label(form.authorName) }}</label>
-                                {{ form_widget(form.authorName) }}
-                                {% if form_errors(form.authorName) %}
-                                    <div style="color: #ff6b6b; margin-top: 8px; font-size: 14px; background: rgba(255,255,255,0.9); padding: 8px; border-radius: 4px;">
-                                        {{ form_errors(form.authorName) }}
-                                    </div>
-                                {% endif %}
-                            </div>
-                            <div class="col-12">
-                                <label style="color: #fff; font-weight: bold; display: block; margin-bottom: 10px; font-size: 16px;">{{ form_label(form.category) }}</label>
-                                {{ form_widget(form.category) }}
-                                {% if form_errors(form.category) %}
-                                    <div style="color: #ff6b6b; margin-top: 8px; font-size: 14px; background: rgba(255,255,255,0.9); padding: 8px; border-radius: 4px;">
-                                        {{ form_errors(form.category) }}
-                                    </div>
-                                {% endif %}
-                            </div>
-                            <div class="col-12">
-                                <button type="submit" class="btn btn-primary" style="background: #007bff; border: none; padding: 12px 24px; font-size: 16px; font-weight: bold;">Create Discussion</button>
-                            </div>
-                        </div>
-                        {{ form_end(form) }}
+                    <!-- Add Discussion Button -->
+                    <div class="text-end mb-4">
+                        <a href="{{ path('app_forum_discussion_add') }}" class="btn btn-primary">
+                            <i class="fas fa-plus me-2"></i>Add New Discussion
+                        </a>
                     </div>
                     
                     <!-- Discussions List -->
@@ -153,7 +112,7 @@
                     {% if discussions is empty %}
                     <div class="alert alert-info">
                         <h4>No discussions found</h4>
-                        <p>Try adjusting your search or filters, or start a new discussion.</p>
+                        <p>Try adjusting your search or filters.</p>
                     </div>
                     {% endif %}
                 </div>
