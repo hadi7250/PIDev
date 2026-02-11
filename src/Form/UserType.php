@@ -23,17 +23,17 @@ class UserType extends AbstractType
         $builder
             ->add('nsc', IntegerType::class, [
                 'label' => 'NSC',
-                'required' => true,
+                'required' => false, // Changed to false to disable HTML5 validation
                 'attr' => ['class' => 'form-control']
             ])
             ->add('email', EmailType::class, [
                 'label' => 'Email',
-                'required' => true,
+                'required' => false, // Changed to false to disable HTML5 validation
                 'attr' => ['class' => 'form-control']
             ])
             ->add('name', TextType::class, [
                 'label' => 'Nom Complet',
-                'required' => true,
+                'required' => false, // Changed to false to disable HTML5 validation
                 'attr' => ['class' => 'form-control']
             ])
             ->add('roles', ChoiceType::class, [
@@ -45,14 +45,14 @@ class UserType extends AbstractType
                 ],
                 'multiple' => true,
                 'expanded' => true,
-                'required' => true,
+                'required' => false, // Changed to false to disable HTML5 validation
                 'attr' => ['class' => 'form-check']
             ]);
 
         if (!$isEdit) {
             $builder->add('plainPassword', PasswordType::class, [
                 'label' => 'Mot de passe',
-                'required' => true,
+                'required' => false, // Changed to false to disable HTML5 validation
                 'mapped' => false, // AJOUTÉ
                 'constraints' => [
                     new NotBlank([

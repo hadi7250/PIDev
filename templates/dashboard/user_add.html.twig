@@ -285,6 +285,27 @@
 // Get users from database (passed from controller)
 let users = {{ users|json_encode|raw }};
 
+// Debug: Log users data
+console.log('Users loaded from controller:', users);
+console.log('Users count:', users.length);
+
+// Validate users data
+if (!Array.isArray(users)) {
+    console.error('Users is not an array:', users);
+    users = [];
+} else {
+    // Validate each user has required properties
+    users = users.map(user => ({
+        id: user.id || 0,
+        name: user.name || 'Unknown User',
+        email: user.email || 'unknown@example.com',
+        nsc: user.nsc || 0,
+        roles: Array.isArray(user.roles) ? user.roles : ['ROLE_STUDENT'],
+        status: user.status || 'active'
+    }));
+    console.log('Validated users:', users);
+}
+
 let userToDelete = null;
 let filteredUsers = [...users];
 
@@ -306,7 +327,8 @@ function loadUsers() {
         const roleBadge = role === 'admin' ? 'bg-danger' : 
                          role === 'teacher' ? 'bg-warning' : 'bg-info';
         
-        const statusBadge = 'bg-success'; // Default to active for now
+        const statusBadge = user.status === 'active' ? 'bg-success' : 
+                         user.status === 'inactive' ? 'bg-danger' : 'bg-warning';
         
         const row = `
             <tr id="user-${user.id}">
@@ -331,15 +353,15 @@ function loadUsers() {
                     <span class="badge ${roleBadge}">${role}</span>
                 </td>
                 <td>
-                    <span class="badge ${statusBadge}">Active</span>
+                    <span class="badge ${statusBadge}">${user.status || 'Active'}</span>
                 </td>
                 <td>Just now</td>
                 <td>
                     <div class="d-flex gap-2">
-                        <button class="btn btn-sm btn-outline-primary" onclick="editUser('${user.id}')" title="Edit">
+                        <button class="btn btn-sm btn-outline-primary" onclick="editUser(${user.id})" title="Edit">
                             <i class="material-icons-outlined">edit</i>
                         </button>
-                        <button class="btn btn-sm btn-outline-danger" onclick="deleteUser('${user.id}', '${user.name}')" title="Delete">
+                        <button class="btn btn-sm btn-outline-danger" onclick="deleteUser(${user.id}, '${user.name}')" title="Delete">
                             <i class="material-icons-outlined">delete</i>
                         </button>
                     </div>
@@ -410,9 +432,14 @@ function editUser(userId) {
     console.log('Editing user with ID:', userId);
     console.log('Available users:', users);
     
-    const user = users.find(u => u.id === userId);
+    // Convert userId to number for proper comparison
+    const numericId = parseInt(userId);
+    console.log('Numeric ID:', numericId);
+    
+    const user = users.find(u => u.id === numericId);
     if (!user) {
-        console.error('User not found with ID:', userId);
+        console.error('User not found with ID:', numericId);
+        console.error('Available IDs:', users.map(u => u.id));
         showNotification('User not found', 'error');
         return;
     }
@@ -438,7 +465,7 @@ function editUser(userId) {
         document.getElementById('editEmail').value = user.email;
         document.getElementById('editUsername').value = user.nsc || '';
         document.getElementById('editRole').value = role;
-        document.getElementById('editStatus').value = 'active';
+        document.getElementById('editStatus').value = user.status || 'active';
         document.getElementById('editAvatar').value = '01.png';
         document.getElementById('editLastActive').value = 'Just now';
         document.getElementById('editNotes').value = '';
@@ -463,7 +490,9 @@ function editUser(userId) {
 
 // Update user
 async function updateUser() {
-    const userId = document.getElementById('editUserId').value;
+    const userId = parseInt(document.getElementById('editUserId').value);
+    console.log('Updating user ID:', userId);
+    
     const userData = {
         firstName: document.getElementById('editFirstName').value,
         lastName: document.getElementById('editLastName').value,
@@ -475,7 +504,12 @@ async function updateUser() {
         notes: document.getElementById('editNotes').value
     };
     
+    console.log('Update user data:', userData);
+    
     try {
+        console.log('Sending update request for user:', userId);
+        console.log('Update data:', userData);
+        
         const response = await fetch(`{{ path('dashboard_users_update', {'id': 'USER_ID'}) }}`.replace('USER_ID', userId), {
             method: 'POST',
             headers: {
@@ -485,9 +519,14 @@ async function updateUser() {
             body: JSON.stringify(userData)
         });
         
+        console.log('Response status:', response.status);
+        console.log('Response headers:', response.headers);
+        
         const result = await response.json();
+        console.log('Response result:', result);
         
         if (result.success) {
+            console.log('Update successful, updating frontend...');
             // Update users array with backend response
             if (result.users) {
                 users = result.users;
@@ -502,18 +541,22 @@ async function updateUser() {
             // Show success notification
             showNotification('User updated successfully!', 'success');
         } else {
-            showNotification('Error updating user', 'error');
+            console.error('Update failed:', result);
+            showNotification('Error updating user: ' + (result.message || 'Unknown error'), 'error');
         }
     } catch (error) {
-        console.error('Error:', error);
-        showNotification('Error updating user', 'error');
+        console.error('Network error:', error);
+        showNotification('Error updating user: ' + error.message, 'error');
     }
 }
 
 // Delete user confirmation
 function deleteUser(userId, userName) {
-    userToDelete = userId;
+    userToDelete = parseInt(userId);
     document.getElementById('deleteUserName').textContent = userName;
+    
+    console.log('Delete user ID:', userToDelete);
+    console.log('Delete user name:', userName);
     
     const deleteModal = new bootstrap.Modal(document.getElementById('deleteUserModal'));
     deleteModal.show();

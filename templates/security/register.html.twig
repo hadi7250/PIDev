@@ -234,7 +234,7 @@
                                 <p class="text-muted mb-4">Join our community of entrepreneurs, investors, and students</p>
                                 
                                 <!-- Registration Form -->
-                                {{ form_start(registrationForm) }}
+                                {{ form_start(registrationForm, {attr: {novalidate: 'novalidate'}}) }}
                                 
                                     {% for flash in app.flashes('success') %}
                                         <div class="alert alert-success alert-dismissible fade show" role="alert">
@@ -448,6 +448,24 @@
             
             const colors = ['#dc3545', '#ffc107', '#ffc107', '#28a745', '#28a745', '#20c997'];
             strengthMeter.style.color = colors[Math.min(strength, 5)];
+        });
+        
+        // Disable HTML5 validation for form
+        document.addEventListener('DOMContentLoaded', function() {
+            const form = document.querySelector('form');
+            if (form) {
+                form.setAttribute('novalidate', 'novalidate');
+                
+                // Prevent default validation on submit
+                form.addEventListener('submit', function(event) {
+                    if (!form.checkValidity()) {
+                        event.preventDefault();
+                        event.stopPropagation();
+                    }
+                }, false);
+                
+                console.log('HTML5 validation disabled for registration form');
+            }
         });
     </script>
 </body>

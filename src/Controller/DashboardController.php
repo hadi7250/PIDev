@@ -38,8 +38,21 @@ class DashboardController extends AbstractController
     {
         $users = $userRepository->findAll();
         
+        // Serialize users to array to prevent undefined values
+        $usersArray = [];
+        foreach ($users as $user) {
+            $usersArray[] = [
+                'id' => $user->getId(),
+                'name' => $user->getName(),
+                'email' => $user->getEmail(),
+                'nsc' => $user->getNsc(),
+                'roles' => $user->getRoles(),
+                'status' => $user->getStatus()
+            ];
+        }
+        
         return $this->render('dashboard/user_add.html.twig', [
-            'users' => $users
+            'users' => $usersArray
         ]);
     }
 
@@ -64,8 +77,19 @@ class DashboardController extends AbstractController
         $entityManager->persist($user);
         $entityManager->flush();
         
-        // Get updated users list
+        // Get updated users list and serialize properly
         $users = $entityManager->getRepository(User::class)->findAll();
+        $usersArray = [];
+        foreach ($users as $user) {
+            $usersArray[] = [
+                'id' => $user->getId(),
+                'name' => $user->getName(),
+                'email' => $user->getEmail(),
+                'nsc' => $user->getNsc(),
+                'roles' => $user->getRoles(),
+                'status' => $user->getStatus()
+            ];
+        }
         
         return $this->json([
             'success' => true,
@@ -77,7 +101,7 @@ class DashboardController extends AbstractController
                 'roles' => $user->getRoles(),
                 'lastActive' => 'Just now'
             ],
-            'users' => $users // Return updated users list
+            'users' => $usersArray // Return properly serialized users list
         ]);
     }
 
@@ -87,9 +111,23 @@ class DashboardController extends AbstractController
     {
         $data = json_decode($request->getContent(), true);
         
+        // Debug: Log incoming data
+        error_log('Update user data: ' . print_r($data, true));
+        error_log('User ID: ' . $user->getId());
+        error_log('Original user name: ' . $user->getName());
+        
         $user->setName($data['firstName'] . ' ' . $data['lastName']);
         $user->setEmail($data['email']);
-        $user->setRoles([$data['role'] === 'admin' ? 'ROLE_ADMIN' : ($data['role'] === 'teacher' ? 'ROLE_ENSEIGNANT' : 'ROLE_STUDENT')]);
+        
+        // Set status
+        $user->setStatus($data['status'] ?? 'active');
+        error_log('Setting status to: ' . ($data['status'] ?? 'active'));
+        
+        // Set roles based on selection
+        $newRole = $data['role'] === 'admin' ? 'ROLE_ADMIN' : ($data['role'] === 'teacher' ? 'ROLE_ENSEIGNANT' : 'ROLE_STUDENT');
+        $user->setRoles([$newRole]);
+        
+        error_log('Setting role to: ' . $newRole);
         
         if (!empty($data['password'])) {
             $user->setPassword(
@@ -100,13 +138,35 @@ class DashboardController extends AbstractController
             );
         }
         
-        $entityManager->flush();
+        error_log('Updated user name: ' . $user->getName());
+        error_log('Updated user email: ' . $user->getEmail());
+        error_log('Updated user roles: ' . print_r($user->getRoles(), true));
         
-        // Get updated users list
+        try {
+            $entityManager->flush();
+            error_log('User flushed to database');
+        } catch (\Exception $e) {
+            error_log('Database flush error: ' . $e->getMessage());
+            return $this->json(['success' => false, 'message' => 'Database error: ' . $e->getMessage()]);
+        }
+        
+        // Get updated users list and serialize properly
         $users = $entityManager->getRepository(User::class)->findAll();
+        $usersArray = [];
+        foreach ($users as $user) {
+            $usersArray[] = [
+                'id' => $user->getId(),
+                'name' => $user->getName(),
+                'email' => $user->getEmail(),
+                'nsc' => $user->getNsc(),
+                'roles' => $user->getRoles(),
+                'status' => $user->getStatus()
+            ];
+        }
         
         return $this->json([
             'success' => true,
+            'message' => 'User updated successfully',
             'user' => [
                 'id' => $user->getId(),
                 'name' => $user->getName(),
@@ -114,7 +174,7 @@ class DashboardController extends AbstractController
                 'nsc' => $user->getNsc(),
                 'roles' => $user->getRoles()
             ],
-            'users' => $users // Return updated users list
+            'users' => $usersArray // Return properly serialized users list
         ]);
     }
 
@@ -125,12 +185,23 @@ class DashboardController extends AbstractController
         $entityManager->remove($user);
         $entityManager->flush();
         
-        // Get updated users list
+        // Get updated users list and serialize properly
         $users = $entityManager->getRepository(User::class)->findAll();
+        $usersArray = [];
+        foreach ($users as $user) {
+            $usersArray[] = [
+                'id' => $user->getId(),
+                'name' => $user->getName(),
+                'email' => $user->getEmail(),
+                'nsc' => $user->getNsc(),
+                'roles' => $user->getRoles(),
+                'status' => $user->getStatus()
+            ];
+        }
         
         return $this->json([
             'success' => true,
-            'users' => $users // Return updated users list
+            'users' => $usersArray // Return properly serialized users list
         ]);
     }
 
