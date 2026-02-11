@@ -1,35 +1,39 @@
 security:
-    # https://symfony.com/doc/current/security.html#registering-the-user-hashing-passwords
+    enable_authenticator_manager: true
     password_hashers:
+        Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface: 'auto'
         App\Entity\User:
             algorithm: auto
 
-    # https://symfony.com/doc/current/security.html#loading-the-user-the-user-provider
     providers:
         app_user_provider:
             entity:
                 class: App\Entity\User
                 property: email
-
+    
     firewalls:
         dev:
             pattern: ^/(_(profiler|wdt)|css|images|js)/
             security: false
+        
         main:
             lazy: true
             provider: app_user_provider
             form_login:
                 login_path: app_login
                 check_path: app_login
+                username_parameter: _username        # AJOUTÉ
+                password_parameter: _password        # AJOUTÉ
                 enable_csrf: true
-                # where to redirect after success (you can change later)
-                default_target_path: /  # or /admin or home page
+                default_target_path: app_homepage
             logout:
                 path: app_logout
-                target: app_login  # optional, redirect after logout
+                target: app_login
 
-    # Easy way to control access for different parts of the site
     access_control:
         - { path: ^/login, roles: PUBLIC_ACCESS }
         - { path: ^/register, roles: PUBLIC_ACCESS }
-        - { path: ^/admin, roles: ROLE_ADMIN }  # we'll add ROLE_ADMIN later
+        - { path: ^/admin, roles: ROLE_ADMIN }
+        - { path: ^/enseignant, roles: ROLE_ENSEIGNANT }
+        - { path: ^/student, roles: ROLE_STUDENT }
+        - { path: ^/, roles: ROLE_USER }
