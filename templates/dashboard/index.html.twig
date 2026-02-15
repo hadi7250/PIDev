@@ -5,17 +5,17 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Maxton | Bootstrap 5 Admin Dashboard Template</title>
     
-    <!-- Load ALL CSS files from public/assets_back/ -->
+    <!-- Load ALL CSS files from public/Back_Office/assets/ -->
     <link rel="icon" href="{{ asset('Back_Office/assets/images/favicon-32x32.png') }}" type="image/png">
-    <link href="{{ asset('assets_back/css/pace.min.css') }}" rel="stylesheet">
-    <link href="{{ asset('assets_back/plugins/perfect-scrollbar/css/perfect-scrollbar.css') }}" rel="stylesheet">
-    <link href="{{ asset('assets_back/plugins/metismenu/metisMenu.min.css') }}" rel="stylesheet">
-    <link href="{{ asset('assets_back/plugins/metismenu/mm-vertical.css') }}" rel="stylesheet">
-    <link href="{{ asset('assets_back/plugins/simplebar/css/simplebar.css') }}" rel="stylesheet">
-    <link href="{{ asset('assets_back/css/bootstrap.min.css') }}" rel="stylesheet">
+    <link href="{{ asset('Back_Office/assets/css/pace.min.css') }}" rel="stylesheet">
+    <link href="{{ asset('Back_Office/assets/plugins/perfect-scrollbar/css/perfect-scrollbar.css') }}" rel="stylesheet">
+    <link href="{{ asset('Back_Office/assets/plugins/metismenu/metisMenu.min.css') }}" rel="stylesheet">
+    <link href="{{ asset('Back_Office/assets/plugins/metismenu/mm-vertical.css') }}" rel="stylesheet">
+    <link href="{{ asset('Back_Office/assets/plugins/simplebar/css/simplebar.css') }}" rel="stylesheet">
+    <link href="{{ asset('Back_Office/assets/css/bootstrap.min.css') }}" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Noto+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css?family=Material+Icons+Outlined" rel="stylesheet">
-    <link href="{{ asset('assets_back/css/bootstrap-extended.css') }}" rel="stylesheet">
+    <link href="{{ asset('Back_Office/assets/css/bootstrap-extended.css') }}" rel="stylesheet">
     <link href="{{ asset('Back_Office/sass/main.css') }}" rel="stylesheet">
     <link href="{{ asset('Back_Office/sass/dark-theme.css') }}" rel="stylesheet">
     <link href="{{ asset('Back_Office/sass/blue-theme.css') }}" rel="stylesheet">
@@ -365,6 +365,38 @@
         .card:hover {
             box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
         }
+        
+        /* 12. Simple background fix */
+        body {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            margin: 0;
+            padding: 0;
+            min-height: 100vh;
+        }
+        
+        .page-wrapper {
+            background: transparent;
+            min-height: 100vh;
+        }
+        
+        .page-content {
+            background: rgba(255, 255, 255, 0.95);
+            margin: 0 1rem 1rem 1rem;
+            border-radius: 1rem;
+            padding: 1.5rem;
+            backdrop-filter: blur(10px);
+        }
+        
+        /* Remove top spacing to reach navbar */
+        .page-wrapper {
+            padding-top: 0 !important;
+            margin-top: 0 !important;
+        }
+        
+        /* Adjust breadcrumb area */
+        .breadcrumb-area {
+            padding-top: 1rem;
+        }
     </style>
 </head>
 <body>
@@ -377,12 +409,7 @@
         <div class="menu-toggle">
             <span class="material-icons-outlined">menu</span>
         </div>
-        <div class="logo">
-            <a href="index.html">
-                <img src="{{ asset('Back_Office/assets/images/logo-icon.png') }}" alt="Logo">
-            </a>
-        </div>
-    </div>
+            </div>
     <div class="header-right">
         <div class="header-search">
             <div class="search-input">
@@ -459,6 +486,12 @@
                 <li><a class="dropdown-item" href="#">View all notifications</a></li>
             </ul>
         </div>
+        
+        <!-- GO TO FRONT BUTTON -->
+        <a href="{{ path('app_homepage') }}" class="btn btn-primary btn-sm">
+            <span class="material-icons-outlined">home</span>
+            Go to Front
+        </a>
         
         <!-- USER PROFILE -->
         <div class="dropdown user-dropdown">
@@ -1256,22 +1289,24 @@
 <!--end switcher-->
 
 {% block javascripts %}
+<!-- jQuery first (required by other scripts) -->
+<script src="{{ asset('Back_Office/assets/js/jquery.min.js') }}"></script>
+
 <!--bootstrap js-->
-<script src="{{ asset('assets_back/js/bootstrap.bundle.min.js') }}"></script>
+<script src="{{ asset('Back_Office/assets/js/bootstrap.bundle.min.js') }}"></script>
 
 <!--plugins-->
-<script src="{{ asset('assets_back/js/jquery.min.js') }}"></script>
 <!--plugins-->
-<script src="{{ asset('assets_back/plugins/perfect-scrollbar/js/perfect-scrollbar.js') }}"></script>
-<script src="{{ asset('assets_back/plugins/metismenu/metisMenu.min.js') }}"></script>
-<script src="{{ asset('assets_back/plugins/apexchart/apexcharts.min.js') }}"></script>
-<script src="{{ asset('assets_back/plugins/simplebar/js/simplebar.min.js') }}"></script>
+<script src="{{ asset('Back_Office/assets/plugins/perfect-scrollbar/js/perfect-scrollbar.js') }}"></script>
+<script src="{{ asset('Back_Office/assets/plugins/metismenu/metisMenu.min.js') }}"></script>
+<script src="{{ asset('Back_Office/assets/plugins/apexchart/apexcharts.min.js') }}"></script>
+<script src="{{ asset('Back_Office/assets/plugins/simplebar/js/simplebar.min.js') }}"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.11.4/gsap.min.js"></script>
-<script src="{{ asset('assets_back/plugins/peity/jquery.peity.min.js') }}"></script>
+<script src="{{ asset('Back_Office/assets/plugins/peity/jquery.peity.min.js') }}"></script>
 
 <!-- Dashboard specific scripts -->
-<script src="{{ asset('assets_back/js/main.js') }}"></script>
-<script src="{{ asset('assets_back/js/dashboard1.js') }}"></script>
+<script src="{{ asset('Back_Office/assets/js/main.js') }}"></script>
+<script src="{{ asset('Back_Office/assets/js/dashboard1.js') }}"></script>
 
 <script>
     $(document).ready(function() {

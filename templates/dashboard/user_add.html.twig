@@ -671,8 +671,8 @@ function filterUsers() {
             user.email.toLowerCase().includes(searchTerm) ||
             (user.nsc && user.nsc.toString().includes(searchTerm));
         
-        // Status matches (all users are currently active)
-        const matchesStatus = !statusFilter || 'active' === statusFilter;
+        // Status matches (use actual user status)
+        const matchesStatus = !statusFilter || user.status === statusFilter;
         
         // Role matches
         const matchesRole = !roleFilter || role === roleFilter;

@@ -66,6 +66,7 @@ class DashboardController extends AbstractController
         $user->setName($data['firstName'] . ' ' . $data['lastName']);
         $user->setEmail($data['email']);
         $user->setNsc($data['nsc'] ?? rand(100000, 999999));
+        $user->setStatus($data['status'] ?? 'active');
         $user->setRoles([$data['role'] === 'admin' ? 'ROLE_ADMIN' : ($data['role'] === 'teacher' ? 'ROLE_ENSEIGNANT' : 'ROLE_STUDENT')]);
         $user->setPassword(
             $passwordHasher->hashPassword(

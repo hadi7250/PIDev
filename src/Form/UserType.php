@@ -47,6 +47,16 @@ class UserType extends AbstractType
                 'expanded' => true,
                 'required' => false, // Changed to false to disable HTML5 validation
                 'attr' => ['class' => 'form-check']
+            ])
+            ->add('status', ChoiceType::class, [
+                'label' => 'Statut',
+                'choices' => [
+                    'Actif' => 'active',
+                    'Inactif' => 'inactive',
+                    'En attente' => 'pending',
+                ],
+                'required' => false, // Changed to false to disable HTML5 validation
+                'attr' => ['class' => 'form-control']
             ]);
 
         if (!$isEdit) {

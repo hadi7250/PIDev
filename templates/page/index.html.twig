@@ -99,18 +99,42 @@
 
 							<!-- Button Box -->
 							<div class="main-header_buttons">
-								<a href="{{ path('app_login') }}" class="template-btn btn-style-two">
-									<span class="btn-wrap">
-										<span class="text-one">Login</span>
-										<span class="text-two">Login</span>
-									</span>
-								</a>
-								<a href="{{ path('app_register') }}" class="template-btn btn-style-one">
-									<span class="btn-wrap">
-										<span class="text-one">Join now</span>
-										<span class="text-two">Join now</span>
-									</span>
-								</a>
+								{% if app.user %}
+									{# User is logged in #}
+									{% if is_granted('ROLE_ADMIN') %}
+										{# Admin user - show Dashboard button #}
+										<a href="{{ path('dashboard_index') }}" class="template-btn btn-style-one">
+											<span class="btn-wrap">
+												<span class="text-one">Dashboard</span>
+												<span class="text-two">Dashboard</span>
+											</span>
+										</a>
+									{% else %}
+										{# Regular user/student - show welcome message and logout #}
+										<span class="welcome-text">Welcome, {{ app.user.name|default(app.user.email) }}</span>
+									{% endif %}
+									{# Show logout button for all logged-in users #}
+									<a href="{{ path('app_logout') }}" class="template-btn btn-style-two">
+										<span class="btn-wrap">
+											<span class="text-one">Logout</span>
+											<span class="text-two">Logout</span>
+										</span>
+									</a>
+								{% else %}
+									{# Not logged in - show login/register buttons #}
+									<a href="{{ path('app_login') }}" class="template-btn btn-style-two">
+										<span class="btn-wrap">
+											<span class="text-one">Login</span>
+											<span class="text-two">Login</span>
+										</span>
+									</a>
+									<a href="{{ path('app_register') }}" class="template-btn btn-style-one">
+										<span class="btn-wrap">
+											<span class="text-one">Join now</span>
+											<span class="text-two">Join now</span>
+										</span>
+									</a>
+								{% endif %}
 							</div>
 
 							<!-- Mobile Navigation Toggler -->

@@ -10,6 +10,31 @@
     <link rel="stylesheet" href="{{ asset('assets_front/css/style.css') }}">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     
+    <!-- Custom CSS for navigation -->
+    <style>
+        .welcome-text {
+            color: #667eea;
+            font-weight: 600;
+            padding: 10px 20px;
+            border: 2px solid #667eea;
+            border-radius: 25px;
+            display: inline-block;
+            transition: all 0.3s ease;
+        }
+        
+        .welcome-text:hover {
+            background: #667eea;
+            color: white;
+        }
+        
+        @media (max-width: 768px) {
+            .welcome-text {
+                font-size: 14px;
+                padding: 8px 15px;
+            }
+        }
+    </style>
+    
     {% block stylesheets %}{% endblock %}
 </head>
 <body>
