@@ -236,9 +236,12 @@ class __TwigTemplate_f330cedd0854e4dd72f258855bddc3ea extends Template
             
             <div class=\"row gy-2 gx-0 my-4\">
               <div class=\"col-12 col-lg-12\">
-                <button class=\"btn btn-filter py-2 px-4 font-text1 fw-bold d-flex align-items-center justify-content-center w-100\">
+                <a href=\"";
+        // line 174
+        yield $this->extensions['Symfony\Bridge\Twig\Extension\RoutingExtension']->getPath("connect_google");
+        yield "\" class=\"btn btn-filter py-2 px-4 font-text1 fw-bold d-flex align-items-center justify-content-center w-100 text-decoration-none\">
                   <span class=\"\"><i class=\"fab fa-google me-2\"></i>Sign up with Google</span>
-                </button>
+                </a>
               </div>
               <div class=\"col-12 col-lg-12\">
                 <button class=\"btn btn-filter py-2 px-4 font-text1 fw-bold d-flex align-items-center justify-content-center w-100\">
@@ -604,7 +607,7 @@ class __TwigTemplate_f330cedd0854e4dd72f258855bddc3ea extends Template
      */
     public function getDebugInfo(): array
     {
-        return array (  412 => 282,  402 => 275,  391 => 267,  377 => 256,  372 => 254,  368 => 253,  358 => 246,  350 => 241,  344 => 238,  337 => 234,  329 => 229,  323 => 226,  313 => 219,  309 => 218,  305 => 217,  295 => 210,  291 => 209,  287 => 208,  280 => 204,  276 => 203,  272 => 202,  264 => 197,  232 => 168,  82 => 21,  78 => 20,  74 => 19,  70 => 18,  66 => 17,  48 => 1,);
+        return array (  415 => 282,  405 => 275,  394 => 267,  380 => 256,  375 => 254,  371 => 253,  361 => 246,  353 => 241,  347 => 238,  340 => 234,  332 => 229,  326 => 226,  316 => 219,  312 => 218,  308 => 217,  298 => 210,  294 => 209,  290 => 208,  283 => 204,  279 => 203,  275 => 202,  267 => 197,  241 => 174,  232 => 168,  82 => 21,  78 => 20,  74 => 19,  70 => 18,  66 => 17,  48 => 1,);
     }
 
     public function getSourceContext(): Source
@@ -782,9 +785,9 @@ class __TwigTemplate_f330cedd0854e4dd72f258855bddc3ea extends Template
             
             <div class=\"row gy-2 gx-0 my-4\">
               <div class=\"col-12 col-lg-12\">
-                <button class=\"btn btn-filter py-2 px-4 font-text1 fw-bold d-flex align-items-center justify-content-center w-100\">
+                <a href=\"{{ path('connect_google') }}\" class=\"btn btn-filter py-2 px-4 font-text1 fw-bold d-flex align-items-center justify-content-center w-100 text-decoration-none\">
                   <span class=\"\"><i class=\"fab fa-google me-2\"></i>Sign up with Google</span>
-                </button>
+                </a>
               </div>
               <div class=\"col-12 col-lg-12\">
                 <button class=\"btn btn-filter py-2 px-4 font-text1 fw-bold d-flex align-items-center justify-content-center w-100\">

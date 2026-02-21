@@ -264,6 +264,12 @@ class __TwigTemplate_c6eec513786c4a8256907f3d829ed1bb extends Template
                                 <option value=\"04.png\">Avatar 4</option>
                                 <option value=\"05.png\">Avatar 5</option>
                                 <option value=\"06.png\">Avatar 6</option>
+                                <option value=\"07.png\">Avatar 7</option>
+                                <option value=\"08.png\">Avatar 8</option>
+                                <option value=\"09.png\">Avatar 9</option>
+                                <option value=\"10.png\">Avatar 10</option>
+                                <option value=\"11.png\">Avatar 11</option>
+                                <option value=\"12.png\">Avatar 12</option>
                             </select>
                         </div>
                         <div class=\"col-12\">
@@ -334,6 +340,12 @@ class __TwigTemplate_c6eec513786c4a8256907f3d829ed1bb extends Template
                                 <option value=\"04.png\">Avatar 4</option>
                                 <option value=\"05.png\">Avatar 5</option>
                                 <option value=\"06.png\">Avatar 6</option>
+                                <option value=\"07.png\">Avatar 7</option>
+                                <option value=\"08.png\">Avatar 8</option>
+                                <option value=\"09.png\">Avatar 9</option>
+                                <option value=\"10.png\">Avatar 10</option>
+                                <option value=\"11.png\">Avatar 11</option>
+                                <option value=\"12.png\">Avatar 12</option>
                             </select>
                         </div>
                         <div class=\"col-md-6\">
@@ -381,8 +393,8 @@ class __TwigTemplate_c6eec513786c4a8256907f3d829ed1bb extends Template
 
 // Get users from database (passed from controller)
 let users = ";
-        // line 286
-        yield json_encode((isset($context["users"]) || array_key_exists("users", $context) ? $context["users"] : (function () { throw new RuntimeError('Variable "users" does not exist.', 286, $this->source); })()));
+        // line 298
+        yield json_encode((isset($context["users"]) || array_key_exists("users", $context) ? $context["users"] : (function () { throw new RuntimeError('Variable "users" does not exist.', 298, $this->source); })()));
         yield ";
 
 // Debug: Log users data
@@ -415,6 +427,15 @@ function loadUsers() {
     tbody.innerHTML = '';
     
     filteredUsers.forEach(user => {
+        // Debug: Log user avatar data for ALL users
+        console.log('=== USER DEBUG ===');
+        console.log('User ID:', user.id);
+        console.log('User avatar from database:', user.avatar);
+        console.log('User avatar type:', typeof user.avatar);
+        console.log('User avatar length:', user.avatar ? user.avatar.length : 'null');
+        console.log('Full user data:', user);
+        console.log('==================');
+        
         // Parse user name to get first and last name
         const nameParts = user.name ? user.name.split(' ') : ['Unknown', 'User'];
         const firstName = nameParts[0];
@@ -439,8 +460,10 @@ function loadUsers() {
                     <div class=\"d-flex align-items-center gap-3\">
                         <div class=\"user-pic\">
                             <img src=\"";
-        // line 341
-        yield $this->env->getRuntime('Twig\Runtime\EscaperRuntime')->escape($this->extensions['Symfony\Bridge\Twig\Extension\AssetExtension']->getAssetUrl("Back_Office/assets/images/avatars/01.png"), "html", null, true);
+        // line 362
+        yield $this->env->getRuntime('Twig\Runtime\EscaperRuntime')->escape($this->extensions['Symfony\Bridge\Twig\Extension\AssetExtension']->getAssetUrl("Back_Office/assets/images/avatars/"), "html", null, true);
+        yield "\${user.avatar || '01.png'}?v=";
+        yield $this->env->getRuntime('Twig\Runtime\EscaperRuntime')->escape($this->extensions['Twig\Extension\CoreExtension']->formatDate("now", "U"), "html", null, true);
         yield "\" class=\"rounded-circle\" width=\"40\" height=\"40\" alt=\"\">
                         </div>
                         <div>
@@ -496,7 +519,7 @@ async function saveUser() {
     
     try {
         const response = await fetch('";
-        // line 395
+        // line 416
         yield $this->extensions['Symfony\Bridge\Twig\Extension\RoutingExtension']->getPath("dashboard_users_create");
         yield "', {
             method: 'POST',
@@ -565,6 +588,9 @@ function editUser(userId) {
     
     // Populate edit form with validation
     try {
+        console.log('Editing user:', user);
+        console.log('User avatar from database:', user.avatar);
+        
         document.getElementById('editUserId').value = user.id;
         document.getElementById('editFirstName').value = firstName;
         document.getElementById('editLastName').value = lastName;
@@ -572,10 +598,11 @@ function editUser(userId) {
         document.getElementById('editUsername').value = user.nsc || '';
         document.getElementById('editRole').value = role;
         document.getElementById('editStatus').value = user.status || 'active';
-        document.getElementById('editAvatar').value = '01.png';
+        document.getElementById('editAvatar').value = user.avatar || '01.png';
         document.getElementById('editLastActive').value = 'Just now';
         document.getElementById('editNotes').value = '';
         
+        console.log('Avatar set to:', document.getElementById('editAvatar').value);
         console.log('Form populated successfully');
     } catch (error) {
         console.error('Error populating edit form:', error);
@@ -617,7 +644,7 @@ async function updateUser() {
         console.log('Update data:', userData);
         
         const response = await fetch(`";
-        // line 513
+        // line 538
         yield $this->extensions['Symfony\Bridge\Twig\Extension\RoutingExtension']->getPath("dashboard_users_update", ["id" => "USER_ID"]);
         yield "`.replace('USER_ID', userId), {
             method: 'POST',
@@ -676,7 +703,7 @@ async function confirmDelete() {
     if (userToDelete) {
         try {
             const response = await fetch(`";
-        // line 569
+        // line 594
         yield $this->extensions['Symfony\Bridge\Twig\Extension\RoutingExtension']->getPath("dashboard_users_delete", ["id" => "USER_ID"]);
         yield "`.replace('USER_ID', userToDelete), {
                 method: 'POST',
@@ -836,6 +863,15 @@ function debugUsers() {
         console.log('First user:', users[0]);
         console.log('First user ID:', users[0].id);
         console.log('First user roles:', users[0].roles);
+        
+        // Debug: Log user avatar data
+        console.log('=== USER DEBUG ===');
+        console.log('User ID:', users[0].id);
+        console.log('User avatar from database:', users[0].avatar);
+        console.log('User avatar type:', typeof users[0].avatar);
+        console.log('User avatar length:', users[0].avatar ? users[0].avatar.length : 'null');
+        console.log('Full user data:', users[0]);
+        console.log('==================');
     }
     
     showNotification('Debug info logged to console', 'info');
@@ -1014,7 +1050,7 @@ document.addEventListener('DOMContentLoaded', function() {
      */
     public function getDebugInfo(): array
     {
-        return array (  680 => 569,  621 => 513,  500 => 395,  443 => 341,  385 => 286,  110 => 14,  100 => 6,  87 => 5,  64 => 3,  41 => 1,);
+        return array (  707 => 594,  648 => 538,  523 => 416,  464 => 362,  397 => 298,  110 => 14,  100 => 6,  87 => 5,  64 => 3,  41 => 1,);
     }
 
     public function getSourceContext(): Source
@@ -1188,6 +1224,12 @@ document.addEventListener('DOMContentLoaded', function() {
                                 <option value=\"04.png\">Avatar 4</option>
                                 <option value=\"05.png\">Avatar 5</option>
                                 <option value=\"06.png\">Avatar 6</option>
+                                <option value=\"07.png\">Avatar 7</option>
+                                <option value=\"08.png\">Avatar 8</option>
+                                <option value=\"09.png\">Avatar 9</option>
+                                <option value=\"10.png\">Avatar 10</option>
+                                <option value=\"11.png\">Avatar 11</option>
+                                <option value=\"12.png\">Avatar 12</option>
                             </select>
                         </div>
                         <div class=\"col-12\">
@@ -1258,6 +1300,12 @@ document.addEventListener('DOMContentLoaded', function() {
                                 <option value=\"04.png\">Avatar 4</option>
                                 <option value=\"05.png\">Avatar 5</option>
                                 <option value=\"06.png\">Avatar 6</option>
+                                <option value=\"07.png\">Avatar 7</option>
+                                <option value=\"08.png\">Avatar 8</option>
+                                <option value=\"09.png\">Avatar 9</option>
+                                <option value=\"10.png\">Avatar 10</option>
+                                <option value=\"11.png\">Avatar 11</option>
+                                <option value=\"12.png\">Avatar 12</option>
                             </select>
                         </div>
                         <div class=\"col-md-6\">
@@ -1336,6 +1384,15 @@ function loadUsers() {
     tbody.innerHTML = '';
     
     filteredUsers.forEach(user => {
+        // Debug: Log user avatar data for ALL users
+        console.log('=== USER DEBUG ===');
+        console.log('User ID:', user.id);
+        console.log('User avatar from database:', user.avatar);
+        console.log('User avatar type:', typeof user.avatar);
+        console.log('User avatar length:', user.avatar ? user.avatar.length : 'null');
+        console.log('Full user data:', user);
+        console.log('==================');
+        
         // Parse user name to get first and last name
         const nameParts = user.name ? user.name.split(' ') : ['Unknown', 'User'];
         const firstName = nameParts[0];
@@ -1359,7 +1416,7 @@ function loadUsers() {
                 <td>
                     <div class=\"d-flex align-items-center gap-3\">
                         <div class=\"user-pic\">
-                            <img src=\"{{ asset('Back_Office/assets/images/avatars/01.png') }}\" class=\"rounded-circle\" width=\"40\" height=\"40\" alt=\"\">
+                            <img src=\"{{ asset('Back_Office/assets/images/avatars/') }}\${user.avatar || '01.png'}?v={{ 'now'|date('U') }}\" class=\"rounded-circle\" width=\"40\" height=\"40\" alt=\"\">
                         </div>
                         <div>
                             <p class=\"mb-0 user-name fw-bold\">\${user.name}</p>
@@ -1480,6 +1537,9 @@ function editUser(userId) {
     
     // Populate edit form with validation
     try {
+        console.log('Editing user:', user);
+        console.log('User avatar from database:', user.avatar);
+        
         document.getElementById('editUserId').value = user.id;
         document.getElementById('editFirstName').value = firstName;
         document.getElementById('editLastName').value = lastName;
@@ -1487,10 +1547,11 @@ function editUser(userId) {
         document.getElementById('editUsername').value = user.nsc || '';
         document.getElementById('editRole').value = role;
         document.getElementById('editStatus').value = user.status || 'active';
-        document.getElementById('editAvatar').value = '01.png';
+        document.getElementById('editAvatar').value = user.avatar || '01.png';
         document.getElementById('editLastActive').value = 'Just now';
         document.getElementById('editNotes').value = '';
         
+        console.log('Avatar set to:', document.getElementById('editAvatar').value);
         console.log('Form populated successfully');
     } catch (error) {
         console.error('Error populating edit form:', error);
@@ -1745,6 +1806,15 @@ function debugUsers() {
         console.log('First user:', users[0]);
         console.log('First user ID:', users[0].id);
         console.log('First user roles:', users[0].roles);
+        
+        // Debug: Log user avatar data
+        console.log('=== USER DEBUG ===');
+        console.log('User ID:', users[0].id);
+        console.log('User avatar from database:', users[0].avatar);
+        console.log('User avatar type:', typeof users[0].avatar);
+        console.log('User avatar length:', users[0].avatar ? users[0].avatar.length : 'null');
+        console.log('Full user data:', users[0]);
+        console.log('==================');
     }
     
     showNotification('Debug info logged to console', 'info');

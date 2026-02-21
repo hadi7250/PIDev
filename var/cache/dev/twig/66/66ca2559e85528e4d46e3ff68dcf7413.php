@@ -237,11 +237,17 @@ class __TwigTemplate_3b65b8f571ad40b68bdff0d618987629 extends Template
                 yield "\t\t\t\t\t\t\t\t\t\t<span class=\"welcome-text\">Welcome, ";
                 yield $this->env->getRuntime('Twig\Runtime\EscaperRuntime')->escape(((CoreExtension::getAttribute($this->env, $this->source, CoreExtension::getAttribute($this->env, $this->source, ($context["app"] ?? null), "user", [], "any", false, true, false, 114), "name", [], "any", true, true, false, 114)) ? (Twig\Extension\CoreExtension::default(CoreExtension::getAttribute($this->env, $this->source, CoreExtension::getAttribute($this->env, $this->source, (isset($context["app"]) || array_key_exists("app", $context) ? $context["app"] : (function () { throw new RuntimeError('Variable "app" does not exist.', 114, $this->source); })()), "user", [], "any", false, false, false, 114), "name", [], "any", false, false, false, 114), CoreExtension::getAttribute($this->env, $this->source, CoreExtension::getAttribute($this->env, $this->source, (isset($context["app"]) || array_key_exists("app", $context) ? $context["app"] : (function () { throw new RuntimeError('Variable "app" does not exist.', 114, $this->source); })()), "user", [], "any", false, false, false, 114), "email", [], "any", false, false, false, 114))) : (CoreExtension::getAttribute($this->env, $this->source, CoreExtension::getAttribute($this->env, $this->source, (isset($context["app"]) || array_key_exists("app", $context) ? $context["app"] : (function () { throw new RuntimeError('Variable "app" does not exist.', 114, $this->source); })()), "user", [], "any", false, false, false, 114), "email", [], "any", false, false, false, 114))), "html", null, true);
                 yield "</span>
+\t\t\t\t\t\t\t\t\t\t<a href=\"";
+                // line 115
+                yield $this->extensions['Symfony\Bridge\Twig\Extension\RoutingExtension']->getPath("app_homepage");
+                yield "\" class=\"profile-link\">
+\t\t\t\t\t\t\t\t\t\t\t<i class=\"fas fa-user-circle\"></i>
+\t\t\t\t\t\t\t\t\t\t</a>
 \t\t\t\t\t\t\t\t\t";
             }
-            // line 116
+            // line 119
             yield "\t\t\t\t\t\t\t\t\t";
-            // line 117
+            // line 120
             yield "\t\t\t\t\t\t\t\t\t<a href=\"";
             yield $this->extensions['Symfony\Bridge\Twig\Extension\RoutingExtension']->getPath("app_logout");
             yield "\" class=\"template-btn btn-style-two\">
@@ -252,9 +258,9 @@ class __TwigTemplate_3b65b8f571ad40b68bdff0d618987629 extends Template
 \t\t\t\t\t\t\t\t\t</a>
 \t\t\t\t\t\t\t\t";
         } else {
-            // line 124
+            // line 127
             yield "\t\t\t\t\t\t\t\t\t";
-            // line 125
+            // line 128
             yield "\t\t\t\t\t\t\t\t\t<a href=\"";
             yield $this->extensions['Symfony\Bridge\Twig\Extension\RoutingExtension']->getPath("app_login");
             yield "\" class=\"template-btn btn-style-two\">
@@ -264,7 +270,7 @@ class __TwigTemplate_3b65b8f571ad40b68bdff0d618987629 extends Template
 \t\t\t\t\t\t\t\t\t\t</span>
 \t\t\t\t\t\t\t\t\t</a>
 \t\t\t\t\t\t\t\t\t<a href=\"";
-            // line 131
+            // line 134
             yield $this->extensions['Symfony\Bridge\Twig\Extension\RoutingExtension']->getPath("app_register");
             yield "\" class=\"template-btn btn-style-one\">
 \t\t\t\t\t\t\t\t\t\t<span class=\"btn-wrap\">
@@ -274,7 +280,7 @@ class __TwigTemplate_3b65b8f571ad40b68bdff0d618987629 extends Template
 \t\t\t\t\t\t\t\t\t</a>
 \t\t\t\t\t\t\t\t";
         }
-        // line 138
+        // line 141
         yield "\t\t\t\t\t\t\t</div>
 
 \t\t\t\t\t\t\t<!-- Mobile Navigation Toggler -->
@@ -297,7 +303,7 @@ class __TwigTemplate_3b65b8f571ad40b68bdff0d618987629 extends Template
 \t\t\t
 \t\t\t<nav class=\"menu-box\">
 \t\t\t\t<div class=\"nav-logo\"><a href=\"";
-        // line 159
+        // line 162
         yield $this->extensions['Symfony\Bridge\Twig\Extension\RoutingExtension']->getPath("app_homepage");
         yield "\"><img src=\"";
         yield $this->env->getRuntime('Twig\Runtime\EscaperRuntime')->escape($this->extensions['Symfony\Bridge\Twig\Extension\AssetExtension']->getAssetUrl("assets_front/images/mobile-logo.svg"), "html", null, true);
@@ -318,23 +324,23 @@ class __TwigTemplate_3b65b8f571ad40b68bdff0d618987629 extends Template
 \t\t\t\t<!-- Slide -->
 \t\t\t\t<div class=\"swiper-slide\">
 \t\t\t\t\t<div class=\"slider-one_icon\" style=\"background-image:url(";
-        // line 175
+        // line 178
         yield $this->env->getRuntime('Twig\Runtime\EscaperRuntime')->escape($this->extensions['Symfony\Bridge\Twig\Extension\AssetExtension']->getAssetUrl("assets_front/images/main-slider/icon-1.png"), "html", null, true);
         yield ")\"></div>
 \t\t\t\t\t<div class=\"slider-one_icon-two\" style=\"background-image:url(";
-        // line 176
+        // line 179
         yield $this->env->getRuntime('Twig\Runtime\EscaperRuntime')->escape($this->extensions['Symfony\Bridge\Twig\Extension\AssetExtension']->getAssetUrl("assets_front/images/main-slider/icon-1.png"), "html", null, true);
         yield ")\"></div>
 \t\t\t\t\t<div class=\"slider-one_pattern\" style=\"background-image:url(";
-        // line 177
+        // line 180
         yield $this->env->getRuntime('Twig\Runtime\EscaperRuntime')->escape($this->extensions['Symfony\Bridge\Twig\Extension\AssetExtension']->getAssetUrl("assets_front/images/main-slider/pattern-1.png"), "html", null, true);
         yield ")\"></div>
 \t\t\t\t\t<div class=\"slider-one_pattern-two\" style=\"background-image:url(";
-        // line 178
+        // line 181
         yield $this->env->getRuntime('Twig\Runtime\EscaperRuntime')->escape($this->extensions['Symfony\Bridge\Twig\Extension\AssetExtension']->getAssetUrl("assets_front/images/main-slider/pattern-2.png"), "html", null, true);
         yield ")\"></div>
 \t\t\t\t\t<div class=\"slider-one_pattern-four\" style=\"background-image:url(";
-        // line 179
+        // line 182
         yield $this->env->getRuntime('Twig\Runtime\EscaperRuntime')->escape($this->extensions['Symfony\Bridge\Twig\Extension\AssetExtension']->getAssetUrl("assets_front/images/main-slider/pattern-4.png"), "html", null, true);
         yield ")\"></div>
 \t\t\t\t\t<div class=\"auto-container\">
@@ -343,14 +349,14 @@ class __TwigTemplate_3b65b8f571ad40b68bdff0d618987629 extends Template
 \t\t\t\t\t\t\t<div class=\"slider-one_content col-lg-7 col-md-12 col-sm-12\">
 \t\t\t\t\t\t\t\t<div class=\"slider-one_content-inner\">
 \t\t\t\t\t\t\t\t\t<div class=\"slider-one_title\"><i><img src=\"";
-        // line 185
+        // line 188
         yield $this->env->getRuntime('Twig\Runtime\EscaperRuntime')->escape($this->extensions['Symfony\Bridge\Twig\Extension\AssetExtension']->getAssetUrl("assets_front/images/main-slider/hand.png"), "html", null, true);
         yield "\" alt=\"\" /></i> AI makes content fast & easy</div>
 \t\t\t\t\t\t\t\t\t<h1 class=\"slider-one_heading\">Present your ideas in captivating live pitch sessions.</span> </h1>
 \t\t\t\t\t\t\t\t\t<div class=\"slider-one_text\">Shine in real time.</div>
 \t\t\t\t\t\t\t\t\t<div class=\"slider-one_button d-flex align-items-center flex-wrap\">
 \t\t\t\t\t\t\t\t\t\t<a href=\"";
-        // line 189
+        // line 192
         yield $this->extensions['Symfony\Bridge\Twig\Extension\RoutingExtension']->getPath("app_register");
         yield "\" class=\"template-btn btn-style-one\">
 \t\t\t\t\t\t\t\t\t\t\t<span class=\"btn-wrap\">
@@ -367,14 +373,14 @@ class __TwigTemplate_3b65b8f571ad40b68bdff0d618987629 extends Template
 \t\t\t\t\t\t\t<!-- Image Column -->
 \t\t\t\t\t\t\t<div class=\"slider-one_image-column col-lg-5 col-md-12 col-sm-12\">
 \t\t\t\t\t\t\t\t<div class=\"slider-one_pattern-three\" style=\"background-image:url(";
-        // line 203
+        // line 206
         yield $this->env->getRuntime('Twig\Runtime\EscaperRuntime')->escape($this->extensions['Symfony\Bridge\Twig\Extension\AssetExtension']->getAssetUrl("assets_front/images/main-slider/pattern-3.png"), "html", null, true);
         yield ")\"></div>
 \t\t\t\t\t\t\t\t<div class=\"slider-one_image-outer\">
 \t\t\t\t\t\t\t\t\t<!-- Slider One Author -->
 \t\t\t\t\t\t\t\t\t<div class=\"slider-one_author\">
 \t\t\t\t\t\t\t\t\t\t<i><img src=\"";
-        // line 207
+        // line 210
         yield $this->env->getRuntime('Twig\Runtime\EscaperRuntime')->escape($this->extensions['Symfony\Bridge\Twig\Extension\AssetExtension']->getAssetUrl("assets_front/images/main-slider/icon-2.png"), "html", null, true);
         yield "\" alt=\"\" /></i>
 \t\t\t\t\t\t\t\t\t\t<h5 class=\"slider-one_author-name\">Aarfaoui Yassine</h5>
@@ -389,13 +395,13 @@ class __TwigTemplate_3b65b8f571ad40b68bdff0d618987629 extends Template
 \t\t\t\t\t\t\t\t\t<div class=\"slider-one_graph\">
 \t\t\t\t\t\t\t\t\t\t<div class=\"slider-one_graph-title\">Annual goal <span>\$98,541 <sup><i class=\"fa-solid fa-caret-up fa-fw\"></i>110%</sup></span></div>
 \t\t\t\t\t\t\t\t\t\t<img src=\"";
-        // line 219
+        // line 222
         yield $this->env->getRuntime('Twig\Runtime\EscaperRuntime')->escape($this->extensions['Symfony\Bridge\Twig\Extension\AssetExtension']->getAssetUrl("assets_front/images/main-slider/graph.png"), "html", null, true);
         yield "\" alt=\"\" />
 \t\t\t\t\t\t\t\t\t</div>
 \t\t\t\t\t\t\t\t\t<div class=\"slider-one_image\">
 \t\t\t\t\t\t\t\t\t\t<img src=\"";
-        // line 222
+        // line 225
         yield $this->env->getRuntime('Twig\Runtime\EscaperRuntime')->escape($this->extensions['Symfony\Bridge\Twig\Extension\AssetExtension']->getAssetUrl("assets_front/images/main-slider/image-1.png"), "html", null, true);
         yield "\" alt=\"\" />
 \t\t\t\t\t\t\t\t\t</div>
@@ -409,23 +415,23 @@ class __TwigTemplate_3b65b8f571ad40b68bdff0d618987629 extends Template
 \t\t\t\t<!-- Slide 2 -->
 \t\t\t\t<div class=\"swiper-slide\">
 \t\t\t\t\t<div class=\"slider-one_icon\" style=\"background-image:url(";
-        // line 233
+        // line 236
         yield $this->env->getRuntime('Twig\Runtime\EscaperRuntime')->escape($this->extensions['Symfony\Bridge\Twig\Extension\AssetExtension']->getAssetUrl("assets_front/images/main-slider/icon-1.png"), "html", null, true);
         yield ")\"></div>
 \t\t\t\t\t<div class=\"slider-one_icon-two\" style=\"background-image:url(";
-        // line 234
+        // line 237
         yield $this->env->getRuntime('Twig\Runtime\EscaperRuntime')->escape($this->extensions['Symfony\Bridge\Twig\Extension\AssetExtension']->getAssetUrl("assets_front/images/main-slider/icon-1.png"), "html", null, true);
         yield ")\"></div>
 \t\t\t\t\t<div class=\"slider-one_pattern\" style=\"background-image:url(";
-        // line 235
+        // line 238
         yield $this->env->getRuntime('Twig\Runtime\EscaperRuntime')->escape($this->extensions['Symfony\Bridge\Twig\Extension\AssetExtension']->getAssetUrl("assets_front/images/main-slider/pattern-1.png"), "html", null, true);
         yield ")\"></div>
 \t\t\t\t\t<div class=\"slider-one_pattern-two\" style=\"background-image:url(";
-        // line 236
+        // line 239
         yield $this->env->getRuntime('Twig\Runtime\EscaperRuntime')->escape($this->extensions['Symfony\Bridge\Twig\Extension\AssetExtension']->getAssetUrl("assets_front/images/main-slider/pattern-2.png"), "html", null, true);
         yield ")\"></div>
 \t\t\t\t\t<div class=\"slider-one_pattern-four\" style=\"background-image:url(";
-        // line 237
+        // line 240
         yield $this->env->getRuntime('Twig\Runtime\EscaperRuntime')->escape($this->extensions['Symfony\Bridge\Twig\Extension\AssetExtension']->getAssetUrl("assets_front/images/main-slider/pattern-4.png"), "html", null, true);
         yield ")\"></div>
 \t\t\t\t\t<div class=\"auto-container\">
@@ -434,14 +440,14 @@ class __TwigTemplate_3b65b8f571ad40b68bdff0d618987629 extends Template
 \t\t\t\t\t\t\t<div class=\"slider-one_content col-lg-7 col-md-12 col-sm-12\">
 \t\t\t\t\t\t\t\t<div class=\"slider-one_content-inner\">
 \t\t\t\t\t\t\t\t\t<div class=\"slider-one_title\"><i><img src=\"";
-        // line 243
+        // line 246
         yield $this->env->getRuntime('Twig\Runtime\EscaperRuntime')->escape($this->extensions['Symfony\Bridge\Twig\Extension\AssetExtension']->getAssetUrl("assets_front/images/main-slider/hand.png"), "html", null, true);
         yield "\" alt=\"\" /></i> AI makes content fast & easy</div>
 \t\t\t\t\t\t\t\t\t<h1 class=\"slider-one_heading\">Join a community of entrepreneurs, investors, and students.</h1>
 \t\t\t\t\t\t\t\t\t<div class=\"slider-one_text\">Connect and innovate together</div>
 \t\t\t\t\t\t\t\t\t<div class=\"slider-one_button d-flex align-items-center flex-wrap\">
 \t\t\t\t\t\t\t\t\t\t<a href=\"";
-        // line 247
+        // line 250
         yield $this->extensions['Symfony\Bridge\Twig\Extension\RoutingExtension']->getPath("app_register");
         yield "\" class=\"template-btn btn-style-one\">
 \t\t\t\t\t\t\t\t\t\t\t<span class=\"btn-wrap\">
@@ -458,13 +464,13 @@ class __TwigTemplate_3b65b8f571ad40b68bdff0d618987629 extends Template
 \t\t\t\t\t\t\t<!-- Image Column -->
 \t\t\t\t\t\t\t<div class=\"slider-one_image-column col-lg-5 col-md-12 col-sm-12\">
 \t\t\t\t\t\t\t\t<div class=\"slider-one_pattern-three\" style=\"background-image:url(";
-        // line 261
+        // line 264
         yield $this->env->getRuntime('Twig\Runtime\EscaperRuntime')->escape($this->extensions['Symfony\Bridge\Twig\Extension\AssetExtension']->getAssetUrl("assets_front/images/main-slider/pattern-3.png"), "html", null, true);
         yield ")\"></div>
 \t\t\t\t\t\t\t\t<div class=\"slider-one_image-outer\">
 \t\t\t\t\t\t\t\t\t<div class=\"slider-one_author\">
 \t\t\t\t\t\t\t\t\t\t<i><img src=\"";
-        // line 264
+        // line 267
         yield $this->env->getRuntime('Twig\Runtime\EscaperRuntime')->escape($this->extensions['Symfony\Bridge\Twig\Extension\AssetExtension']->getAssetUrl("assets_front/images/main-slider/icon-2.png"), "html", null, true);
         yield "\" alt=\"\" /></i>
 \t\t\t\t\t\t\t\t\t\t<h5 class=\"slider-one_author-name\">Aamara Chiheb</h5>
@@ -478,13 +484,13 @@ class __TwigTemplate_3b65b8f571ad40b68bdff0d618987629 extends Template
 \t\t\t\t\t\t\t\t\t<div class=\"slider-one_graph\">
 \t\t\t\t\t\t\t\t\t\t<div class=\"slider-one_graph-title\">Annual goal <span>\$98,541 <sup><i class=\"fa-solid fa-caret-up fa-fw\"></i>110%</sup></span></div>
 \t\t\t\t\t\t\t\t\t\t<img src=\"";
-        // line 275
+        // line 278
         yield $this->env->getRuntime('Twig\Runtime\EscaperRuntime')->escape($this->extensions['Symfony\Bridge\Twig\Extension\AssetExtension']->getAssetUrl("assets_front/images/main-slider/graph.png"), "html", null, true);
         yield "\" alt=\"\" />
 \t\t\t\t\t\t\t\t\t</div>
 \t\t\t\t\t\t\t\t\t<div class=\"slider-one_image\">
 \t\t\t\t\t\t\t\t\t\t<img src=\"";
-        // line 278
+        // line 281
         yield $this->env->getRuntime('Twig\Runtime\EscaperRuntime')->escape($this->extensions['Symfony\Bridge\Twig\Extension\AssetExtension']->getAssetUrl("assets_front/images/main-slider/mirror.png"), "html", null, true);
         yield "\" alt=\"\" />
 \t\t\t\t\t\t\t\t\t</div>
@@ -497,23 +503,23 @@ class __TwigTemplate_3b65b8f571ad40b68bdff0d618987629 extends Template
 \t\t\t\t<!-- Slide 3 -->
 \t\t\t\t<div class=\"swiper-slide\">
 \t\t\t\t\t<div class=\"slider-one_icon\" style=\"background-image:url(";
-        // line 288
+        // line 291
         yield $this->env->getRuntime('Twig\Runtime\EscaperRuntime')->escape($this->extensions['Symfony\Bridge\Twig\Extension\AssetExtension']->getAssetUrl("assets_front/images/main-slider/icon-1.png"), "html", null, true);
         yield ")\"></div>
 \t\t\t\t\t<div class=\"slider-one_icon-two\" style=\"background-image:url(";
-        // line 289
+        // line 292
         yield $this->env->getRuntime('Twig\Runtime\EscaperRuntime')->escape($this->extensions['Symfony\Bridge\Twig\Extension\AssetExtension']->getAssetUrl("assets_front/images/main-slider/icon-1.png"), "html", null, true);
         yield ")\"></div>
 \t\t\t\t\t<div class=\"slider-one_pattern\" style=\"background-image:url(";
-        // line 290
+        // line 293
         yield $this->env->getRuntime('Twig\Runtime\EscaperRuntime')->escape($this->extensions['Symfony\Bridge\Twig\Extension\AssetExtension']->getAssetUrl("assets_front/images/main-slider/pattern-1.png"), "html", null, true);
         yield ")\"></div>
 \t\t\t\t\t<div class=\"slider-one_pattern-two\" style=\"background-image:url(";
-        // line 291
+        // line 294
         yield $this->env->getRuntime('Twig\Runtime\EscaperRuntime')->escape($this->extensions['Symfony\Bridge\Twig\Extension\AssetExtension']->getAssetUrl("assets_front/images/main-slider/pattern-2.png"), "html", null, true);
         yield ")\"></div>
 \t\t\t\t\t<div class=\"slider-one_pattern-four\" style=\"background-image:url(";
-        // line 292
+        // line 295
         yield $this->env->getRuntime('Twig\Runtime\EscaperRuntime')->escape($this->extensions['Symfony\Bridge\Twig\Extension\AssetExtension']->getAssetUrl("assets_front/images/main-slider/pattern-4.png"), "html", null, true);
         yield ")\"></div>
 \t\t\t\t\t<div class=\"auto-container\">
@@ -522,14 +528,14 @@ class __TwigTemplate_3b65b8f571ad40b68bdff0d618987629 extends Template
 \t\t\t\t\t\t\t<div class=\"slider-one_content col-lg-7 col-md-12 col-sm-12\">
 \t\t\t\t\t\t\t\t<div class=\"slider-one_content-inner\">
 \t\t\t\t\t\t\t\t\t<div class=\"slider-one_title\"><i><img src=\"";
-        // line 298
+        // line 301
         yield $this->env->getRuntime('Twig\Runtime\EscaperRuntime')->escape($this->extensions['Symfony\Bridge\Twig\Extension\AssetExtension']->getAssetUrl("assets_front/images/main-slider/hand.png"), "html", null, true);
         yield "\" alt=\"\" /></i> AI makes content fast & easy</div>
 \t\t\t\t\t\t\t\t\t<h1 class=\"slider-one_heading\">Take online courses and test your skills with interactive quizzes.</h1>
 \t\t\t\t\t\t\t\t\t<div class=\"slider-one_text\">Learn at your own pace.</div>
 \t\t\t\t\t\t\t\t\t<div class=\"slider-one_button d-flex align-items-center flex-wrap\">
 \t\t\t\t\t\t\t\t\t\t<a href=\"";
-        // line 302
+        // line 305
         yield $this->extensions['Symfony\Bridge\Twig\Extension\RoutingExtension']->getPath("app_register");
         yield "\" class=\"template-btn btn-style-one\">
 \t\t\t\t\t\t\t\t\t\t\t<span class=\"btn-wrap\">
@@ -546,13 +552,13 @@ class __TwigTemplate_3b65b8f571ad40b68bdff0d618987629 extends Template
 \t\t\t\t\t\t\t<!-- Image Column -->
 \t\t\t\t\t\t\t<div class=\"slider-one_image-column col-lg-5 col-md-12 col-sm-12\">
 \t\t\t\t\t\t\t\t<div class=\"slider-one_pattern-three\" style=\"background-image:url(";
-        // line 316
+        // line 319
         yield $this->env->getRuntime('Twig\Runtime\EscaperRuntime')->escape($this->extensions['Symfony\Bridge\Twig\Extension\AssetExtension']->getAssetUrl("assets_front/images/main-slider/pattern-3.png"), "html", null, true);
         yield ")\"></div>
 \t\t\t\t\t\t\t\t<div class=\"slider-one_image-outer\">
 \t\t\t\t\t\t\t\t\t<div class=\"slider-one_author\">
 \t\t\t\t\t\t\t\t\t\t<i><img src=\"";
-        // line 319
+        // line 322
         yield $this->env->getRuntime('Twig\Runtime\EscaperRuntime')->escape($this->extensions['Symfony\Bridge\Twig\Extension\AssetExtension']->getAssetUrl("assets_front/images/main-slider/icon-2.png"), "html", null, true);
         yield "\" alt=\"\" /></i>
 \t\t\t\t\t\t\t\t\t\t<h5 class=\"slider-one_author-name\">Laradh Youssef</h5>
@@ -566,13 +572,13 @@ class __TwigTemplate_3b65b8f571ad40b68bdff0d618987629 extends Template
 \t\t\t\t\t\t\t\t\t<div class=\"slider-one_graph\">
 \t\t\t\t\t\t\t\t\t\t<div class=\"slider-one_graph-title\">Annual goal <span>\$98,541 <sup><i class=\"fa-solid fa-caret-up fa-fw\"></i>110%</sup></span></div>
 \t\t\t\t\t\t\t\t\t\t<img src=\"";
-        // line 330
+        // line 333
         yield $this->env->getRuntime('Twig\Runtime\EscaperRuntime')->escape($this->extensions['Symfony\Bridge\Twig\Extension\AssetExtension']->getAssetUrl("assets_front/images/main-slider/graph.png"), "html", null, true);
         yield "\" alt=\"\" />
 \t\t\t\t\t\t\t\t\t</div>
 \t\t\t\t\t\t\t\t\t<div class=\"slider-one_image\">
 \t\t\t\t\t\t\t\t\t\t<img src=\"";
-        // line 333
+        // line 336
         yield $this->env->getRuntime('Twig\Runtime\EscaperRuntime')->escape($this->extensions['Symfony\Bridge\Twig\Extension\AssetExtension']->getAssetUrl("assets_front/images/main-slider/image-3.png"), "html", null, true);
         yield "\" alt=\"\" />
 \t\t\t\t\t\t\t\t\t</div>
@@ -661,12 +667,12 @@ class __TwigTemplate_3b65b8f571ad40b68bdff0d618987629 extends Template
 \t\t\t\t<div class=\"service-block_two col-lg-4 col-md-6 col-sm-12\">
 \t\t\t\t\t<div class=\"service-block_two-inner wow fadeInRight\" data-wow-delay=\"0ms\" data-wow-duration=\"1500ms\">
 \t\t\t\t\t\t<div class=\"service-block_two-sideicon\" style=\"background-image:url(";
-        // line 419
+        // line 422
         yield $this->env->getRuntime('Twig\Runtime\EscaperRuntime')->escape($this->extensions['Symfony\Bridge\Twig\Extension\AssetExtension']->getAssetUrl("assets_front/images/icons/service-1.png"), "html", null, true);
         yield ")\"></div>
 \t\t\t\t\t\t<div class=\"service-block_two-icon\">
 \t\t\t\t\t\t\t<img src=\"";
-        // line 421
+        // line 424
         yield $this->env->getRuntime('Twig\Runtime\EscaperRuntime')->escape($this->extensions['Symfony\Bridge\Twig\Extension\AssetExtension']->getAssetUrl("assets_front/images/icons/service.png"), "html", null, true);
         yield "\" alt=\"\" />
 \t\t\t\t\t\t</div>
@@ -691,15 +697,15 @@ class __TwigTemplate_3b65b8f571ad40b68bdff0d618987629 extends Template
 \t<!-- About One -->
 \t<section class=\"about-one\">
 \t\t<div class=\"about-one_pattern\" style=\"background-image:url(";
-        // line 443
+        // line 446
         yield $this->env->getRuntime('Twig\Runtime\EscaperRuntime')->escape($this->extensions['Symfony\Bridge\Twig\Extension\AssetExtension']->getAssetUrl("assets_front/images/background/about-pattern.png"), "html", null, true);
         yield ")\"></div>
 \t\t<div class=\"about-one_icon\" style=\"background-image:url(";
-        // line 444
+        // line 447
         yield $this->env->getRuntime('Twig\Runtime\EscaperRuntime')->escape($this->extensions['Symfony\Bridge\Twig\Extension\AssetExtension']->getAssetUrl("assets_front/images/icons/about-1.png"), "html", null, true);
         yield ")\"></div>
 \t\t<div class=\"about-one_icon-two\" style=\"background-image:url(";
-        // line 445
+        // line 448
         yield $this->env->getRuntime('Twig\Runtime\EscaperRuntime')->escape($this->extensions['Symfony\Bridge\Twig\Extension\AssetExtension']->getAssetUrl("assets_front/images/icons/about-2.png"), "html", null, true);
         yield ")\"></div>
 \t\t<div class=\"auto-container\">
@@ -709,12 +715,12 @@ class __TwigTemplate_3b65b8f571ad40b68bdff0d618987629 extends Template
 \t\t\t\t<div class=\"about-one_tab-column col-xl-6 col-lg-6 col-md-12 col-sm-12\">
 \t\t\t\t\t<div class=\"about-one_tab-outer\">
 \t\t\t\t\t\t<div class=\"about-one_tab-shadow\" style=\"background-image:url(";
-        // line 452
+        // line 455
         yield $this->env->getRuntime('Twig\Runtime\EscaperRuntime')->escape($this->extensions['Symfony\Bridge\Twig\Extension\AssetExtension']->getAssetUrl("assets_front/images/background/tab-shadow.png"), "html", null, true);
         yield ")\"></div>
 \t\t\t\t\t\t<div class=\"about-one_tab-image\">
 \t\t\t\t\t\t\t<img src=\"";
-        // line 454
+        // line 457
         yield $this->env->getRuntime('Twig\Runtime\EscaperRuntime')->escape($this->extensions['Symfony\Bridge\Twig\Extension\AssetExtension']->getAssetUrl("assets_front/images/resource/tabs.png"), "html", null, true);
         yield "\" alt=\"\" />
 \t\t\t\t\t\t</div>
@@ -834,12 +840,12 @@ class __TwigTemplate_3b65b8f571ad40b68bdff0d618987629 extends Template
 \t\t\t\t<div class=\"answer-one_content-column col-lg-7 col-md-12 col-sm-12\">
 \t\t\t\t\t<div class=\"answer-one_content-outer\">
 \t\t\t\t\t\t<div class=\"answer-one_pattern\" style=\"background-image:url(";
-        // line 571
+        // line 574
         yield $this->env->getRuntime('Twig\Runtime\EscaperRuntime')->escape($this->extensions['Symfony\Bridge\Twig\Extension\AssetExtension']->getAssetUrl("assets_front/images/background/faq-shadow.png"), "html", null, true);
         yield ")\"></div>
 \t\t\t\t\t\t<div class=\"answer-one_image\">
 \t\t\t\t\t\t\t<img src=\"";
-        // line 573
+        // line 576
         yield $this->env->getRuntime('Twig\Runtime\EscaperRuntime')->escape($this->extensions['Symfony\Bridge\Twig\Extension\AssetExtension']->getAssetUrl("assets_front/images/resource/faq.png"), "html", null, true);
         yield "\" alt=\"\" />
 \t\t\t\t\t\t</div>\t\t
@@ -855,7 +861,7 @@ class __TwigTemplate_3b65b8f571ad40b68bdff0d618987629 extends Template
 \t<section class=\"testimonial-one\">
 \t\t<div class=\"auto-container\">
 \t\t\t<div class=\"inner-container\" style=\"background-image:url(";
-        // line 586
+        // line 589
         yield $this->env->getRuntime('Twig\Runtime\EscaperRuntime')->escape($this->extensions['Symfony\Bridge\Twig\Extension\AssetExtension']->getAssetUrl("assets_front/images/background/testimonial-one_bg.png"), "html", null, true);
         yield ")\">
 \t\t\t\t<!-- Sec Title -->
@@ -882,7 +888,7 @@ class __TwigTemplate_3b65b8f571ad40b68bdff0d618987629 extends Template
 \t\t\t\t\t\t\t\t\t<div class=\"testimonial-block_one-author_box\">
 \t\t\t\t\t\t\t\t\t\t<div class=\"testimonial-block_one-author-image\">
 \t\t\t\t\t\t\t\t\t\t\t<img src=\"";
-        // line 610
+        // line 613
         yield $this->env->getRuntime('Twig\Runtime\EscaperRuntime')->escape($this->extensions['Symfony\Bridge\Twig\Extension\AssetExtension']->getAssetUrl("assets_front/images/resource/author-2.png"), "html", null, true);
         yield "\" alt=\"\" />
 \t\t\t\t\t\t\t\t\t\t</div>
@@ -908,7 +914,7 @@ class __TwigTemplate_3b65b8f571ad40b68bdff0d618987629 extends Template
 \t\t\t\t\t\t\t\t\t<div class=\"testimonial-block_one-author_box\">
 \t\t\t\t\t\t\t\t\t\t<div class=\"testimonial-block_one-author-image\">
 \t\t\t\t\t\t\t\t\t\t\t<img src=\"";
-        // line 633
+        // line 636
         yield $this->env->getRuntime('Twig\Runtime\EscaperRuntime')->escape($this->extensions['Symfony\Bridge\Twig\Extension\AssetExtension']->getAssetUrl("assets_front/images/resource/author-3.png"), "html", null, true);
         yield "\" alt=\"\" />
 \t\t\t\t\t\t\t\t\t\t</div>
@@ -934,7 +940,7 @@ class __TwigTemplate_3b65b8f571ad40b68bdff0d618987629 extends Template
 \t\t\t\t\t\t\t\t\t<div class=\"testimonial-block_one-author_box\">
 \t\t\t\t\t\t\t\t\t\t<div class=\"testimonial-block_one-author-image\">
 \t\t\t\t\t\t\t\t\t\t\t<img src=\"";
-        // line 656
+        // line 659
         yield $this->env->getRuntime('Twig\Runtime\EscaperRuntime')->escape($this->extensions['Symfony\Bridge\Twig\Extension\AssetExtension']->getAssetUrl("assets_front/images/resource/author-4.png"), "html", null, true);
         yield "\" alt=\"\" />
 \t\t\t\t\t\t\t\t\t\t</div>
@@ -959,11 +965,11 @@ class __TwigTemplate_3b65b8f571ad40b68bdff0d618987629 extends Template
 \t<!-- Steps One -->
 \t<section class=\"steps-one\">
 \t\t<div class=\"steps-one_bg\" style=\"background-image:url(";
-        // line 678
+        // line 681
         yield $this->env->getRuntime('Twig\Runtime\EscaperRuntime')->escape($this->extensions['Symfony\Bridge\Twig\Extension\AssetExtension']->getAssetUrl("assets_front/images/background/step-1_bg.png"), "html", null, true);
         yield ")\"></div>
 \t\t<div class=\"steps-one_icon\" style=\"background-image:url(";
-        // line 679
+        // line 682
         yield $this->env->getRuntime('Twig\Runtime\EscaperRuntime')->escape($this->extensions['Symfony\Bridge\Twig\Extension\AssetExtension']->getAssetUrl("assets_front/images/icons/step.png"), "html", null, true);
         yield ")\"></div>
 \t\t<div class=\"auto-container\">
@@ -999,7 +1005,7 @@ class __TwigTemplate_3b65b8f571ad40b68bdff0d618987629 extends Template
 \t\t\t\t\t\t\t\t<div class=\"step-block_one-content\">
 \t\t\t\t\t\t\t\t\t<div class=\"image\">
 \t\t\t\t\t\t\t\t\t\t<img src=\"";
-        // line 712
+        // line 715
         yield $this->env->getRuntime('Twig\Runtime\EscaperRuntime')->escape($this->extensions['Symfony\Bridge\Twig\Extension\AssetExtension']->getAssetUrl("assets_front/images/resource/step-1.png"), "html", null, true);
         yield "\" alt=\"\" />
 \t\t\t\t\t\t\t\t\t</div>
@@ -1019,7 +1025,7 @@ class __TwigTemplate_3b65b8f571ad40b68bdff0d618987629 extends Template
 \t\t\t\t\t\t\t\t<div class=\"step-block_one-content\">
 \t\t\t\t\t\t\t\t\t<div class=\"image\">
 \t\t\t\t\t\t\t\t\t\t<img src=\"";
-        // line 729
+        // line 732
         yield $this->env->getRuntime('Twig\Runtime\EscaperRuntime')->escape($this->extensions['Symfony\Bridge\Twig\Extension\AssetExtension']->getAssetUrl("assets_front/images/resource/step-2.png"), "html", null, true);
         yield "\" alt=\"\" />
 \t\t\t\t\t\t\t\t\t</div>
@@ -1036,7 +1042,7 @@ class __TwigTemplate_3b65b8f571ad40b68bdff0d618987629 extends Template
 \t\t\t\t\t\t\t\t<div class=\"step-block_one-content\">
 \t\t\t\t\t\t\t\t\t<div class=\"image\">
 \t\t\t\t\t\t\t\t\t\t<img src=\"";
-        // line 743
+        // line 746
         yield $this->env->getRuntime('Twig\Runtime\EscaperRuntime')->escape($this->extensions['Symfony\Bridge\Twig\Extension\AssetExtension']->getAssetUrl("assets_front/images/resource/step-3.png"), "html", null, true);
         yield "\" alt=\"\" />
 \t\t\t\t\t\t\t\t\t</div>
@@ -1054,7 +1060,7 @@ class __TwigTemplate_3b65b8f571ad40b68bdff0d618987629 extends Template
 \t<!-- Price One -->
 \t<section class=\"price-one\">
 \t\t<div class=\"price-one_bg\" style=\"background-image:url(";
-        // line 758
+        // line 761
         yield $this->env->getRuntime('Twig\Runtime\EscaperRuntime')->escape($this->extensions['Symfony\Bridge\Twig\Extension\AssetExtension']->getAssetUrl("assets_front/images/background/price-bg.png"), "html", null, true);
         yield ")\"></div>
 \t\t<div class=\"auto-container\">
@@ -1094,7 +1100,7 @@ class __TwigTemplate_3b65b8f571ad40b68bdff0d618987629 extends Template
 \t\t\t\t\t\t\t\t\t\t\t\t</div>
 \t\t\t\t\t\t\t\t\t\t\t\t<div class=\"price-block_one-button\">
 \t\t\t\t\t\t\t\t\t\t\t\t\t<a class=\"template-btn price-one_button\" href=\"";
-        // line 795
+        // line 798
         yield $this->extensions['Symfony\Bridge\Twig\Extension\RoutingExtension']->getPath("app_register");
         yield "\">Start 1 month free trial</a>
 \t\t\t\t\t\t\t\t\t\t\t\t</div>
@@ -1113,7 +1119,7 @@ class __TwigTemplate_3b65b8f571ad40b68bdff0d618987629 extends Template
 \t\t\t\t\t\t\t\t\t<div class=\"price-block_one active col-lg-4 col-md-6 col-sm-12\">
 \t\t\t\t\t\t\t\t\t\t<div class=\"price-block_one-inner\">
 \t\t\t\t\t\t\t\t\t\t\t<div class=\"price-one_stars\" style=\"background-image:url(";
-        // line 811
+        // line 814
         yield $this->env->getRuntime('Twig\Runtime\EscaperRuntime')->escape($this->extensions['Symfony\Bridge\Twig\Extension\AssetExtension']->getAssetUrl("assets_front/images/icons/price-stars.png"), "html", null, true);
         yield ")\"></div>
 \t\t\t\t\t\t\t\t\t\t\t<div class=\"price-block_one-title\">Professional</div>
@@ -1125,7 +1131,7 @@ class __TwigTemplate_3b65b8f571ad40b68bdff0d618987629 extends Template
 \t\t\t\t\t\t\t\t\t\t\t\t</div>
 \t\t\t\t\t\t\t\t\t\t\t\t<div class=\"price-block_one-button\">
 \t\t\t\t\t\t\t\t\t\t\t\t\t<a class=\"template-btn price-one_button\" href=\"";
-        // line 820
+        // line 823
         yield $this->extensions['Symfony\Bridge\Twig\Extension\RoutingExtension']->getPath("app_register");
         yield "\">Start 1 month free trial</a>
 \t\t\t\t\t\t\t\t\t\t\t\t</div>
@@ -1152,7 +1158,7 @@ class __TwigTemplate_3b65b8f571ad40b68bdff0d618987629 extends Template
 \t\t\t\t\t\t\t\t\t\t\t\t</div>
 \t\t\t\t\t\t\t\t\t\t\t\t<div class=\"price-block_one-button\">
 \t\t\t\t\t\t\t\t\t\t\t\t\t<a class=\"template-btn price-one_button\" href=\"";
-        // line 844
+        // line 847
         yield $this->extensions['Symfony\Bridge\Twig\Extension\RoutingExtension']->getPath("app_register");
         yield "\">Start 1 month free trial</a>
 \t\t\t\t\t\t\t\t\t\t\t\t</div>
@@ -1182,7 +1188,7 @@ class __TwigTemplate_3b65b8f571ad40b68bdff0d618987629 extends Template
 \t<!-- FAQ One -->
 \t<section class=\"faq-one\">
 \t\t<div class=\"faq-one_bg\" style=\"background-image:url(";
-        // line 871
+        // line 874
         yield $this->env->getRuntime('Twig\Runtime\EscaperRuntime')->escape($this->extensions['Symfony\Bridge\Twig\Extension\AssetExtension']->getAssetUrl("assets_front/images/background/faq-bg.png"), "html", null, true);
         yield ")\"></div>
 \t\t<div class=\"auto-container\">
@@ -1267,7 +1273,7 @@ class __TwigTemplate_3b65b8f571ad40b68bdff0d618987629 extends Template
 \t<!-- Footer -->
 \t<footer class=\"main-footer\">
 \t\t<div class=\"footer_pattern\" style=\"background-image: url(";
-        // line 953
+        // line 956
         yield $this->env->getRuntime('Twig\Runtime\EscaperRuntime')->escape($this->extensions['Symfony\Bridge\Twig\Extension\AssetExtension']->getAssetUrl("assets_front/images/background/footer-pattern.png"), "html", null, true);
         yield ")\"></div>
 \t\t<div class=\"auto-container\">
@@ -1345,13 +1351,13 @@ class __TwigTemplate_3b65b8f571ad40b68bdff0d618987629 extends Template
 \t\t\t<div class=\"auto-container\">
 \t\t\t\t<div class=\"inner-container d-flex justify-content-between align-items-center flex-wrap\">
 \t\t\t\t\t<div class=\"footer-logo\"><a href=\"";
-        // line 1028
+        // line 1031
         yield $this->extensions['Symfony\Bridge\Twig\Extension\RoutingExtension']->getPath("app_homepage");
         yield "\"><img src=\"";
         yield $this->env->getRuntime('Twig\Runtime\EscaperRuntime')->escape($this->extensions['Symfony\Bridge\Twig\Extension\AssetExtension']->getAssetUrl("assets_front/images/logo.svg"), "html", null, true);
         yield "\" alt=\"\" title=\"\"></a></div>
 \t\t\t\t\t<div class=\"footer-copyright\">&copy; 2024 <a href=\"";
-        // line 1029
+        // line 1032
         yield $this->extensions['Symfony\Bridge\Twig\Extension\RoutingExtension']->getPath("app_homepage");
         yield "\">Braine.</a> All rights reserved.</div>
 \t\t\t\t\t<!-- Social Box -->
@@ -1371,37 +1377,74 @@ class __TwigTemplate_3b65b8f571ad40b68bdff0d618987629 extends Template
 
 <!-- JavaScript Files -->
 <script src=\"";
-        // line 1046
+        // line 1049
         yield $this->env->getRuntime('Twig\Runtime\EscaperRuntime')->escape($this->extensions['Symfony\Bridge\Twig\Extension\AssetExtension']->getAssetUrl("assets_front/js/jquery.js"), "html", null, true);
         yield "\"></script>
 <script src=\"";
-        // line 1047
+        // line 1050
         yield $this->env->getRuntime('Twig\Runtime\EscaperRuntime')->escape($this->extensions['Symfony\Bridge\Twig\Extension\AssetExtension']->getAssetUrl("assets_front/js/bootstrap.min.js"), "html", null, true);
         yield "\"></script>
 <script src=\"";
-        // line 1048
+        // line 1051
         yield $this->env->getRuntime('Twig\Runtime\EscaperRuntime')->escape($this->extensions['Symfony\Bridge\Twig\Extension\AssetExtension']->getAssetUrl("assets_front/js/appear.js"), "html", null, true);
         yield "\"></script>
 <script src=\"";
-        // line 1049
+        // line 1052
         yield $this->env->getRuntime('Twig\Runtime\EscaperRuntime')->escape($this->extensions['Symfony\Bridge\Twig\Extension\AssetExtension']->getAssetUrl("assets_front/js/wow.js"), "html", null, true);
         yield "\"></script>
 <script src=\"";
-        // line 1050
+        // line 1053
         yield $this->env->getRuntime('Twig\Runtime\EscaperRuntime')->escape($this->extensions['Symfony\Bridge\Twig\Extension\AssetExtension']->getAssetUrl("assets_front/js/swiper.min.js"), "html", null, true);
         yield "\"></script>
 <script src=\"";
-        // line 1051
+        // line 1054
         yield $this->env->getRuntime('Twig\Runtime\EscaperRuntime')->escape($this->extensions['Symfony\Bridge\Twig\Extension\AssetExtension']->getAssetUrl("assets_front/js/odometer.js"), "html", null, true);
         yield "\"></script>
 <script src=\"";
-        // line 1052
+        // line 1055
         yield $this->env->getRuntime('Twig\Runtime\EscaperRuntime')->escape($this->extensions['Symfony\Bridge\Twig\Extension\AssetExtension']->getAssetUrl("assets_front/js/magnific-popup.min.js"), "html", null, true);
         yield "\"></script>
 <script src=\"";
-        // line 1053
+        // line 1056
         yield $this->env->getRuntime('Twig\Runtime\EscaperRuntime')->escape($this->extensions['Symfony\Bridge\Twig\Extension\AssetExtension']->getAssetUrl("assets_front/js/script.js"), "html", null, true);
         yield "\"></script>
+
+<style>
+    .welcome-text:hover {
+        background: #667eea;
+        color: white;
+    }
+    
+    .profile-link {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        margin-left: 15px;
+        padding: 8px 15px;
+        border-radius: 25px;
+        background: rgba(255, 255, 255, 0.1);
+        color: #667eea;
+        text-decoration: none;
+        transition: all 0.3s ease;
+    }
+    
+    .profile-link:hover {
+        background: #5567d8;
+        transform: translateY(-2px);
+    }
+    
+    @media (max-width: 768px) {
+        .welcome-text {
+            font-size: 14px;
+            padding: 8px 15px;
+        }
+        
+        .profile-link {
+            margin-left: 10px;
+            padding: 6px 12px;
+        }
+    }
+</style>
 
 <script>
     // Simple preloader removal
@@ -1443,7 +1486,7 @@ class __TwigTemplate_3b65b8f571ad40b68bdff0d618987629 extends Template
      */
     public function getDebugInfo(): array
     {
-        return array (  1403 => 1053,  1399 => 1052,  1395 => 1051,  1391 => 1050,  1387 => 1049,  1383 => 1048,  1379 => 1047,  1375 => 1046,  1355 => 1029,  1349 => 1028,  1271 => 953,  1186 => 871,  1156 => 844,  1129 => 820,  1117 => 811,  1098 => 795,  1058 => 758,  1040 => 743,  1023 => 729,  1003 => 712,  967 => 679,  963 => 678,  938 => 656,  912 => 633,  886 => 610,  859 => 586,  843 => 573,  838 => 571,  718 => 454,  713 => 452,  703 => 445,  699 => 444,  695 => 443,  670 => 421,  665 => 419,  576 => 333,  570 => 330,  556 => 319,  550 => 316,  533 => 302,  526 => 298,  517 => 292,  513 => 291,  509 => 290,  505 => 289,  501 => 288,  488 => 278,  482 => 275,  468 => 264,  462 => 261,  445 => 247,  438 => 243,  429 => 237,  425 => 236,  421 => 235,  417 => 234,  413 => 233,  399 => 222,  393 => 219,  378 => 207,  371 => 203,  354 => 189,  347 => 185,  338 => 179,  334 => 178,  330 => 177,  326 => 176,  322 => 175,  301 => 159,  278 => 138,  268 => 131,  258 => 125,  256 => 124,  245 => 117,  243 => 116,  237 => 114,  235 => 113,  224 => 106,  222 => 105,  219 => 104,  217 => 103,  215 => 102,  206 => 96,  202 => 95,  196 => 92,  163 => 62,  140 => 44,  100 => 6,  87 => 5,  64 => 3,  41 => 1,);
+        return array (  1409 => 1056,  1405 => 1055,  1401 => 1054,  1397 => 1053,  1393 => 1052,  1389 => 1051,  1385 => 1050,  1381 => 1049,  1361 => 1032,  1355 => 1031,  1277 => 956,  1192 => 874,  1162 => 847,  1135 => 823,  1123 => 814,  1104 => 798,  1064 => 761,  1046 => 746,  1029 => 732,  1009 => 715,  973 => 682,  969 => 681,  944 => 659,  918 => 636,  892 => 613,  865 => 589,  849 => 576,  844 => 574,  724 => 457,  719 => 455,  709 => 448,  705 => 447,  701 => 446,  676 => 424,  671 => 422,  582 => 336,  576 => 333,  562 => 322,  556 => 319,  539 => 305,  532 => 301,  523 => 295,  519 => 294,  515 => 293,  511 => 292,  507 => 291,  494 => 281,  488 => 278,  474 => 267,  468 => 264,  451 => 250,  444 => 246,  435 => 240,  431 => 239,  427 => 238,  423 => 237,  419 => 236,  405 => 225,  399 => 222,  384 => 210,  377 => 206,  360 => 192,  353 => 188,  344 => 182,  340 => 181,  336 => 180,  332 => 179,  328 => 178,  307 => 162,  284 => 141,  274 => 134,  264 => 128,  262 => 127,  251 => 120,  249 => 119,  242 => 115,  237 => 114,  235 => 113,  224 => 106,  222 => 105,  219 => 104,  217 => 103,  215 => 102,  206 => 96,  202 => 95,  196 => 92,  163 => 62,  140 => 44,  100 => 6,  87 => 5,  64 => 3,  41 => 1,);
     }
 
     public function getSourceContext(): Source
@@ -1560,8 +1603,11 @@ class __TwigTemplate_3b65b8f571ad40b68bdff0d618987629 extends Template
 \t\t\t\t\t\t\t\t\t\t\t</span>
 \t\t\t\t\t\t\t\t\t\t</a>
 \t\t\t\t\t\t\t\t\t{% else %}
-\t\t\t\t\t\t\t\t\t\t{# Regular user/student - show welcome message and logout #}
+\t\t\t\t\t\t\t\t\t\t{# Regular user/student - show welcome message, profile link, and logout #}
 \t\t\t\t\t\t\t\t\t\t<span class=\"welcome-text\">Welcome, {{ app.user.name|default(app.user.email) }}</span>
+\t\t\t\t\t\t\t\t\t\t<a href=\"{{ path('app_homepage') }}\" class=\"profile-link\">
+\t\t\t\t\t\t\t\t\t\t\t<i class=\"fas fa-user-circle\"></i>
+\t\t\t\t\t\t\t\t\t\t</a>
 \t\t\t\t\t\t\t\t\t{% endif %}
 \t\t\t\t\t\t\t\t\t{# Show logout button for all logged-in users #}
 \t\t\t\t\t\t\t\t\t<a href=\"{{ path('app_logout') }}\" class=\"template-btn btn-style-two\">
@@ -2501,6 +2547,43 @@ class __TwigTemplate_3b65b8f571ad40b68bdff0d618987629 extends Template
 <script src=\"{{ asset('assets_front/js/odometer.js') }}\"></script>
 <script src=\"{{ asset('assets_front/js/magnific-popup.min.js') }}\"></script>
 <script src=\"{{ asset('assets_front/js/script.js') }}\"></script>
+
+<style>
+    .welcome-text:hover {
+        background: #667eea;
+        color: white;
+    }
+    
+    .profile-link {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        margin-left: 15px;
+        padding: 8px 15px;
+        border-radius: 25px;
+        background: rgba(255, 255, 255, 0.1);
+        color: #667eea;
+        text-decoration: none;
+        transition: all 0.3s ease;
+    }
+    
+    .profile-link:hover {
+        background: #5567d8;
+        transform: translateY(-2px);
+    }
+    
+    @media (max-width: 768px) {
+        .welcome-text {
+            font-size: 14px;
+            padding: 8px 15px;
+        }
+        
+        .profile-link {
+            margin-left: 10px;
+            padding: 6px 12px;
+        }
+    }
+</style>
 
 <script>
     // Simple preloader removal

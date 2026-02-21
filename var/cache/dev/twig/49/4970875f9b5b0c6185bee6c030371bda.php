@@ -923,7 +923,7 @@ class __TwigTemplate_56e2e409930d60464d2cec76ad9830b5 extends Template
         ";
         // line 665
         yield from $this->unwrap()->yieldBlock('page_content', $context, $blocks);
-        // line 1188
+        // line 1165
         yield "    </div>
     <!-- Close main-content div -->
 </main>
@@ -950,33 +950,33 @@ class __TwigTemplate_56e2e409930d60464d2cec76ad9830b5 extends Template
     <div class=\"offcanvas-body p-0\">
         <div class=\"order-list\">
             ";
-        // line 1213
+        // line 1190
         $context["cartOrders"] = [["img" => "01.png", "title" => "White Men Shoes", "price" => "\$289"], ["img" => "02.png", "title" => "Red Airpods", "price" => "\$149"], ["img" => "03.png", "title" => "Men Polo Tshirt", "price" => "\$139"], ["img" => "04.png", "title" => "Blue Jeans Casual", "price" => "\$485"], ["img" => "05.png", "title" => "Fancy Shirts", "price" => "\$758"], ["img" => "06.png", "title" => "Home Sofa Set", "price" => "\$546"], ["img" => "07.png", "title" => "Black iPhone", "price" => "\$1049"], ["img" => "08.png", "title" => "Goldan Watch", "price" => "\$689"]];
-        // line 1223
+        // line 1200
         yield "            
             ";
-        // line 1224
+        // line 1201
         $context['_parent'] = $context;
-        $context['_seq'] = CoreExtension::ensureTraversable((isset($context["cartOrders"]) || array_key_exists("cartOrders", $context) ? $context["cartOrders"] : (function () { throw new RuntimeError('Variable "cartOrders" does not exist.', 1224, $this->source); })()));
+        $context['_seq'] = CoreExtension::ensureTraversable((isset($context["cartOrders"]) || array_key_exists("cartOrders", $context) ? $context["cartOrders"] : (function () { throw new RuntimeError('Variable "cartOrders" does not exist.', 1201, $this->source); })()));
         foreach ($context['_seq'] as $context["_key"] => $context["order"]) {
-            // line 1225
+            // line 1202
             yield "            <div class=\"order-item d-flex align-items-center gap-3 p-3 border-bottom\">
                 <div class=\"order-img\">
                     <img src=\"";
-            // line 1227
-            yield $this->env->getRuntime('Twig\Runtime\EscaperRuntime')->escape($this->extensions['Symfony\Bridge\Twig\Extension\AssetExtension']->getAssetUrl(("Back_Office/assets/images/orders/" . CoreExtension::getAttribute($this->env, $this->source, $context["order"], "img", [], "any", false, false, false, 1227))), "html", null, true);
+            // line 1204
+            yield $this->env->getRuntime('Twig\Runtime\EscaperRuntime')->escape($this->extensions['Symfony\Bridge\Twig\Extension\AssetExtension']->getAssetUrl(("Back_Office/assets/images/orders/" . CoreExtension::getAttribute($this->env, $this->source, $context["order"], "img", [], "any", false, false, false, 1204))), "html", null, true);
             yield "\" class=\"img-fluid rounded-3\" width=\"75\" alt=\"";
-            yield $this->env->getRuntime('Twig\Runtime\EscaperRuntime')->escape(CoreExtension::getAttribute($this->env, $this->source, $context["order"], "title", [], "any", false, false, false, 1227), "html", null, true);
+            yield $this->env->getRuntime('Twig\Runtime\EscaperRuntime')->escape(CoreExtension::getAttribute($this->env, $this->source, $context["order"], "title", [], "any", false, false, false, 1204), "html", null, true);
             yield "\" loading=\"lazy\">
                 </div>
                 <div class=\"order-info flex-grow-1\">
                     <h5 class=\"mb-1 order-title\">";
-            // line 1230
-            yield $this->env->getRuntime('Twig\Runtime\EscaperRuntime')->escape(CoreExtension::getAttribute($this->env, $this->source, $context["order"], "title", [], "any", false, false, false, 1230), "html", null, true);
+            // line 1207
+            yield $this->env->getRuntime('Twig\Runtime\EscaperRuntime')->escape(CoreExtension::getAttribute($this->env, $this->source, $context["order"], "title", [], "any", false, false, false, 1207), "html", null, true);
             yield "</h5>
                     <p class=\"mb-0 order-price\">";
-            // line 1231
-            yield $this->env->getRuntime('Twig\Runtime\EscaperRuntime')->escape(CoreExtension::getAttribute($this->env, $this->source, $context["order"], "price", [], "any", false, false, false, 1231), "html", null, true);
+            // line 1208
+            yield $this->env->getRuntime('Twig\Runtime\EscaperRuntime')->escape(CoreExtension::getAttribute($this->env, $this->source, $context["order"], "price", [], "any", false, false, false, 1208), "html", null, true);
             yield "</p>
                 </div>
                 <div class=\"d-flex\">
@@ -989,13 +989,13 @@ class __TwigTemplate_56e2e409930d60464d2cec76ad9830b5 extends Template
         $_parent = $context['_parent'];
         unset($context['_seq'], $context['_key'], $context['order'], $context['_parent']);
         $context = array_intersect_key($context, $_parent) + $_parent;
-        // line 1239
+        // line 1216
         yield "        </div>
     </div>
     <div class=\"offcanvas-footer h-70 p-3 border-top\">
         <div class=\"d-grid\">
             <a href=\"";
-        // line 1243
+        // line 1220
         yield $this->extensions['Symfony\Bridge\Twig\Extension\RoutingExtension']->getPath("ecommerce_orders");
         yield "\" class=\"btn btn-grd btn-grd-primary\">View All Orders</a>
         </div>
@@ -1023,14 +1023,14 @@ class __TwigTemplate_56e2e409930d60464d2cec76ad9830b5 extends Template
             <p>Theme variation</p>
             <div class=\"row g-3\">
                 ";
-        // line 1268
+        // line 1245
         $context["themes"] = [["id" => "BlueTheme", "icon" => "contactless", "label" => "Blue"], ["id" => "LightTheme", "icon" => "light_mode", "label" => "Light"], ["id" => "DarkTheme", "icon" => "dark_mode", "label" => "Dark"], ["id" => "SemiDarkTheme", "icon" => "contrast", "label" => "Semi Dark"], ["id" => "BoderedTheme", "icon" => "border_style", "label" => "Bordered"]];
-        // line 1275
+        // line 1252
         yield "                
                 ";
-        // line 1276
+        // line 1253
         $context['_parent'] = $context;
-        $context['_seq'] = CoreExtension::ensureTraversable((isset($context["themes"]) || array_key_exists("themes", $context) ? $context["themes"] : (function () { throw new RuntimeError('Variable "themes" does not exist.', 1276, $this->source); })()));
+        $context['_seq'] = CoreExtension::ensureTraversable((isset($context["themes"]) || array_key_exists("themes", $context) ? $context["themes"] : (function () { throw new RuntimeError('Variable "themes" does not exist.', 1253, $this->source); })()));
         $context['loop'] = [
           'parent' => $context['_parent'],
           'index0' => 0,
@@ -1045,27 +1045,27 @@ class __TwigTemplate_56e2e409930d60464d2cec76ad9830b5 extends Template
             $context['loop']['last'] = 1 === $length;
         }
         foreach ($context['_seq'] as $context["_key"] => $context["theme"]) {
-            // line 1277
+            // line 1254
             yield "                <div class=\"col-12 col-xl-6\">
                     <input type=\"radio\" class=\"btn-check\" name=\"theme-options\" id=\"";
-            // line 1278
-            yield $this->env->getRuntime('Twig\Runtime\EscaperRuntime')->escape(CoreExtension::getAttribute($this->env, $this->source, $context["theme"], "id", [], "any", false, false, false, 1278), "html", null, true);
+            // line 1255
+            yield $this->env->getRuntime('Twig\Runtime\EscaperRuntime')->escape(CoreExtension::getAttribute($this->env, $this->source, $context["theme"], "id", [], "any", false, false, false, 1255), "html", null, true);
             yield "\" ";
-            if ((($tmp = CoreExtension::getAttribute($this->env, $this->source, $context["loop"], "first", [], "any", false, false, false, 1278)) && $tmp instanceof Markup ? (string) $tmp : $tmp)) {
+            if ((($tmp = CoreExtension::getAttribute($this->env, $this->source, $context["loop"], "first", [], "any", false, false, false, 1255)) && $tmp instanceof Markup ? (string) $tmp : $tmp)) {
                 yield "checked";
             }
             yield ">
                     <label class=\"btn btn-outline-secondary d-flex flex-column gap-1 align-items-center justify-content-center p-4\" for=\"";
-            // line 1279
-            yield $this->env->getRuntime('Twig\Runtime\EscaperRuntime')->escape(CoreExtension::getAttribute($this->env, $this->source, $context["theme"], "id", [], "any", false, false, false, 1279), "html", null, true);
+            // line 1256
+            yield $this->env->getRuntime('Twig\Runtime\EscaperRuntime')->escape(CoreExtension::getAttribute($this->env, $this->source, $context["theme"], "id", [], "any", false, false, false, 1256), "html", null, true);
             yield "\">
                         <span class=\"material-icons-outlined\">";
-            // line 1280
-            yield $this->env->getRuntime('Twig\Runtime\EscaperRuntime')->escape(CoreExtension::getAttribute($this->env, $this->source, $context["theme"], "icon", [], "any", false, false, false, 1280), "html", null, true);
+            // line 1257
+            yield $this->env->getRuntime('Twig\Runtime\EscaperRuntime')->escape(CoreExtension::getAttribute($this->env, $this->source, $context["theme"], "icon", [], "any", false, false, false, 1257), "html", null, true);
             yield "</span>
                         <span>";
-            // line 1281
-            yield $this->env->getRuntime('Twig\Runtime\EscaperRuntime')->escape(CoreExtension::getAttribute($this->env, $this->source, $context["theme"], "label", [], "any", false, false, false, 1281), "html", null, true);
+            // line 1258
+            yield $this->env->getRuntime('Twig\Runtime\EscaperRuntime')->escape(CoreExtension::getAttribute($this->env, $this->source, $context["theme"], "label", [], "any", false, false, false, 1258), "html", null, true);
             yield "</span>
                     </label>
                 </div>
@@ -1082,7 +1082,7 @@ class __TwigTemplate_56e2e409930d60464d2cec76ad9830b5 extends Template
         $_parent = $context['_parent'];
         unset($context['_seq'], $context['_key'], $context['theme'], $context['_parent'], $context['loop']);
         $context = array_intersect_key($context, $_parent) + $_parent;
-        // line 1285
+        // line 1262
         yield "            </div>
         </div>
     </div>
@@ -1090,9 +1090,9 @@ class __TwigTemplate_56e2e409930d60464d2cec76ad9830b5 extends Template
 <!--end switcher-->
 
 ";
-        // line 1291
+        // line 1268
         yield from $this->unwrap()->yieldBlock('javascripts', $context, $blocks);
-        // line 1641
+        // line 1618
         yield "
 <!-- Performance Metrics Bar -->
 <div class=\"performance-metrics\">
@@ -1128,7 +1128,7 @@ class __TwigTemplate_56e2e409930d60464d2cec76ad9830b5 extends Template
         if (img08) {
             img08.onerror = function() {
                 this.src = '";
-        // line 1675
+        // line 1652
         yield $this->env->getRuntime('Twig\Runtime\EscaperRuntime')->escape($this->extensions['Symfony\Bridge\Twig\Extension\AssetExtension']->getAssetUrl("Back_Office/assets/images/orders/01.png"), "html", null, true);
         yield "'; // Fallback to existing image
                 this.style.backgroundColor = '#f0f0f0'; // Add background color
@@ -1557,51 +1557,7 @@ class __TwigTemplate_56e2e409930d60464d2cec76ad9830b5 extends Template
                     <div class=\"card-body p-0\">
                         <div class=\"user-list p-3\">
                             <div class=\"d-flex flex-column gap-3\">
-                                ";
-        // line 1004
-        $context["newUsers"] = [["avatar" => "01.png", "name" => "Elon Jonado", "username" => "elon_deo", "role" => "Admin"], ["avatar" => "02.png", "name" => "Alexzender Clito", "username" => "zli_alexzender", "role" => "Teacher"], ["avatar" => "03.png", "name" => "Michle Tinko", "username" => "tinko_michle", "role" => "Student"], ["avatar" => "04.png", "name" => "KailWemba", "username" => "wemba_kl", "role" => "Student"], ["avatar" => "05.png", "name" => "Henhco Tino", "username" => "Henhco_tino", "role" => "Teacher"], ["avatar" => "06.png", "name" => "Gonjiko Fernando", "username" => "gonjiko_fernando", "role" => "Student"], ["avatar" => "08.png", "name" => "Specer Kilo", "username" => "specer_kilo", "role" => "Student"]];
-        // line 1013
-        yield "                                
-                                ";
-        // line 1014
-        $context['_parent'] = $context;
-        $context['_seq'] = CoreExtension::ensureTraversable((isset($context["newUsers"]) || array_key_exists("newUsers", $context) ? $context["newUsers"] : (function () { throw new RuntimeError('Variable "newUsers" does not exist.', 1014, $this->source); })()));
-        foreach ($context['_seq'] as $context["_key"] => $context["user"]) {
-            // line 1015
-            yield "                                <div class=\"d-flex align-items-center gap-3\">
-                                    <img src=\"";
-            // line 1016
-            yield $this->env->getRuntime('Twig\Runtime\EscaperRuntime')->escape($this->extensions['Symfony\Bridge\Twig\Extension\AssetExtension']->getAssetUrl(("Back_Office/assets/images/avatars/" . CoreExtension::getAttribute($this->env, $this->source, $context["user"], "avatar", [], "any", false, false, false, 1016))), "html", null, true);
-            yield "\" width=\"45\" height=\"45\" class=\"rounded-circle\" alt=\"";
-            yield $this->env->getRuntime('Twig\Runtime\EscaperRuntime')->escape(CoreExtension::getAttribute($this->env, $this->source, $context["user"], "name", [], "any", false, false, false, 1016), "html", null, true);
-            yield "\">
-                                    <div class=\"flex-grow-1\">
-                                        <h6 class=\"mb-0\">";
-            // line 1018
-            yield $this->env->getRuntime('Twig\Runtime\EscaperRuntime')->escape(CoreExtension::getAttribute($this->env, $this->source, $context["user"], "name", [], "any", false, false, false, 1018), "html", null, true);
-            yield "</h6>
-                                        <p class=\"mb-0\">";
-            // line 1019
-            yield $this->env->getRuntime('Twig\Runtime\EscaperRuntime')->escape(CoreExtension::getAttribute($this->env, $this->source, $context["user"], "username", [], "any", false, false, false, 1019), "html", null, true);
-            yield "</p>
-                                        <span class=\"badge bg-";
-            // line 1020
-            yield (((CoreExtension::getAttribute($this->env, $this->source, $context["user"], "role", [], "any", false, false, false, 1020) == "Admin")) ? ("danger") : ((((CoreExtension::getAttribute($this->env, $this->source, $context["user"], "role", [], "any", false, false, false, 1020) == "Teacher")) ? ("warning") : ("info"))));
-            yield "\">";
-            yield $this->env->getRuntime('Twig\Runtime\EscaperRuntime')->escape(CoreExtension::getAttribute($this->env, $this->source, $context["user"], "role", [], "any", false, false, false, 1020), "html", null, true);
-            yield "</span>
-                                    </div>
-                                    <div class=\"form-check form-check-inline me-0\">
-                                        <input class=\"form-check-input ms-0\" type=\"checkbox\">
-                                    </div>
-                                </div>
-                                ";
-        }
-        $_parent = $context['_parent'];
-        unset($context['_seq'], $context['_key'], $context['user'], $context['_parent']);
-        $context = array_intersect_key($context, $_parent) + $_parent;
-        // line 1027
-        yield "                            </div>
+                                                            </div>
                         </div>
                     </div>
                     <div class=\"card-footer bg-transparent p-3\">
@@ -1654,63 +1610,63 @@ class __TwigTemplate_56e2e409930d60464d2cec76ad9830b5 extends Template
                                 </thead>
                                 <tbody>
                                     ";
-        // line 1079
+        // line 1056
         $context["recentOrders"] = [["img" => "01.png", "name" => "Sports Shoes", "price" => "\$289", "vendor" => "Nike Store", "status" => "Completed", "rating" => "4.5"], ["img" => "02.png", "name" => "Red Airpods", "price" => "\$149", "vendor" => "Apple Store", "status" => "Pending", "rating" => "4.8"], ["img" => "03.png", "name" => "Men Polo Tshirt", "price" => "\$139", "vendor" => "Fashion Hub", "status" => "Completed", "rating" => "4.2"], ["img" => "04.png", "name" => "Blue Jeans Casual", "price" => "\$485", "vendor" => "Denim Co", "status" => "Pending", "rating" => "4.0"], ["img" => "05.png", "name" => "Fancy Shirts", "price" => "\$758", "vendor" => "Premium Wear", "status" => "Completed", "rating" => "4.7"], ["img" => "06.png", "name" => "Home Sofa Set", "price" => "\$546", "vendor" => "Furniture Plus", "status" => "Canceled", "rating" => "3.8"], ["img" => "07.png", "name" => "Black iPhone", "price" => "\$1049", "vendor" => "Tech World", "status" => "Completed", "rating" => "4.9"], ["img" => "08.png", "name" => "Goldan Watch", "price" => "\$689", "vendor" => "Watch Gallery", "status" => "Pending", "rating" => "4.3"]];
-        // line 1089
+        // line 1066
         yield "                                    
                                     ";
-        // line 1090
+        // line 1067
         $context['_parent'] = $context;
-        $context['_seq'] = CoreExtension::ensureTraversable((isset($context["recentOrders"]) || array_key_exists("recentOrders", $context) ? $context["recentOrders"] : (function () { throw new RuntimeError('Variable "recentOrders" does not exist.', 1090, $this->source); })()));
+        $context['_seq'] = CoreExtension::ensureTraversable((isset($context["recentOrders"]) || array_key_exists("recentOrders", $context) ? $context["recentOrders"] : (function () { throw new RuntimeError('Variable "recentOrders" does not exist.', 1067, $this->source); })()));
         foreach ($context['_seq'] as $context["_key"] => $context["order"]) {
-            // line 1091
+            // line 1068
             yield "                                    <tr>
                                         <td>
                                             <div class=\"d-flex align-items-center gap-3\">
                                                 <div class=\"\">
                                                     <img src=\"";
-            // line 1095
-            yield $this->env->getRuntime('Twig\Runtime\EscaperRuntime')->escape($this->extensions['Symfony\Bridge\Twig\Extension\AssetExtension']->getAssetUrl(("Back_Office/assets/images/top-products/" . CoreExtension::getAttribute($this->env, $this->source, $context["order"], "img", [], "any", false, false, false, 1095))), "html", null, true);
+            // line 1072
+            yield $this->env->getRuntime('Twig\Runtime\EscaperRuntime')->escape($this->extensions['Symfony\Bridge\Twig\Extension\AssetExtension']->getAssetUrl(("Back_Office/assets/images/top-products/" . CoreExtension::getAttribute($this->env, $this->source, $context["order"], "img", [], "any", false, false, false, 1072))), "html", null, true);
             yield "\" class=\"rounded-circle\" width=\"50\" height=\"50\" alt=\"\">
                                                 </div>
                                                 <p class=\"mb-0\">";
-            // line 1097
-            yield $this->env->getRuntime('Twig\Runtime\EscaperRuntime')->escape(CoreExtension::getAttribute($this->env, $this->source, $context["order"], "name", [], "any", false, false, false, 1097), "html", null, true);
+            // line 1074
+            yield $this->env->getRuntime('Twig\Runtime\EscaperRuntime')->escape(CoreExtension::getAttribute($this->env, $this->source, $context["order"], "name", [], "any", false, false, false, 1074), "html", null, true);
             yield "</p>
                                             </div>
                                         </td>
                                         <td>";
-            // line 1100
-            yield $this->env->getRuntime('Twig\Runtime\EscaperRuntime')->escape(CoreExtension::getAttribute($this->env, $this->source, $context["order"], "price", [], "any", false, false, false, 1100), "html", null, true);
+            // line 1077
+            yield $this->env->getRuntime('Twig\Runtime\EscaperRuntime')->escape(CoreExtension::getAttribute($this->env, $this->source, $context["order"], "price", [], "any", false, false, false, 1077), "html", null, true);
             yield "</td>
                                         <td>";
-            // line 1101
-            yield $this->env->getRuntime('Twig\Runtime\EscaperRuntime')->escape(CoreExtension::getAttribute($this->env, $this->source, $context["order"], "vendor", [], "any", false, false, false, 1101), "html", null, true);
+            // line 1078
+            yield $this->env->getRuntime('Twig\Runtime\EscaperRuntime')->escape(CoreExtension::getAttribute($this->env, $this->source, $context["order"], "vendor", [], "any", false, false, false, 1078), "html", null, true);
             yield "</td>
                                         <td>
                                             ";
-            // line 1103
-            if ((CoreExtension::getAttribute($this->env, $this->source, $context["order"], "status", [], "any", false, false, false, 1103) == "Completed")) {
-                // line 1104
+            // line 1080
+            if ((CoreExtension::getAttribute($this->env, $this->source, $context["order"], "status", [], "any", false, false, false, 1080) == "Completed")) {
+                // line 1081
                 yield "                                                <p class=\"dash-lable mb-0 bg-success bg-opacity-10 text-success rounded-2\">Completed</p>
                                             ";
-            } elseif ((CoreExtension::getAttribute($this->env, $this->source,             // line 1105
-$context["order"], "status", [], "any", false, false, false, 1105) == "Pending")) {
-                // line 1106
+            } elseif ((CoreExtension::getAttribute($this->env, $this->source,             // line 1082
+$context["order"], "status", [], "any", false, false, false, 1082) == "Pending")) {
+                // line 1083
                 yield "                                                <p class=\"dash-lable mb-0 bg-warning bg-opacity-10 text-warning rounded-2\">Pending</p>
                                             ";
             } else {
-                // line 1108
+                // line 1085
                 yield "                                                <p class=\"dash-lable mb-0 bg-danger bg-opacity-10 text-danger rounded-2\">Canceled</p>
                                             ";
             }
-            // line 1110
+            // line 1087
             yield "                                        </td>
                                         <td>
                                             <div class=\"d-flex align-items-center gap-1\">
                                                 <p class=\"mb-0\">";
-            // line 1113
-            yield $this->env->getRuntime('Twig\Runtime\EscaperRuntime')->escape(CoreExtension::getAttribute($this->env, $this->source, $context["order"], "rating", [], "any", false, false, false, 1113), "html", null, true);
+            // line 1090
+            yield $this->env->getRuntime('Twig\Runtime\EscaperRuntime')->escape(CoreExtension::getAttribute($this->env, $this->source, $context["order"], "rating", [], "any", false, false, false, 1090), "html", null, true);
             yield "</p>
                                                 <i class=\"material-icons-outlined text-warning fs-6\">star</i>
                                             </div>
@@ -1721,7 +1677,7 @@ $context["order"], "status", [], "any", false, false, false, 1105) == "Pending")
         $_parent = $context['_parent'];
         unset($context['_seq'], $context['_key'], $context['order'], $context['_parent']);
         $context = array_intersect_key($context, $_parent) + $_parent;
-        // line 1119
+        // line 1096
         yield "                                </tbody>
                             </table>
                         </div>
@@ -1800,7 +1756,7 @@ $context["order"], "status", [], "any", false, false, false, 1105) == "Pending")
         yield from [];
     }
 
-    // line 1291
+    // line 1268
     /**
      * @return iterable<null|scalar|\Stringable>
      */
@@ -1813,50 +1769,50 @@ $context["order"], "status", [], "any", false, false, false, 1105) == "Pending")
         $__internal_6f47bbe9983af81f1e7450e9a3e3768f = $this->extensions["Symfony\\Bridge\\Twig\\Extension\\ProfilerExtension"];
         $__internal_6f47bbe9983af81f1e7450e9a3e3768f->enter($__internal_6f47bbe9983af81f1e7450e9a3e3768f_prof = new \Twig\Profiler\Profile($this->getTemplateName(), "block", "javascripts"));
 
-        // line 1292
+        // line 1269
         yield "<!-- jQuery first (required by other scripts) -->
 <script src=\"";
-        // line 1293
+        // line 1270
         yield $this->env->getRuntime('Twig\Runtime\EscaperRuntime')->escape($this->extensions['Symfony\Bridge\Twig\Extension\AssetExtension']->getAssetUrl("Back_Office/assets/js/jquery.min.js"), "html", null, true);
         yield "\"></script>
 
 <!--bootstrap js-->
 <script src=\"";
-        // line 1296
+        // line 1273
         yield $this->env->getRuntime('Twig\Runtime\EscaperRuntime')->escape($this->extensions['Symfony\Bridge\Twig\Extension\AssetExtension']->getAssetUrl("Back_Office/assets/js/bootstrap.bundle.min.js"), "html", null, true);
         yield "\"></script>
 
 <!--plugins-->
 <!--plugins-->
 <script src=\"";
-        // line 1300
+        // line 1277
         yield $this->env->getRuntime('Twig\Runtime\EscaperRuntime')->escape($this->extensions['Symfony\Bridge\Twig\Extension\AssetExtension']->getAssetUrl("Back_Office/assets/plugins/perfect-scrollbar/js/perfect-scrollbar.js"), "html", null, true);
         yield "\"></script>
 <script src=\"";
-        // line 1301
+        // line 1278
         yield $this->env->getRuntime('Twig\Runtime\EscaperRuntime')->escape($this->extensions['Symfony\Bridge\Twig\Extension\AssetExtension']->getAssetUrl("Back_Office/assets/plugins/metismenu/metisMenu.min.js"), "html", null, true);
         yield "\"></script>
 <script src=\"";
-        // line 1302
+        // line 1279
         yield $this->env->getRuntime('Twig\Runtime\EscaperRuntime')->escape($this->extensions['Symfony\Bridge\Twig\Extension\AssetExtension']->getAssetUrl("Back_Office/assets/plugins/apexchart/apexcharts.min.js"), "html", null, true);
         yield "\"></script>
 <script src=\"";
-        // line 1303
+        // line 1280
         yield $this->env->getRuntime('Twig\Runtime\EscaperRuntime')->escape($this->extensions['Symfony\Bridge\Twig\Extension\AssetExtension']->getAssetUrl("Back_Office/assets/plugins/simplebar/js/simplebar.min.js"), "html", null, true);
         yield "\"></script>
 <script src=\"https://cdnjs.cloudflare.com/ajax/libs/gsap/3.11.4/gsap.min.js\"></script>
 <script src=\"";
-        // line 1305
+        // line 1282
         yield $this->env->getRuntime('Twig\Runtime\EscaperRuntime')->escape($this->extensions['Symfony\Bridge\Twig\Extension\AssetExtension']->getAssetUrl("Back_Office/assets/plugins/peity/jquery.peity.min.js"), "html", null, true);
         yield "\"></script>
 
 <!-- Dashboard specific scripts -->
 <script src=\"";
-        // line 1308
+        // line 1285
         yield $this->env->getRuntime('Twig\Runtime\EscaperRuntime')->escape($this->extensions['Symfony\Bridge\Twig\Extension\AssetExtension']->getAssetUrl("Back_Office/assets/js/main.js"), "html", null, true);
         yield "\"></script>
 <script src=\"";
-        // line 1309
+        // line 1286
         yield $this->env->getRuntime('Twig\Runtime\EscaperRuntime')->escape($this->extensions['Symfony\Bridge\Twig\Extension\AssetExtension']->getAssetUrl("Back_Office/assets/js/dashboard1.js"), "html", null, true);
         yield "\"></script>
 
@@ -2220,7 +2176,7 @@ $context["order"], "status", [], "any", false, false, false, 1105) == "Pending")
      */
     public function getDebugInfo(): array
     {
-        return array (  1860 => 1309,  1856 => 1308,  1850 => 1305,  1845 => 1303,  1841 => 1302,  1837 => 1301,  1833 => 1300,  1826 => 1296,  1820 => 1293,  1817 => 1292,  1804 => 1291,  1725 => 1119,  1713 => 1113,  1708 => 1110,  1704 => 1108,  1700 => 1106,  1698 => 1105,  1695 => 1104,  1693 => 1103,  1688 => 1101,  1684 => 1100,  1678 => 1097,  1673 => 1095,  1667 => 1091,  1663 => 1090,  1660 => 1089,  1658 => 1079,  1604 => 1027,  1589 => 1020,  1585 => 1019,  1581 => 1018,  1574 => 1016,  1571 => 1015,  1567 => 1014,  1564 => 1013,  1562 => 1004,  1532 => 976,  1521 => 971,  1514 => 967,  1508 => 964,  1502 => 963,  1498 => 961,  1494 => 960,  1491 => 959,  1489 => 950,  1458 => 921,  1445 => 916,  1441 => 915,  1435 => 912,  1429 => 909,  1425 => 908,  1421 => 906,  1417 => 905,  1414 => 904,  1412 => 895,  1243 => 729,  1217 => 706,  1211 => 703,  1172 => 666,  1159 => 665,  1132 => 1675,  1096 => 1641,  1094 => 1291,  1086 => 1285,  1068 => 1281,  1064 => 1280,  1060 => 1279,  1052 => 1278,  1049 => 1277,  1032 => 1276,  1029 => 1275,  1027 => 1268,  999 => 1243,  993 => 1239,  979 => 1231,  975 => 1230,  967 => 1227,  963 => 1225,  959 => 1224,  956 => 1223,  954 => 1213,  927 => 1188,  925 => 665,  907 => 650,  899 => 645,  895 => 644,  891 => 643,  887 => 642,  873 => 631,  869 => 630,  865 => 629,  851 => 618,  847 => 617,  843 => 616,  829 => 605,  825 => 604,  809 => 591,  800 => 585,  796 => 584,  792 => 583,  788 => 582,  774 => 571,  770 => 570,  766 => 569,  752 => 558,  748 => 557,  744 => 556,  730 => 545,  726 => 544,  722 => 543,  706 => 530,  690 => 517,  676 => 506,  667 => 500,  663 => 499,  652 => 491,  644 => 485,  633 => 480,  629 => 479,  624 => 477,  620 => 475,  615 => 474,  613 => 465,  600 => 454,  590 => 450,  584 => 449,  580 => 447,  576 => 446,  564 => 436,  556 => 433,  538 => 432,  532 => 431,  528 => 429,  524 => 428,  517 => 424,  114 => 24,  110 => 23,  106 => 22,  102 => 21,  98 => 20,  94 => 19,  90 => 18,  84 => 15,  80 => 14,  76 => 13,  72 => 12,  68 => 11,  64 => 10,  60 => 9,  50 => 1,);
+        return array (  1816 => 1286,  1812 => 1285,  1806 => 1282,  1801 => 1280,  1797 => 1279,  1793 => 1278,  1789 => 1277,  1782 => 1273,  1776 => 1270,  1773 => 1269,  1760 => 1268,  1681 => 1096,  1669 => 1090,  1664 => 1087,  1660 => 1085,  1656 => 1083,  1654 => 1082,  1651 => 1081,  1649 => 1080,  1644 => 1078,  1640 => 1077,  1634 => 1074,  1629 => 1072,  1623 => 1068,  1619 => 1067,  1616 => 1066,  1614 => 1056,  1532 => 976,  1521 => 971,  1514 => 967,  1508 => 964,  1502 => 963,  1498 => 961,  1494 => 960,  1491 => 959,  1489 => 950,  1458 => 921,  1445 => 916,  1441 => 915,  1435 => 912,  1429 => 909,  1425 => 908,  1421 => 906,  1417 => 905,  1414 => 904,  1412 => 895,  1243 => 729,  1217 => 706,  1211 => 703,  1172 => 666,  1159 => 665,  1132 => 1652,  1096 => 1618,  1094 => 1268,  1086 => 1262,  1068 => 1258,  1064 => 1257,  1060 => 1256,  1052 => 1255,  1049 => 1254,  1032 => 1253,  1029 => 1252,  1027 => 1245,  999 => 1220,  993 => 1216,  979 => 1208,  975 => 1207,  967 => 1204,  963 => 1202,  959 => 1201,  956 => 1200,  954 => 1190,  927 => 1165,  925 => 665,  907 => 650,  899 => 645,  895 => 644,  891 => 643,  887 => 642,  873 => 631,  869 => 630,  865 => 629,  851 => 618,  847 => 617,  843 => 616,  829 => 605,  825 => 604,  809 => 591,  800 => 585,  796 => 584,  792 => 583,  788 => 582,  774 => 571,  770 => 570,  766 => 569,  752 => 558,  748 => 557,  744 => 556,  730 => 545,  726 => 544,  722 => 543,  706 => 530,  690 => 517,  676 => 506,  667 => 500,  663 => 499,  652 => 491,  644 => 485,  633 => 480,  629 => 479,  624 => 477,  620 => 475,  615 => 474,  613 => 465,  600 => 454,  590 => 450,  584 => 449,  580 => 447,  576 => 446,  564 => 436,  556 => 433,  538 => 432,  532 => 431,  528 => 429,  524 => 428,  517 => 424,  114 => 24,  110 => 23,  106 => 22,  102 => 21,  98 => 20,  94 => 19,  90 => 18,  84 => 15,  80 => 14,  76 => 13,  72 => 12,  68 => 11,  64 => 10,  60 => 9,  50 => 1,);
     }
 
     public function getSourceContext(): Source
@@ -3228,30 +3184,7 @@ $context["order"], "status", [], "any", false, false, false, 1105) == "Pending")
                     <div class=\"card-body p-0\">
                         <div class=\"user-list p-3\">
                             <div class=\"d-flex flex-column gap-3\">
-                                {% set newUsers = [
-                                    {avatar: '01.png', name: 'Elon Jonado', username: 'elon_deo', role: 'Admin'},
-                                    {avatar: '02.png', name: 'Alexzender Clito', username: 'zli_alexzender', role: 'Teacher'},
-                                    {avatar: '03.png', name: 'Michle Tinko', username: 'tinko_michle', role: 'Student'},
-                                    {avatar: '04.png', name: 'KailWemba', username: 'wemba_kl', role: 'Student'},
-                                    {avatar: '05.png', name: 'Henhco Tino', username: 'Henhco_tino', role: 'Teacher'},
-                                    {avatar: '06.png', name: 'Gonjiko Fernando', username: 'gonjiko_fernando', role: 'Student'},
-                                    {avatar: '08.png', name: 'Specer Kilo', username: 'specer_kilo', role: 'Student'}
-                                ] %}
-                                
-                                {% for user in newUsers %}
-                                <div class=\"d-flex align-items-center gap-3\">
-                                    <img src=\"{{ asset('Back_Office/assets/images/avatars/' ~ user.avatar) }}\" width=\"45\" height=\"45\" class=\"rounded-circle\" alt=\"{{ user.name }}\">
-                                    <div class=\"flex-grow-1\">
-                                        <h6 class=\"mb-0\">{{ user.name }}</h6>
-                                        <p class=\"mb-0\">{{ user.username }}</p>
-                                        <span class=\"badge bg-{{ user.role == 'Admin' ? 'danger' : (user.role == 'Teacher' ? 'warning' : 'info') }}\">{{ user.role }}</span>
-                                    </div>
-                                    <div class=\"form-check form-check-inline me-0\">
-                                        <input class=\"form-check-input ms-0\" type=\"checkbox\">
-                                    </div>
-                                </div>
-                                {% endfor %}
-                            </div>
+                                                            </div>
                         </div>
                     </div>
                     <div class=\"card-footer bg-transparent p-3\">

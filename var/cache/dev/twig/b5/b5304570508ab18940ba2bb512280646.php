@@ -69,8 +69,14 @@ class __TwigTemplate_7b1d8a9bcbb54fc180e3e1b462acc0c3 extends Template
     
     <!-- Custom CSS for navigation -->
     <style>
+        body {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
         .welcome-text {
-            color: #667eea;
+            color: #495057;
             font-weight: 600;
             padding: 10px 20px;
             border: 2px solid #667eea;
@@ -93,19 +99,19 @@ class __TwigTemplate_7b1d8a9bcbb54fc180e3e1b462acc0c3 extends Template
     </style>
     
     ";
-        // line 38
+        // line 44
         yield from $this->unwrap()->yieldBlock('stylesheets', $context, $blocks);
-        // line 39
+        // line 45
         yield "</head>
 <body>
     ";
-        // line 41
+        // line 47
         yield from $this->unwrap()->yieldBlock('body', $context, $blocks);
-        // line 42
+        // line 48
         yield "    
     <!-- SIMPLE JS - remove preloader JavaScript -->
     <script src=\"";
-        // line 44
+        // line 50
         yield $this->env->getRuntime('Twig\Runtime\EscaperRuntime')->escape($this->extensions['Symfony\Bridge\Twig\Extension\AssetExtension']->getAssetUrl("assets_front/js/jquery.js"), "html", null, true);
         yield "\"></script>
     <script>
@@ -116,9 +122,9 @@ class __TwigTemplate_7b1d8a9bcbb54fc180e3e1b462acc0c3 extends Template
     </script>
     
     ";
-        // line 52
+        // line 58
         yield from $this->unwrap()->yieldBlock('javascripts', $context, $blocks);
-        // line 53
+        // line 59
         yield "</body>
 </html>
 ";
@@ -154,7 +160,7 @@ class __TwigTemplate_7b1d8a9bcbb54fc180e3e1b462acc0c3 extends Template
         yield from [];
     }
 
-    // line 38
+    // line 44
     /**
      * @return iterable<null|scalar|\Stringable>
      */
@@ -176,7 +182,7 @@ class __TwigTemplate_7b1d8a9bcbb54fc180e3e1b462acc0c3 extends Template
         yield from [];
     }
 
-    // line 41
+    // line 47
     /**
      * @return iterable<null|scalar|\Stringable>
      */
@@ -198,7 +204,7 @@ class __TwigTemplate_7b1d8a9bcbb54fc180e3e1b462acc0c3 extends Template
         yield from [];
     }
 
-    // line 52
+    // line 58
     /**
      * @return iterable<null|scalar|\Stringable>
      */
@@ -241,7 +247,7 @@ class __TwigTemplate_7b1d8a9bcbb54fc180e3e1b462acc0c3 extends Template
      */
     public function getDebugInfo(): array
     {
-        return array (  202 => 52,  180 => 41,  158 => 38,  135 => 6,  122 => 53,  120 => 52,  109 => 44,  105 => 42,  103 => 41,  99 => 39,  97 => 38,  66 => 10,  59 => 6,  52 => 1,);
+        return array (  208 => 58,  186 => 47,  164 => 44,  141 => 6,  128 => 59,  126 => 58,  115 => 50,  111 => 48,  109 => 47,  105 => 45,  103 => 44,  66 => 10,  59 => 6,  52 => 1,);
     }
 
     public function getSourceContext(): Source
@@ -260,8 +266,14 @@ class __TwigTemplate_7b1d8a9bcbb54fc180e3e1b462acc0c3 extends Template
     
     <!-- Custom CSS for navigation -->
     <style>
+        body {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
         .welcome-text {
-            color: #667eea;
+            color: #495057;
             font-weight: 600;
             padding: 10px 20px;
             border: 2px solid #667eea;
