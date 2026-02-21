@@ -97,11 +97,6 @@ class GoogleAuthenticator extends OAuth2Authenticator
                     $this->mailer->send($emailMessage);
                 }
 
-                // Vérifier si le compte est actif
-                if ($user->getStatus() !== 'active') {
-                    throw new \Symfony\Component\Security\Core\Exception\CustomUserMessageAuthenticationException('Votre compte est en attente d\'approbation par l\'administrateur.');
-                }
-
                 return $user;
             })
         );
@@ -109,7 +104,27 @@ class GoogleAuthenticator extends OAuth2Authenticator
 
     public function onAuthenticationSuccess(Request $request, TokenInterface $token, string $firewallName): ?Response
     {
-        return new \Symfony\Component\HttpFoundation\RedirectResponse('/dashboard');
+        $user = $token->getUser();
+        
+        // Rediriger selon le statut de l'utilisateur
+        if ($user->getStatus() === 'pending') {
+            // Pour les utilisateurs pending, on ne redirige PAS vers login car ils sont déjà authentifiés
+            // On les redirige vers une page d'attente ou on les laisse accéder au site mais avec un message
+            $request->getSession()->getFlashBag()->add('info', 'Votre compte est en attente d\'approbation par l\'administrateur. Vous avez reçu un email avec vos identifiants de connexion.');
+            return new \Symfony\Component\HttpFoundation\RedirectResponse('/');
+        }
+        
+        if ($user->getStatus() === 'inactive') {
+            $request->getSession()->getFlashBag()->add('error', 'Votre compte est désactivé. Contactez l\'administrateur.');
+            return new \Symfony\Component\HttpFoundation\RedirectResponse('/login');
+        }
+        
+        // Utilisateur actif - rediriger vers le dashboard admin si admin, sinon page d'accueil
+        if (in_array('ROLE_ADMIN', $user->getRoles())) {
+            return new \Symfony\Component\HttpFoundation\RedirectResponse('/dashboard');
+        }
+        
+        return new \Symfony\Component\HttpFoundation\RedirectResponse('/');
     }
 
     public function onAuthenticationFailure(Request $request, AuthenticationException $exception): ?Response

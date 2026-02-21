@@ -112,7 +112,7 @@
 									{% else %}
 										{# Regular user/student - show welcome message, profile link, and logout #}
 										<span class="welcome-text">Welcome, {{ app.user.name|default(app.user.email) }}</span>
-										<a href="{{ path('app_homepage') }}" class="profile-link">
+										<a href="{{ path('app_profile') }}" class="profile-link" title="Mon Profil">
 											<i class="fas fa-user-circle"></i>
 										</a>
 									{% endif %}

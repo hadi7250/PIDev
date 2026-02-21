@@ -266,49 +266,55 @@ class __TwigTemplate_c3d19ed2da13e685f8ab423dcb900e4e extends Template
         yield "                
                 ";
         // line 188
-        $context['_parent'] = $context;
-        $context['_seq'] = CoreExtension::ensureTraversable(CoreExtension::getAttribute($this->env, $this->source, CoreExtension::getAttribute($this->env, $this->source, CoreExtension::getAttribute($this->env, $this->source, (isset($context["app"]) || array_key_exists("app", $context) ? $context["app"] : (function () { throw new RuntimeError('Variable "app" does not exist.', 188, $this->source); })()), "session", [], "any", false, false, false, 188), "flashbag", [], "any", false, false, false, 188), "all", [], "method", false, false, false, 188));
-        foreach ($context['_seq'] as $context["type"] => $context["messages"]) {
+        if ((($tmp =  !CoreExtension::getAttribute($this->env, $this->source, (isset($context["app"]) || array_key_exists("app", $context) ? $context["app"] : (function () { throw new RuntimeError('Variable "app" does not exist.', 188, $this->source); })()), "user", [], "any", false, false, false, 188)) && $tmp instanceof Markup ? (string) $tmp : $tmp)) {
             // line 189
             yield "                  ";
             $context['_parent'] = $context;
-            $context['_seq'] = CoreExtension::ensureTraversable($context["messages"]);
-            foreach ($context['_seq'] as $context["_key"] => $context["message"]) {
+            $context['_seq'] = CoreExtension::ensureTraversable(CoreExtension::getAttribute($this->env, $this->source, CoreExtension::getAttribute($this->env, $this->source, CoreExtension::getAttribute($this->env, $this->source, (isset($context["app"]) || array_key_exists("app", $context) ? $context["app"] : (function () { throw new RuntimeError('Variable "app" does not exist.', 189, $this->source); })()), "session", [], "any", false, false, false, 189), "flashbag", [], "any", false, false, false, 189), "all", [], "method", false, false, false, 189));
+            foreach ($context['_seq'] as $context["type"] => $context["messages"]) {
                 // line 190
-                yield "                    <div class=\"col-12\">
-                      <div class=\"alert alert-";
-                // line 191
-                yield $this->env->getRuntime('Twig\Runtime\EscaperRuntime')->escape($context["type"], "html", null, true);
-                yield " alert-dismissible fade show\" role=\"alert\">
-                        ";
-                // line 192
-                yield $this->env->getRuntime('Twig\Runtime\EscaperRuntime')->escape($context["message"], "html", null, true);
-                yield "
-                        <button type=\"button\" class=\"btn-close\" data-bs-dismiss=\"alert\"></button>
+                yield "                    ";
+                $context['_parent'] = $context;
+                $context['_seq'] = CoreExtension::ensureTraversable($context["messages"]);
+                foreach ($context['_seq'] as $context["_key"] => $context["message"]) {
+                    // line 191
+                    yield "                      <div class=\"col-12\">
+                        <div class=\"alert alert-";
+                    // line 192
+                    yield $this->env->getRuntime('Twig\Runtime\EscaperRuntime')->escape($context["type"], "html", null, true);
+                    yield " alert-dismissible fade show\" role=\"alert\">
+                          ";
+                    // line 193
+                    yield $this->env->getRuntime('Twig\Runtime\EscaperRuntime')->escape($context["message"], "html", null, true);
+                    yield "
+                          <button type=\"button\" class=\"btn-close\" data-bs-dismiss=\"alert\"></button>
+                        </div>
                       </div>
-                    </div>
-                  ";
+                    ";
+                }
+                $_parent = $context['_parent'];
+                unset($context['_seq'], $context['_key'], $context['message'], $context['_parent']);
+                $context = array_intersect_key($context, $_parent) + $_parent;
+                // line 198
+                yield "                  ";
             }
             $_parent = $context['_parent'];
-            unset($context['_seq'], $context['_key'], $context['message'], $context['_parent']);
+            unset($context['_seq'], $context['type'], $context['messages'], $context['_parent']);
             $context = array_intersect_key($context, $_parent) + $_parent;
-            // line 197
+            // line 199
             yield "                ";
         }
-        $_parent = $context['_parent'];
-        unset($context['_seq'], $context['type'], $context['messages'], $context['_parent']);
-        $context = array_intersect_key($context, $_parent) + $_parent;
-        // line 198
+        // line 200
         yield "                
                 ";
-        // line 199
-        if ((($tmp = CoreExtension::getAttribute($this->env, $this->source, (isset($context["app"]) || array_key_exists("app", $context) ? $context["app"] : (function () { throw new RuntimeError('Variable "app" does not exist.', 199, $this->source); })()), "user", [], "any", false, false, false, 199)) && $tmp instanceof Markup ? (string) $tmp : $tmp)) {
-            // line 200
+        // line 201
+        if ((($tmp = CoreExtension::getAttribute($this->env, $this->source, (isset($context["app"]) || array_key_exists("app", $context) ? $context["app"] : (function () { throw new RuntimeError('Variable "app" does not exist.', 201, $this->source); })()), "user", [], "any", false, false, false, 201)) && $tmp instanceof Markup ? (string) $tmp : $tmp)) {
+            // line 202
             yield "                  <div class=\"col-12\">
                     <div class=\"alert alert-info\">
                       You are logged in as ";
-            // line 202
-            yield $this->env->getRuntime('Twig\Runtime\EscaperRuntime')->escape(CoreExtension::getAttribute($this->env, $this->source, CoreExtension::getAttribute($this->env, $this->source, (isset($context["app"]) || array_key_exists("app", $context) ? $context["app"] : (function () { throw new RuntimeError('Variable "app" does not exist.', 202, $this->source); })()), "user", [], "any", false, false, false, 202), "email", [], "any", false, false, false, 202), "html", null, true);
+            // line 204
+            yield $this->env->getRuntime('Twig\Runtime\EscaperRuntime')->escape(CoreExtension::getAttribute($this->env, $this->source, CoreExtension::getAttribute($this->env, $this->source, (isset($context["app"]) || array_key_exists("app", $context) ? $context["app"] : (function () { throw new RuntimeError('Variable "app" does not exist.', 204, $this->source); })()), "user", [], "any", false, false, false, 204), "email", [], "any", false, false, false, 204), "html", null, true);
             yield ", <a href=\"";
             yield $this->extensions['Symfony\Bridge\Twig\Extension\RoutingExtension']->getPath("app_logout");
             yield "\">Logout</a>
@@ -316,14 +322,14 @@ class __TwigTemplate_c3d19ed2da13e685f8ab423dcb900e4e extends Template
                   </div>
                 ";
         }
-        // line 206
+        // line 208
         yield "                
                 <div class=\"col-12\">
                   <label for=\"inputEmailAddress\" class=\"form-label\">Email</label>
                   <input type=\"email\" class=\"form-control\" id=\"inputEmailAddress\" name=\"_username\" 
                          value=\"";
-        // line 210
-        yield $this->env->getRuntime('Twig\Runtime\EscaperRuntime')->escape((isset($context["last_username"]) || array_key_exists("last_username", $context) ? $context["last_username"] : (function () { throw new RuntimeError('Variable "last_username" does not exist.', 210, $this->source); })()), "html", null, true);
+        // line 212
+        yield $this->env->getRuntime('Twig\Runtime\EscaperRuntime')->escape((isset($context["last_username"]) || array_key_exists("last_username", $context) ? $context["last_username"] : (function () { throw new RuntimeError('Variable "last_username" does not exist.', 212, $this->source); })()), "html", null, true);
         yield "\" placeholder=\"jhon@example.com\" autofocus>
                 </div>
                 
@@ -347,7 +353,7 @@ class __TwigTemplate_c3d19ed2da13e685f8ab423dcb900e4e extends Template
                 
                 <div class=\"col-md-6 text-end\">
                   <a href=\"";
-        // line 232
+        // line 234
         yield $this->extensions['Symfony\Bridge\Twig\Extension\RoutingExtension']->getPath("app_forgot_password");
         yield "\" class=\"text-decoration-none\">Forgot Password ?</a>
                   <br>
@@ -357,7 +363,7 @@ class __TwigTemplate_c3d19ed2da13e685f8ab423dcb900e4e extends Template
                 </div>
                 
                 <input type=\"hidden\" name=\"_csrf_token\" value=\"";
-        // line 239
+        // line 241
         yield $this->env->getRuntime('Twig\Runtime\EscaperRuntime')->escape($this->env->getRuntime('Symfony\Component\Form\FormRenderer')->renderCsrfToken("authenticate"), "html", null, true);
         yield "\">
                 
@@ -370,7 +376,7 @@ class __TwigTemplate_c3d19ed2da13e685f8ab423dcb900e4e extends Template
                 <div class=\"col-12\">
                   <div class=\"text-start\">
                     <p class=\"mb-0\">Don't have an account yet? <a href=\"";
-        // line 249
+        // line 251
         yield $this->extensions['Symfony\Bridge\Twig\Extension\RoutingExtension']->getPath("app_register");
         yield "\" class=\"text-decoration-none\">Sign up here</a></p>
                   </div>
@@ -383,7 +389,7 @@ class __TwigTemplate_c3d19ed2da13e685f8ab423dcb900e4e extends Template
         <div class=\"col-lg-6 d-lg-flex d-none\">
           <div class=\"p-3 rounded-4 w-100 d-flex align-items-center justify-content-center bg-grd-primary\">
             <img src=\"";
-        // line 259
+        // line 261
         yield $this->env->getRuntime('Twig\Runtime\EscaperRuntime')->escape($this->extensions['Symfony\Bridge\Twig\Extension\AssetExtension']->getAssetUrl("Back_Office/assets/images/auth/login1.png"), "html", null, true);
         yield "\" class=\"img-fluid\" alt=\"Login Illustration\">
           </div>
@@ -511,7 +517,7 @@ class __TwigTemplate_c3d19ed2da13e685f8ab423dcb900e4e extends Template
      */
     public function getDebugInfo(): array
     {
-        return array (  387 => 259,  374 => 249,  361 => 239,  351 => 232,  326 => 210,  320 => 206,  311 => 202,  307 => 200,  305 => 199,  302 => 198,  296 => 197,  285 => 192,  281 => 191,  278 => 190,  273 => 189,  269 => 188,  266 => 187,  258 => 182,  254 => 180,  252 => 179,  248 => 178,  222 => 155,  213 => 149,  80 => 19,  76 => 18,  72 => 17,  68 => 16,  64 => 15,  48 => 1,);
+        return array (  393 => 261,  380 => 251,  367 => 241,  357 => 234,  332 => 212,  326 => 208,  317 => 204,  313 => 202,  311 => 201,  308 => 200,  305 => 199,  299 => 198,  288 => 193,  284 => 192,  281 => 191,  276 => 190,  271 => 189,  269 => 188,  266 => 187,  258 => 182,  254 => 180,  252 => 179,  248 => 178,  222 => 155,  213 => 149,  80 => 19,  76 => 18,  72 => 17,  68 => 16,  64 => 15,  48 => 1,);
     }
 
     public function getSourceContext(): Source
@@ -703,16 +709,18 @@ class __TwigTemplate_c3d19ed2da13e685f8ab423dcb900e4e extends Template
                   </div>
                 {% endif %}
                 
-                {% for type, messages in app.session.flashbag.all() %}
-                  {% for message in messages %}
-                    <div class=\"col-12\">
-                      <div class=\"alert alert-{{ type }} alert-dismissible fade show\" role=\"alert\">
-                        {{ message }}
-                        <button type=\"button\" class=\"btn-close\" data-bs-dismiss=\"alert\"></button>
+                {% if not app.user %}
+                  {% for type, messages in app.session.flashbag.all() %}
+                    {% for message in messages %}
+                      <div class=\"col-12\">
+                        <div class=\"alert alert-{{ type }} alert-dismissible fade show\" role=\"alert\">
+                          {{ message }}
+                          <button type=\"button\" class=\"btn-close\" data-bs-dismiss=\"alert\"></button>
+                        </div>
                       </div>
-                    </div>
+                    {% endfor %}
                   {% endfor %}
-                {% endfor %}
+                {% endif %}
                 
                 {% if app.user %}
                   <div class=\"col-12\">

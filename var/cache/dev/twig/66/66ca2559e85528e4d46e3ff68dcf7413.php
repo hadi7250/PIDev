@@ -239,8 +239,8 @@ class __TwigTemplate_3b65b8f571ad40b68bdff0d618987629 extends Template
                 yield "</span>
 \t\t\t\t\t\t\t\t\t\t<a href=\"";
                 // line 115
-                yield $this->extensions['Symfony\Bridge\Twig\Extension\RoutingExtension']->getPath("app_homepage");
-                yield "\" class=\"profile-link\">
+                yield $this->extensions['Symfony\Bridge\Twig\Extension\RoutingExtension']->getPath("app_profile");
+                yield "\" class=\"profile-link\" title=\"Mon Profil\">
 \t\t\t\t\t\t\t\t\t\t\t<i class=\"fas fa-user-circle\"></i>
 \t\t\t\t\t\t\t\t\t\t</a>
 \t\t\t\t\t\t\t\t\t";
@@ -1605,7 +1605,7 @@ class __TwigTemplate_3b65b8f571ad40b68bdff0d618987629 extends Template
 \t\t\t\t\t\t\t\t\t{% else %}
 \t\t\t\t\t\t\t\t\t\t{# Regular user/student - show welcome message, profile link, and logout #}
 \t\t\t\t\t\t\t\t\t\t<span class=\"welcome-text\">Welcome, {{ app.user.name|default(app.user.email) }}</span>
-\t\t\t\t\t\t\t\t\t\t<a href=\"{{ path('app_homepage') }}\" class=\"profile-link\">
+\t\t\t\t\t\t\t\t\t\t<a href=\"{{ path('app_profile') }}\" class=\"profile-link\" title=\"Mon Profil\">
 \t\t\t\t\t\t\t\t\t\t\t<i class=\"fas fa-user-circle\"></i>
 \t\t\t\t\t\t\t\t\t\t</a>
 \t\t\t\t\t\t\t\t\t{% endif %}
