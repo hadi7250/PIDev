@@ -9,7 +9,7 @@
             <div class="card shadow-lg border-0 rounded-4 overflow-hidden">
                 <!-- Header -->
                 <div class="profile-header bg-gradient text-white text-center py-5">
-                    <img src="{{ app.user.avatar | default('https://via.placeholder.com/150') }}" alt="Avatar" class="rounded-circle profile-avatar mb-3" style="width:150px; height:150px; object-fit:cover; border:5px solid white;">
+                    <img src="{{ app.user.photo ? asset('uploads/profiles/' ~ app.user.photo) : 'https://via.placeholder.com/150' }}" alt="Photo de profil" class="rounded-circle profile-avatar mb-3" style="width:150px; height:150px; object-fit:cover; border:5px solid white;">
                     <h2>{{ app.user.name }}</h2>
                     <p class="lead">{{ app.user.roles | first | replace({'ROLE_': ''}) | capitalize }}</p>
                     <p class="text-white-75">{{ app.user.email }}</p>
@@ -46,6 +46,17 @@
                             {{ form_errors(form.nsc) }}
                         </div>
                         
+                        <div class="col-md-12 mb-4">
+                            <div class="text-center">
+                                <label class="form-label">Photo de profil actuelle</label><br>
+                                <img id="photo-preview" src="{{ app.user.photo ? asset('uploads/profiles/' ~ app.user.photo) : 'https://via.placeholder.com/150' }}" alt="Prévisualisation" style="width:120px; height:120px; object-fit:cover; border-radius:50%; border: 3px solid #dee2e6;">
+                            </div>
+                            {{ form_label(form.photoFile, null, {'label_attr': {'class': 'form-label'}}) }}
+                            {{ form_widget(form.photoFile, {'attr': {'class': 'form-control', 'onchange': 'previewPhoto(event)'}}) }}
+                            {{ form_errors(form.photoFile) }}
+                            <small class="text-muted">Formats acceptés : JPG, PNG, GIF (max 2Mo)</small>
+                        </div>
+                        
                         <div class="col-md-6">
                             {{ form_label(form.plainPassword.first, null, {'label_attr': {'class': 'form-label'}}) }}
                             {{ form_widget(form.plainPassword.first, {'attr': {'class': 'form-control'}}) }}
@@ -72,4 +83,17 @@
         </div>
     </div>
 </div>
+
+<script>
+function previewPhoto(event) {
+    const file = event.target.files[0];
+    if (file) {
+        const reader = new FileReader();
+        reader.onload = function(e) {
+            document.getElementById('photo-preview').src = e.target.result;
+        }
+        reader.readAsDataURL(file);
+    }
+}
+</script>
 {% endblock %}

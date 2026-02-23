@@ -16,6 +16,10 @@ use Doctrine\ORM\EntityManagerInterface;
 
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
+use Symfony\Component\HttpFoundation\File\Exception\FileException;
+
+use Symfony\Component\HttpFoundation\JsonResponse;
+
 use Symfony\Component\HttpFoundation\Request;
 
 use Symfony\Component\HttpFoundation\Response;
@@ -25,6 +29,8 @@ use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 use Symfony\Component\Routing\Annotation\Route;
 
 use Symfony\Component\Security\Http\Attribute\IsGranted;
+
+use Symfony\Component\String\Slugger\SluggerInterface;
 
 
 
@@ -98,6 +104,8 @@ class DashboardController extends AbstractController
 
                 'status' => $user->getStatus(),
 
+                'photo' => $user->getPhoto()
+
                             ];
 
         }
@@ -118,7 +126,7 @@ class DashboardController extends AbstractController
 
     #[IsGranted('ROLE_ADMIN')]
 
-    public function createUser(Request $request, EntityManagerInterface $entityManager, UserPasswordHasherInterface $passwordHasher): Response
+    public function createUser(Request $request, EntityManagerInterface $entityManager, UserPasswordHasherInterface $passwordHasher, SluggerInterface $slugger): Response
 
     {
 
@@ -135,6 +143,23 @@ class DashboardController extends AbstractController
         $user->setNsc($data['nsc'] ?? rand(100000, 999999));
 
         $user->setStatus($data['status'] ?? 'active');
+
+        // Gestion de la photo
+        if (isset($data['photoFile']) && $data['photoFile']) {
+            $photoData = $data['photoFile'];
+            $originalFilename = pathinfo($photoData['name'], PATHINFO_FILENAME);
+            $safeFilename = $slugger->slug($originalFilename);
+            $newFilename = $safeFilename.'-'.uniqid().'.'.$photoData['extension'];
+            
+            try {
+                // Décoder les données base64 et sauvegarder
+                $photoData_decoded = base64_decode($photoData['data']);
+                file_put_contents($this->getParameter('profiles_directory').'/'.$newFilename, $photoData_decoded);
+                $user->setPhoto($newFilename);
+            } catch (FileException $e) {
+                error_log('Erreur lors de l\'upload de la photo: ' . $e->getMessage());
+            }
+        }
 
         $user->setAvatar($data['avatar'] ?? '01.png');
 
@@ -180,13 +205,12 @@ class DashboardController extends AbstractController
 
                 'roles' => $user->getRoles(),
 
-                'status' => $user->getStatus()
+                'status' => $user->getStatus(),
+                'photo' => $user->getPhoto()
 
             ];
 
         }
-
-        
 
         return $this->json([
 
@@ -195,19 +219,14 @@ class DashboardController extends AbstractController
             'user' => [
 
                 'id' => $user->getId(),
-
                 'name' => $user->getName(),
-
                 'email' => $user->getEmail(),
-
                 'nsc' => $user->getNsc(),
-
                 'roles' => $user->getRoles(),
-
-                'lastActive' => 'Just now'
+                'lastActive' => 'Just now',
+                'photo' => $user->getPhoto()
 
             ],
-
             'users' => $usersArray // Return properly serialized users list
 
         ]);
@@ -220,7 +239,7 @@ class DashboardController extends AbstractController
 
     #[IsGranted('ROLE_ADMIN')]
 
-    public function updateUser(User $user, Request $request, EntityManagerInterface $entityManager, UserPasswordHasherInterface $passwordHasher): Response
+    public function updateUser(User $user, Request $request, EntityManagerInterface $entityManager, UserPasswordHasherInterface $passwordHasher, SluggerInterface $slugger): Response
 
     {
 
@@ -243,6 +262,32 @@ class DashboardController extends AbstractController
         $user->setEmail($data['email']);
 
         
+
+        // Gestion de la photo
+        if (isset($data['photoFile']) && $data['photoFile']) {
+            $photoData = $data['photoFile'];
+            $originalFilename = pathinfo($photoData['name'], PATHINFO_FILENAME);
+            $safeFilename = $slugger->slug($originalFilename);
+            $newFilename = $safeFilename.'-'.uniqid().'.'.$photoData['extension'];
+            
+            // Supprimer l'ancienne photo si elle existe
+            if ($user->getPhoto()) {
+                $oldFile = $this->getParameter('profiles_directory').'/'.$user->getPhoto();
+                if (file_exists($oldFile)) {
+                    unlink($oldFile);
+                }
+            }
+            
+            try {
+                // Décoder les données base64 et sauvegarder
+                $photoData_decoded = base64_decode($photoData['data']);
+                file_put_contents($this->getParameter('profiles_directory').'/'.$newFilename, $photoData_decoded);
+                $user->setPhoto($newFilename);
+                error_log('Photo uploaded: ' . $newFilename);
+            } catch (FileException $e) {
+                error_log('Erreur lors de l\'upload de la photo: ' . $e->getMessage());
+            }
+        }
 
         // Set status
 
@@ -334,34 +379,26 @@ class DashboardController extends AbstractController
 
                 'roles' => $user->getRoles(),
 
-                'status' => $user->getStatus()
+                'status' => $user->getStatus(),
+                'photo' => $user->getPhoto()
 
             ];
 
         }
-
-        
 
         return $this->json([
 
             'success' => true,
 
             'message' => 'User updated successfully',
-
             'user' => [
-
                 'id' => $user->getId(),
-
                 'name' => $user->getName(),
-
                 'email' => $user->getEmail(),
-
                 'nsc' => $user->getNsc(),
-
-                'roles' => $user->getRoles()
-
+                'roles' => $user->getRoles(),
+                'photo' => $user->getPhoto()
             ],
-
             'users' => $usersArray // Return properly serialized users list
 
         ]);
@@ -404,13 +441,13 @@ class DashboardController extends AbstractController
 
                 'roles' => $user->getRoles(),
 
-                'status' => $user->getStatus()
+                'status' => $user->getStatus(),
+                'photo' => $user->getPhoto()
 
             ];
 
         }
 
-        
 
         return $this->json([
 

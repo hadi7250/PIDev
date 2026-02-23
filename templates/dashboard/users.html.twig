@@ -11,17 +11,41 @@
                 <div class="card-body">
                     <table class="table">
                         <thead>
-                            <tr><th>Nom</th><th>Email</th><th>Rôles</th></tr>
+                            <tr><th>Photo</th><th>Nom</th><th>Email</th><th>Rôles</th><th>Statut</th><th>Actions</th></tr>
                         </thead>
                         <tbody>
                             {% for u in users %}
                                 <tr>
+                                    <td>
+                                        <img src="{{ u.photo ? asset('uploads/profiles/' ~ u.photo) : 'https://via.placeholder.com/40' }}" 
+                                             alt="{{ u.name }}" 
+                                             class="rounded-circle" 
+                                             style="width:40px; height:40px; object-fit:cover; border:1px solid #dee2e6;">
+                                    </td>
                                     <td>{{ u.name }}</td>
                                     <td>{{ u.email }}</td>
-                                    <td>{{ u.roles|join(', ') }}</td>
+                                    <td>
+                                        {% for role in u.roles %}
+                                            {% if role != 'ROLE_USER' %}
+                                                <span class="badge bg-{{ role == 'ROLE_ADMIN' ? 'danger' : 'primary' }} me-1">
+                                                    {{ role|replace({'ROLE_': ''}) }}
+                                                </span>
+                                            {% endif %}
+                                        {% endfor %}
+                                    </td>
+                                    <td>
+                                        <span class="badge bg-{{ u.status == 'active' ? 'success' : (u.status == 'inactive' ? 'danger' : 'warning') }}">
+                                            {{ u.status|capitalize }}
+                                        </span>
+                                    </td>
+                                    <td>
+                                        <button class="btn btn-sm btn-outline-primary" onclick="editUser({{ u.id }})">
+                                            <i class="fas fa-edit"></i>
+                                        </button>
+                                    </td>
                                 </tr>
                             {% else %}
-                                <tr><td colspan="3">Aucun utilisateur</td></tr>
+                                <tr><td colspan="6">Aucun utilisateur</td></tr>
                             {% endfor %}
                         </tbody>
                     </table>

@@ -14,6 +14,7 @@ return [
         '/_profiler/phpinfo' => [[['_route' => '_profiler_phpinfo', '_controller' => 'web_profiler.controller.profiler::phpinfoAction'], null, null, null, false, false, null]],
         '/_profiler/xdebug' => [[['_route' => '_profiler_xdebug', '_controller' => 'web_profiler.controller.profiler::xdebugAction'], null, null, null, false, false, null]],
         '/_profiler/open' => [[['_route' => '_profiler_open_file', '_controller' => 'web_profiler.controller.profiler::openAction'], null, null, null, false, false, null]],
+        '/admin/chatbot/query' => [[['_route' => 'admin_chatbot_query', '_controller' => 'App\\Controller\\Admin\\ChatBotController::query'], null, ['POST' => 0], null, false, false, null]],
         '/dashboard' => [[['_route' => 'dashboard_index', '_controller' => 'App\\Controller\\DashboardController::dashboardIndex'], null, null, null, false, false, null]],
         '/dashboard/users/add' => [
             [['_route' => 'dashboard_users_add', '_controller' => 'App\\Controller\\DashboardController::usersAdd'], null, null, null, false, false, null],
