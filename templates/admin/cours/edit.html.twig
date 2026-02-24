@@ -26,14 +26,26 @@
                     <div class="col-lg-8">
                         <div class="border border-3 p-4 rounded">
                             
+                            {# --- TITLE FIELD --- #}
                             <div class="mb-3">
                                 {{ form_label(form.titre, 'Course Title', {'label_attr': {'class': 'form-label'}}) }}
                                 {{ form_widget(form.titre) }}
+                                
+                                {# 👇 ADDED: Display errors for Title #}
+                                <div class="text-danger mt-1">
+                                    {{ form_errors(form.titre) }}
+                                </div>
                             </div>
                             
+                            {# --- DESCRIPTION FIELD --- #}
                             <div class="mb-3">
                                 {{ form_label(form.description, 'Description', {'label_attr': {'class': 'form-label'}}) }}
                                 {{ form_widget(form.description) }}
+                                
+                                {# 👇 ADDED: Display errors for Description #}
+                                <div class="text-danger mt-1">
+                                    {{ form_errors(form.description) }}
+                                </div>
                             </div>
 
                             <div class="d-grid gap-2 d-md-flex justify-content-md-end">

@@ -35,7 +35,7 @@ class Quiz
     #[Assert\Positive(message: "Total score must be positive.")]
     private ?int $totalScore = null;
 
-    #[ORM\ManyToOne(targetEntity: Cours::class, inversedBy: 'quizzes')]
+    #[ORM\ManyToOne(targetEntity: Cours::class)]
     #[ORM\JoinColumn(name: 'id_cours', referencedColumnName: 'id_cours', nullable: true)] 
     private ?Cours $cours = null;
 

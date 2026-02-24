@@ -7,8 +7,8 @@
     /* 1. Fix the Footer Blocking Content */
     .course-content-section {
         padding-top: 60px;
-        padding-bottom: 200px !important; /* Huge padding to prevent footer overlap */
-        min-height: 100vh; /* Ensures page is tall enough */
+        padding-bottom: 200px !important; 
+        min-height: 100vh; 
     }
 
     /* 2. Page Title Area */
@@ -18,7 +18,7 @@
         position: relative;
     }
     .page-title h2 { 
-        color: #ffffff !important; /* Force White */
+        color: #ffffff !important; 
         font-weight: 700;
     }
     .bread-crumb li, .bread-crumb li a { 
@@ -27,11 +27,11 @@
     
     /* 3. Chapter List Styling (Dark Mode Friendly) */
     .chapter-item {
-        border: 1px solid #333; /* Dark border */
+        border: 1px solid #333; 
         margin-bottom: 10px;
         border-radius: 6px;
         overflow: hidden;
-        background-color: #1a1a1a; /* Dark background for the item */
+        background-color: #1a1a1a; 
     }
     
     .chapter-link {
@@ -39,8 +39,8 @@
         justify-content: space-between;
         align-items: center;
         padding: 15px;
-        background: #222; /* Slightly lighter dark for the button */
-        color: #ffffff !important; /* Force Chapter Names White */
+        background: #222; 
+        color: #ffffff !important; 
         font-weight: 600;
         text-decoration: none;
         cursor: pointer;
@@ -49,14 +49,14 @@
     
     .chapter-link:hover { 
         background: #333; 
-        color: #00bfff !important; /* Light blue on hover */
+        color: #00bfff !important; 
     }
 
     /* 4. Content Area (Where the video is) */
     .content-text { 
         padding: 20px; 
-        background: #111; /* Very dark background for content */
-        color: #ddd; /* Light grey text */
+        background: #111; 
+        color: #ddd; 
         border-top: 1px solid #333; 
     }
     .content-text a { color: #00bfff; }
@@ -64,7 +64,7 @@
     /* Video Container */
     .video-responsive {
         position: relative;
-        padding-bottom: 56.25%; /* 16:9 Aspect Ratio */
+        padding-bottom: 56.25%; 
         height: 0;
         overflow: hidden;
         margin-top: 15px;
@@ -78,6 +78,35 @@
         left: 0;
         width: 100%;
         height: 100%;
+    }
+
+    /* 5. AI Summary Styling */
+    .ai-box {
+        background: rgba(0, 191, 255, 0.05);
+        border-left: 4px solid #00bfff;
+        padding: 15px;
+        border-radius: 4px;
+        margin-top: 20px;
+    }
+    .ai-title {
+        color: #00bfff;
+        font-weight: bold;
+        margin-bottom: 10px;
+        display: flex;
+        align-items: center;
+        gap: 8px;
+    }
+    .ai-btn {
+        background: transparent;
+        border: 1px solid #00bfff;
+        color: #00bfff;
+        padding: 8px 16px;
+        border-radius: 4px;
+        transition: all 0.3s;
+    }
+    .ai-btn:hover {
+        background: #00bfff;
+        color: #000;
     }
 </style>
 <script async src="//www.instagram.com/embed.js"></script>
@@ -105,6 +134,7 @@
                             <h4 class="mb-0" style="color: white;">Course Chapters</h4>
                         </div>
                         
+                        {# Use 'chapters' (the processed array from your Controller) #}
                         {% for chapter in chapters %}
                             <div class="chapter-item">
                                 <a class="chapter-link" data-bs-toggle="collapse" href="#chapter-{{ chapter.id }}" role="button" aria-expanded="false">
@@ -116,8 +146,39 @@
 
                                 <div class="collapse {% if loop.first %}show{% endif %}" id="chapter-{{ chapter.id }}">
                                     <div class="content-text">
-                                        {# Use 'raw' because we added safe HTML (iframes) in the Controller #}
-                                        {{ chapter.contenu|raw|nl2br }}
+                                        {# 1. VIDEO CONTENT (Uses your makeLinksClickable logic from Controller) #}
+                                        <div class="video-content">
+                                            {{ chapter.contenu|raw }}
+                                        </div>
+
+                                        {# 2. AI SECTION #}
+                                        <div class="ai-section mt-4 pt-3" style="border-top: 1px solid #333;">
+                                            
+                                            {# If the summary already exists in the DB #}
+                                            {% if chapter.aiSummary %}
+                                                <div class="ai-box">
+                                                    <div class="ai-title"><i class="fa fa-robot"></i> AI Video Summary</div>
+                                                    <p class="mb-0 text-light">{{ chapter.aiSummary }}</p>
+                                                </div>
+                                            
+                                            {# If there is no summary yet, show the button #}
+                                            {% else %}
+                                                <div id="ai-container-{{ chapter.id }}">
+                                                    <button class="ai-btn" onclick="generateSummary({{ chapter.id }})">
+                                                        <i class="fa fa-magic"></i> Summarize with AI
+                                                    </button>
+                                                    
+                                                    <div id="ai-loading-{{ chapter.id }}" class="d-none mt-3 text-info">
+                                                        <i class="fa fa-spinner fa-spin"></i> The AI is reading the video content... please wait.
+                                                    </div>
+
+                                                    <div id="ai-result-{{ chapter.id }}" class="ai-box d-none">
+                                                        <div class="ai-title"><i class="fa fa-robot"></i> AI Video Summary</div>
+                                                        <p class="mb-0 text-light" id="ai-text-{{ chapter.id }}"></p>
+                                                    </div>
+                                                </div>
+                                            {% endif %}
+                                        </div>
                                     </div>
                                 </div>
                             </div>
@@ -131,4 +192,41 @@
             </div>
         </div>
     </section>
+
+    {# --- JAVASCRIPT TO HANDLE THE AI BUTTON --- #}
+    <script>
+    function generateSummary(chapterId) {
+        const btn = document.querySelector('#ai-container-' + chapterId + ' .ai-btn');
+        const loading = document.getElementById('ai-loading-' + chapterId);
+        const resultBox = document.getElementById('ai-result-' + chapterId);
+        const resultText = document.getElementById('ai-text-' + chapterId);
+
+        btn.classList.add('d-none');
+        loading.classList.remove('d-none');
+
+        // This correctly builds the URL even if your XAMPP path is deep
+        const url = "{{ path('app_cours_summarize', {'id': 'PLACEHOLDER'}) }}".replace('PLACEHOLDER', chapterId);
+
+        fetch(url, { method: 'POST' })
+            .then(response => {
+                if (!response.ok) throw new Error('Network response was not ok');
+                return response.json();
+            })
+            .then(data => {
+                loading.classList.add('d-none');
+                if (data.success) {
+                    resultText.innerText = data.summary;
+                    resultBox.classList.remove('d-none');
+                } else {
+                    alert("Error: " + data.message);
+                    btn.classList.remove('d-none');
+                }
+            })
+            .catch(error => {
+                loading.classList.add('d-none');
+                btn.classList.remove('d-none');
+                alert("A network error occurred. Please try again.");
+            });
+    }
+</script>
 {% endblock %}

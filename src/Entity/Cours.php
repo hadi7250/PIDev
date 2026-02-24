@@ -60,9 +60,13 @@ class Cours
         return $this->titre;
     }
 
-    public function setTitre(string $titre): static
+    // OLD (Crashes if empty): public function setTitre(string $titre): static
+    
+    // NEW (Works):
+    public function setTitre(?string $titre): static
     {
         $this->titre = $titre;
+
         return $this;
     }
 
@@ -71,9 +75,13 @@ class Cours
         return $this->description;
     }
 
-    public function setDescription(string $description): static
+    // OLD (Crashes if empty): public function setDescription(string $description): static
+    
+    // NEW (Works):
+    public function setDescription(?string $description): static
     {
         $this->description = $description;
+
         return $this;
     }
 

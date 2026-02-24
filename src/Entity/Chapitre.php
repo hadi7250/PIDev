@@ -4,7 +4,6 @@ namespace App\Entity;
 
 use App\Repository\ChapitreRepository;
 use Doctrine\ORM\Mapping as ORM;
-// ⬇️ IMPORT VITAL FOR VALIDATION
 use Symfony\Component\Validator\Constraints as Assert; 
 
 #[ORM\Entity(repositoryClass: ChapitreRepository::class)]
@@ -17,7 +16,6 @@ class Chapitre
     private ?int $id = null;
 
     #[ORM\Column(length: 100)]
-    // ⬇️ VALIDATION RULES
     #[Assert\NotBlank(message: "Le titre du chapitre est obligatoire.")]
     #[Assert\Length(
         min: 3, 
@@ -28,7 +26,6 @@ class Chapitre
     private ?string $titre = null;
 
     #[ORM\Column(length: 255)]
-    // ⬇️ VALIDATION RULES
     #[Assert\NotBlank(message: "Le contenu ne peut pas être vide.")]
     #[Assert\Length(max: 255, maxMessage: "Le contenu est limité à 255 caractères.")]
     private ?string $contenu = null;
@@ -36,6 +33,10 @@ class Chapitre
     #[ORM\ManyToOne(inversedBy: 'chapitres')]
     #[ORM\JoinColumn(name: 'id_cours', referencedColumnName: 'id_cours', nullable: false)]
     private ?Cours $cours = null;
+
+    // ⬇️ THE NEW AI SUMMARY PROPERTY
+    #[ORM\Column(type: 'text', nullable: true)]
+    private ?string $aiSummary = null;
 
     public function getId(): ?int
     {
@@ -72,6 +73,18 @@ class Chapitre
     public function setCours(?Cours $cours): static
     {
         $this->cours = $cours;
+        return $this;
+    }
+
+    // ⬇️ THE NEW GETTER AND SETTER
+    public function getAiSummary(): ?string
+    {
+        return $this->aiSummary;
+    }
+
+    public function setAiSummary(?string $aiSummary): static
+    {
+        $this->aiSummary = $aiSummary;
         return $this;
     }
 }
