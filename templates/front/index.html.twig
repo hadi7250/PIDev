@@ -1,11 +1,25 @@
-{% extends 'base.html.twig' %}
+{% extends 'event/indexFront.twig' %}
 
 {% block title %}EduConnect - Accueil{% endblock %}
 
 {% block body %}
-<div class="container mt-5 text-center">
-    <h1>Bienvenue sur EduConnect</h1>
-    <p>Votre plateforme d'apprentissage et d'événements.</p>
-    <a href="{{ path('app_event_index_front') }}" class="btn btn-primary">Voir les événements</a>
+<div class="page-title" data-aos="fade">
+    <div class="heading">
+        <div class="container text-center">
+            <h1>Bienvenue sur EduConnect</h1>
+            <p class="mb-4 text-muted fs-5">Votre plateforme d'apprentissage et d'événements.</p>
+        </div>
+    </div>
 </div>
+
+<section class="section py-5">
+    <div class="container" data-aos="fade-up">
+        <div class="row justify-content-center">
+            <div class="col-lg-8 text-center">
+                <p class="lead mb-4">Découvrez nos formations, inscrivez-vous aux événements et testez vos connaissances.</p>
+                <a href="{{ path('app_event_index_front') }}" class="btn btn-primary btn-lg px-4">Voir les événements</a>
+            </div>
+        </div>
+    </div>
+</section>
 {% endblock %}

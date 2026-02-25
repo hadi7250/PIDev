@@ -1,0 +1,268 @@
+{# Chatbot UI - click-based, no API, data from Twig #}
+{% set chatbotData = chatbot_data() %}
+<style>
+.chatbot-wrap { position: fixed; bottom: 1.5rem; right: 1.5rem; z-index: 9999; font-family: system-ui, -apple-system, sans-serif; }
+.chatbot-toggle { width: 56px; height: 56px; border-radius: 50%; border: none; background: #2563eb; color: #fff; cursor: pointer; box-shadow: 0 4px 12px rgba(37, 99, 235, 0.4); display: flex; align-items: center; justify-content: center; font-size: 1.5rem; transition: transform 0.2s, box-shadow 0.2s; }
+.chatbot-toggle:hover { transform: scale(1.05); box-shadow: 0 6px 16px rgba(37, 99, 235, 0.5); }
+.chatbot-panel { display: none; width: 380px; max-width: calc(100vw - 2rem); height: 520px; background: #fff; border-radius: 12px; box-shadow: 0 8px 32px rgba(0,0,0,0.12); flex-direction: column; overflow: hidden; }
+.chatbot-panel.is-open { display: flex; }
+.chatbot-header { padding: 1rem 1.25rem; background: #2563eb; color: #fff; font-weight: 600; font-size: 1rem; }
+.chatbot-messages { flex: 1; overflow-y: auto; padding: 1rem; display: flex; flex-direction: column; gap: 0.5rem; background: #f8fafc; }
+.chatbot-msg { max-width: 95%; padding: 0.65rem 1rem; border-radius: 12px; font-size: 0.9rem; line-height: 1.4; word-wrap: break-word; }
+.chatbot-msg.bot { align-self: flex-start; background: #fff; border: 1px solid #e2e8f0; border-bottom-left-radius: 4px; }
+.chatbot-msg.user { align-self: flex-end; background: #2563eb; color: #fff; border-bottom-right-radius: 4px; }
+.chatbot-choices { display: flex; flex-direction: column; gap: 0.4rem; margin-top: 0.25rem; }
+.chatbot-btn { text-align: left; padding: 0.5rem 0.75rem; border: 1px solid #e2e8f0; border-radius: 8px; background: #fff; cursor: pointer; font-size: 0.85rem; color: #1e293b; transition: background 0.15s, border-color 0.15s; }
+.chatbot-btn:hover { background: #f1f5f9; border-color: #2563eb; color: #2563eb; }
+.chatbot-btn.primary { background: #2563eb; color: #fff; border-color: #2563eb; }
+.chatbot-btn.primary:hover { background: #1d4ed8; }
+.chatbot-back { margin-bottom: 0.5rem; }
+</style>
+
+<div class="chatbot-wrap" id="chatbot-wrap">
+  <div class="chatbot-panel" id="chatbot-panel" aria-hidden="true">
+    <div class="chatbot-header">Assistant Événements</div>
+    <div class="chatbot-messages" id="chatbot-messages">
+      <div class="chatbot-msg bot">Choisissez un thème :</div>
+      <div class="chatbot-choices" id="chatbot-main-choices">
+        <button type="button" class="chatbot-btn primary" data-topic="events">Événements</button>
+        <button type="button" class="chatbot-btn primary" data-topic="categories">Catégories</button>
+        <button type="button" class="chatbot-btn primary" data-topic="filter">Filtrage</button>
+      </div>
+    </div>
+  </div>
+  <button type="button" class="chatbot-toggle" id="chatbot-toggle" aria-label="Ouvrir le chat">💬</button>
+</div>
+
+<script>
+(function() {
+  const CHATBOT_DATA = {{ chatbotData|json_encode|raw }};
+  const panel = document.getElementById('chatbot-panel');
+  const toggle = document.getElementById('chatbot-toggle');
+  const messagesEl = document.getElementById('chatbot-messages');
+  const events = CHATBOT_DATA.events || [];
+  const categories = CHATBOT_DATA.categories || [];
+
+  const TOPICS = {
+    events: {
+      label: 'Événements',
+      questions: [
+        { id: 'list_events', label: 'Quels événements sont disponibles ?' },
+        { id: 'list_events_2', label: 'Donne-moi la liste des événements.' },
+        { id: 'event_when', label: 'Quand a lieu [nom] ?', needsEvent: true },
+        { id: 'event_where', label: 'Où se déroule [nom] ?', needsEvent: true },
+        { id: 'event_describe', label: 'Décris-moi l\'événement [nom].', needsEvent: true },
+        { id: 'event_places', label: 'Combien de places pour [nom] ?', needsEvent: true }
+      ]
+    },
+    categories: {
+      label: 'Catégories',
+      questions: [
+        { id: 'list_categories', label: 'Quelles sont les catégories ?' },
+        { id: 'list_categories_2', label: 'Liste les catégories d\'événements.' },
+        { id: 'events_in_category', label: 'Quels événements sont dans la catégorie [nom] ?', needsCategory: true },
+        { id: 'filter_category', label: 'Filtre par catégorie [nom].', needsCategory: true }
+      ]
+    },
+    filter: {
+      label: 'Filtrage',
+      questions: [
+        { id: 'filter_by_category', label: 'Les événements de la catégorie [X].', needsCategory: true },
+        { id: 'filter_by_lieu', label: 'Événements à [lieu].', needsLieu: true },
+        { id: 'filter_by_date', label: 'Événements en [date].', needsDate: true }
+      ]
+    }
+  };
+
+  function openPanel() { panel.classList.add('is-open'); panel.setAttribute('aria-hidden', 'false'); }
+  function closePanel() { panel.classList.remove('is-open'); panel.setAttribute('aria-hidden', 'true'); }
+  function togglePanel() { if (panel.classList.contains('is-open')) closePanel(); else openPanel(); }
+  toggle.addEventListener('click', togglePanel);
+
+  function appendBot(text) {
+    const div = document.createElement('div');
+    div.className = 'chatbot-msg bot';
+    div.textContent = text;
+    messagesEl.appendChild(div);
+    messagesEl.scrollTop = messagesEl.scrollHeight;
+    return div;
+  }
+
+  function appendChoices(buttons) {
+    const wrap = document.createElement('div');
+    wrap.className = 'chatbot-choices';
+    buttons.forEach(function(b) {
+      const btn = document.createElement('button');
+      btn.type = 'button';
+      btn.className = b.primary ? 'chatbot-btn primary' : 'chatbot-btn';
+      btn.textContent = b.label;
+      btn.dataset.value = b.value || '';
+      btn.dataset.action = b.action || '';
+      btn.addEventListener('click', b.onClick || function() {});
+      wrap.appendChild(btn);
+    });
+    messagesEl.appendChild(wrap);
+    messagesEl.scrollTop = messagesEl.scrollHeight;
+    return wrap;
+  }
+
+  function clearAfter(el) {
+    let next = el.nextElementSibling;
+    while (next) { const n = next.nextElementSibling; next.remove(); next = n; }
+  }
+
+  function showTopic(topicKey) {
+    const topic = TOPICS[topicKey];
+    if (!topic) return;
+    appendBot('Choisissez une question :');
+    const container = document.createElement('div');
+    container.className = 'chatbot-choices';
+    topic.questions.forEach(function(q) {
+      const btn = document.createElement('button');
+      btn.type = 'button';
+      btn.className = 'chatbot-btn';
+      btn.textContent = q.label;
+      btn.dataset.questionId = q.id;
+      btn.dataset.needsEvent = q.needsEvent ? '1' : '';
+      btn.dataset.needsCategory = q.needsCategory ? '1' : '';
+      btn.dataset.needsLieu = q.needsLieu ? '1' : '';
+      btn.dataset.needsDate = q.needsDate ? '1' : '';
+      btn.addEventListener('click', function() { onQuestionClick(q, btn); });
+      container.appendChild(btn);
+    });
+    const backBtn = document.createElement('button');
+    backBtn.type = 'button';
+    backBtn.className = 'chatbot-btn chatbot-back';
+    backBtn.textContent = '← Retour aux thèmes';
+    backBtn.addEventListener('click', function() { resetToMain(); });
+    container.insertBefore(backBtn, container.firstChild);
+    messagesEl.appendChild(container);
+    messagesEl.scrollTop = messagesEl.scrollHeight;
+  }
+
+  function onQuestionClick(q, btn) {
+    if (q.needsEvent && events.length === 0) { appendBot('Aucun événement en base.'); return; }
+    if (q.needsCategory && categories.length === 0) { appendBot('Aucune catégorie en base.'); return; }
+
+    if (q.needsEvent) {
+      appendBot('Pour quel événement ?');
+      const wrap = document.createElement('div');
+      wrap.className = 'chatbot-choices';
+      events.forEach(function(ev) {
+        const b = document.createElement('button');
+        b.type = 'button';
+        b.className = 'chatbot-btn';
+        b.textContent = ev.titre;
+        b.addEventListener('click', function() { answerEventQuestion(q.id, ev); });
+        wrap.appendChild(b);
+      });
+      messagesEl.appendChild(wrap);
+    } else if (q.needsCategory) {
+      appendBot('Quelle catégorie ?');
+      const wrap = document.createElement('div');
+      wrap.className = 'chatbot-choices';
+      categories.forEach(function(cat) {
+        const b = document.createElement('button');
+        b.type = 'button';
+        b.className = 'chatbot-btn';
+        b.textContent = cat.name;
+        b.addEventListener('click', function() { answerCategoryQuestion(q.id, cat.name); });
+        wrap.appendChild(b);
+      });
+      messagesEl.appendChild(wrap);
+    } else if (q.needsLieu) {
+      const lieux = [...new Set(events.map(function(e) { return e.lieu; }).filter(Boolean))];
+      if (lieux.length === 0) { appendBot('Aucun lieu renseigné.'); return; }
+      appendBot('À quel lieu ?');
+      const wrap = document.createElement('div');
+      wrap.className = 'chatbot-choices';
+      lieux.forEach(function(lieu) {
+        const b = document.createElement('button');
+        b.type = 'button';
+        b.className = 'chatbot-btn';
+        b.textContent = lieu;
+        b.addEventListener('click', function() { answerFilterLieu(lieu); });
+        wrap.appendChild(b);
+      });
+      messagesEl.appendChild(wrap);
+    } else if (q.needsDate) {
+      const dates = [...new Set(events.map(function(e) { return e.dateDebut ? e.dateDebut.split(' ')[0] : ''; }).filter(Boolean))];
+      if (dates.length === 0) { appendBot('Aucune date renseignée.'); return; }
+      appendBot('Pour quelle date ?');
+      const wrap = document.createElement('div');
+      wrap.className = 'chatbot-choices';
+      dates.forEach(function(date) {
+        const b = document.createElement('button');
+        b.type = 'button';
+        b.className = 'chatbot-btn';
+        b.textContent = date;
+        b.addEventListener('click', function() { answerFilterDate(date); });
+        wrap.appendChild(b);
+      });
+      messagesEl.appendChild(wrap);
+    } else {
+      answerDirect(q.id);
+    }
+    messagesEl.scrollTop = messagesEl.scrollHeight;
+  }
+
+  function answerDirect(questionId) {
+    if (questionId === 'list_events' || questionId === 'list_events_2') {
+      if (events.length === 0) { appendBot('Aucun événement disponible.'); return; }
+      var text = events.map(function(e) { return '• ' + e.titre + ' — ' + e.dateDebut + ' — ' + e.lieu; }).join('\n');
+      appendBot(text);
+    } else if (questionId === 'list_categories' || questionId === 'list_categories_2') {
+      if (categories.length === 0) { appendBot('Aucune catégorie.'); return; }
+      var text = categories.map(function(c) { return '• ' + c.name + ' (' + c.eventCount + ' événement(s))'; }).join('\n');
+      appendBot(text);
+    }
+    messagesEl.scrollTop = messagesEl.scrollHeight;
+  }
+
+  function answerEventQuestion(questionId, ev) {
+    var msg = '';
+    if (questionId === 'event_when') msg = ev.titre + ' a lieu le ' + ev.dateDebut + ' (fin : ' + ev.dateFin + ').';
+    else if (questionId === 'event_where') msg = ev.titre + ' se déroule à : ' + ev.lieu + '.';
+    else if (questionId === 'event_describe') msg = ev.titre + ' : ' + (ev.description || 'Pas de description.');
+    else if (questionId === 'event_places') msg = 'Nombre de places pour ' + ev.titre + ' : ' + ev.nombreMaxParticipants + '.';
+    if (msg) appendBot(msg);
+    messagesEl.scrollTop = messagesEl.scrollHeight;
+  }
+
+  function answerCategoryQuestion(questionId, categoryName) {
+    var list = events.filter(function(e) { return e.category === categoryName; });
+    if (list.length === 0) { appendBot('Aucun événement dans la catégorie "' + categoryName + '".'); return; }
+    var text = 'Événements dans la catégorie ' + categoryName + ' :\n' + list.map(function(e) { return '• ' + e.titre + ' — ' + e.dateDebut + ' — ' + e.lieu; }).join('\n');
+    appendBot(text);
+    messagesEl.scrollTop = messagesEl.scrollHeight;
+  }
+
+  function answerFilterLieu(lieu) {
+    var list = events.filter(function(e) { return e.lieu === lieu; });
+    if (list.length === 0) { appendBot('Aucun événement à ' + lieu + '.'); return; }
+    var text = 'Événements à ' + lieu + ' :\n' + list.map(function(e) { return '• ' + e.titre + ' — ' + e.dateDebut; }).join('\n');
+    appendBot(text);
+    messagesEl.scrollTop = messagesEl.scrollHeight;
+  }
+
+  function answerFilterDate(date) {
+    var list = events.filter(function(e) { var d = e.dateDebut ? e.dateDebut.split(' ')[0] : ''; return d === date; });
+    if (list.length === 0) { appendBot('Aucun événement à cette date.'); return; }
+    var text = 'Événements le ' + date + ' :\n' + list.map(function(e) { return '• ' + e.titre + ' — ' + e.lieu; }).join('\n');
+    appendBot(text);
+    messagesEl.scrollTop = messagesEl.scrollHeight;
+  }
+
+  function resetToMain() {
+    while (messagesEl.firstChild) messagesEl.firstChild.remove();
+    messagesEl.innerHTML = '<div class="chatbot-msg bot">Choisissez un thème :</div><div class="chatbot-choices" id="chatbot-main-choices"><button type="button" class="chatbot-btn primary" data-topic="events">Événements</button><button type="button" class="chatbot-btn primary" data-topic="categories">Catégories</button><button type="button" class="chatbot-btn primary" data-topic="filter">Filtrage</button></div>';
+    messagesEl.querySelectorAll('[data-topic]').forEach(function(btn) {
+      btn.addEventListener('click', function() { showTopic(btn.dataset.topic); });
+    });
+  }
+
+  document.getElementById('chatbot-main-choices').querySelectorAll('[data-topic]').forEach(function(btn) {
+    btn.addEventListener('click', function() { showTopic(btn.dataset.topic); });
+  });
+})();
+</script>

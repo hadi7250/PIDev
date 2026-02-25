@@ -1,0 +1,52 @@
+{% extends 'event/indexFront.twig' %}
+
+{% block title %}Connexion - EduConnect{% endblock %}
+
+{% block body %}
+<div class="page-title">
+    <div class="heading">
+        <div class="container text-center">
+            <h1>Connexion</h1>
+            <p class="mb-0 text-white opacity-90">Accédez à votre compte EduConnect</p>
+        </div>
+    </div>
+</div>
+
+<section class="section py-5">
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-md-6 col-lg-5">
+                <div class="card shadow border-0">
+                    <div class="card-body p-4">
+                        {% if error %}
+                            <div class="alert alert-danger">{{ error.messageKey|trans(error.messageData, 'security') }}</div>
+                        {% endif %}
+
+                        <form action="{{ path('app_login') }}" method="post">
+                            <input type="hidden" name="_csrf_token" value="{{ csrf_token('authenticate') }}">
+                            <div class="mb-3">
+                                <label for="username" class="form-label">Email</label>
+                                <input type="email" id="username" name="_username" class="form-control" value="{{ last_username }}" required autofocus placeholder="votre@email.com">
+                            </div>
+                            <div class="mb-3">
+                                <label for="password" class="form-label">Mot de passe</label>
+                                <input type="password" id="password" name="_password" class="form-control" required placeholder="••••••••">
+                            </div>
+                            <div class="mb-3 form-check">
+                                <input type="checkbox" id="remember_me" name="_remember_me" value="on" class="form-check-input">
+                                <label for="remember_me" class="form-check-label">Se souvenir de moi</label>
+                            </div>
+                            <button type="submit" class="btn btn-primary w-100">Se connecter</button>
+                        </form>
+
+                        <hr class="my-4">
+                        <p class="text-center text-muted small mb-0">
+                            Pas encore de compte ? <a href="{{ path('app_inscription_front') }}">S'inscrire</a>
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock %}

@@ -21,5 +21,22 @@ services:
             - '../src/Entity/'
             - '../src/Kernel.php'
 
+    App\Service\ChatService:
+        arguments:
+            $openaiApiKey: '%env(string:OPENAI_API_KEY)%'
+
+    App\Service\ReportService:
+        arguments:
+            $grokApiKey: '%env(string:GROK_API_KEY)%'
+            $openaiApiKey: '%env(string:OPENAI_API_KEY)%'
+            $geminiApiKey: '%env(string:GEMINI_API_KEY)%'
+
+    App\Service\YouremailApiMailer:
+        arguments:
+            $youremailApiKey: '%env(string:YOUREMAIL_API_KEY)%'
+            $youremailSmtpAccount: '%env(string:YOUREMAIL_SMTP_ACCOUNT)%'
+            $youremailTemplate: '%env(string:YOUREMAIL_TEMPLATE)%'
+            $youremailTo: '%env(string:YOUREMAIL_TO)%'
+
     # add more service definitions when explicit configuration is needed
     # please note that last definitions always *replace* previous ones

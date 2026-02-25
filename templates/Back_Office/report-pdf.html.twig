@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <title>Rapport Back-Office</title>
+  <style>
+    @page { margin: 1.5cm; }
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body {
+      font-family: 'DejaVu Sans', sans-serif;
+      font-size: 11px;
+      color: #333;
+      padding: 24px 32px;
+      line-height: 1.4;
+    }
+    h1 {
+      font-size: 18px;
+      margin-bottom: 4px;
+      color: #1a1a1a;
+      border-bottom: 2px solid #333;
+      padding-bottom: 8px;
+    }
+    .meta { font-size: 10px; color: #666; margin-bottom: 20px; }
+    h2 { font-size: 13px; margin: 18px 0 8px 0; color: #2c2c2c; }
+    table { width: 100%; border-collapse: collapse; margin-bottom: 16px; }
+    th, td { border: 1px solid #ccc; padding: 8px 10px; text-align: left; }
+    th { background: #f0f0f0; font-weight: bold; }
+    .summary-box {
+      background: #f8f9fa;
+      border-left: 4px solid #2563eb;
+      padding: 12px 14px;
+      margin: 16px 0;
+      font-size: 10.5px;
+      text-align: justify;
+    }
+    .category-table td:first-child { font-weight: bold; }
+    .chart-block { margin: 16px 0; text-align: center; }
+    .chart-block img { max-width: 100%; height: auto; display: block; margin: 0 auto 8px auto; }
+    .footer-note { margin-top: 24px; font-size: 9px; color: #888; }
+  </style>
+</head>
+<body>
+
+  {#
+    IMPORTANT: All static French text uses HTML entities (no raw UTF-8 chars).
+    Dynamic data from Twig is HTML-escaped with |e before output.
+    The controller's htmlToAsciiEntities() method handles the rest,
+    but keeping the template clean avoids double-encoding edge cases.
+  #}
+
+  <h1>Rapport global &#8211; Back-Office</h1>
+  <p class="meta">G&#233;n&#233;r&#233; le {{ generatedAt|date('d/m/Y') }} &#224; {{ generatedAt|date('H:i') }}</p>
+
+  <h2>Statistiques</h2>
+  <table>
+    <thead>
+      <tr>
+        <th>&#201;v&#233;nements</th>
+        <th>Cat&#233;gories</th>
+        <th>Participations</th>
+        <th>Avis / Notes</th>
+        <th>Certificats</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>{{ stats.events_count }}</td>
+        <td>{{ stats.categories_count }}</td>
+        <td>{{ stats.participations_count }}</td>
+        <td>{{ stats.ratings_count }}</td>
+        <td>{{ stats.certificats_count }}</td>
+      </tr>
+    </tbody>
+  </table>
+
+  {% if stats.events_by_category is not empty %}
+  <h2>&#201;v&#233;nements par cat&#233;gorie</h2>
+  <table class="category-table">
+    <thead>
+      <tr>
+        <th>Cat&#233;gorie</th>
+        <th>Nombre d&#39;&#233;v&#233;nements</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for name, count in stats.events_by_category %}
+      <tr>
+        <td>{{ name|e }}</td>
+        <td>{{ count }}</td>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+  {% endif %}
+
+  <h2>Graphiques</h2>
+  {% if chartStatsBase64 %}
+  <div class="chart-block">
+    <img src="data:image/png;base64,{{ chartStatsBase64 }}" alt="Vue d&#39;ensemble" width="480" height="260" />
+  </div>
+  {% endif %}
+  {% if chartCategoryBase64 %}
+  <div class="chart-block">
+    <img src="data:image/png;base64,{{ chartCategoryBase64 }}" alt="&#201;v&#233;nements par cat&#233;gorie" width="480" height="260" />
+  </div>
+  {% endif %}
+
+  <h2>Analyses (IA)</h2>
+  {#
+    Pipeline:
+      1. Controller already ran cleanForDompdf() on $aiSummary (strips bad bytes, normalises smart chars)
+      2. |e  : HTML-escapes the text  (& < > " ' -> entities)  so no stray tags break the parser
+      3. |nl2br : converts \n to <br> AFTER escaping, so line breaks still render
+      4. Controller's htmlToAsciiEntities() converts any remaining non-ASCII bytes to &#NNN;
+    Result: Dompdf receives pure ASCII + entities — iconv never sees a multibyte character.
+  #}
+  <div class="summary-box">{{ aiSummary|e|nl2br }}</div>
+
+  <p class="footer-note">
+    Rapport g&#233;n&#233;r&#233; par la plateforme de gestion d&#39;&#233;v&#233;nements.
+    Analyses et synth&#232;se produites &#224; l&#39;aide de l&#39;IA (Gemini / Grok / OpenAI).
+  </p>
+
+</body>
+</html>

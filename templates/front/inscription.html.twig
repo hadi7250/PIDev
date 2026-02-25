@@ -1,10 +1,60 @@
-{% extends 'base.html.twig' %}
+{% extends 'event/indexFront.twig' %}
 
-{% block title %}Inscription{% endblock %}
+{% block title %}Inscription - EduConnect{% endblock %}
 
 {% block body %}
-<div class="container mt-5">
-    <h1>Inscription</h1>
-    <p class="alert alert-info">Le formulaire d'inscription sera disponible bientôt.</p>
+<div class="page-title">
+    <div class="heading">
+        <div class="container text-center">
+            <h1>Inscription</h1>
+            <p class="mb-0 text-white opacity-90">Créez votre compte EduConnect (Admin ou Étudiant)</p>
+        </div>
+    </div>
 </div>
+
+<section class="section py-5">
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-md-8 col-lg-6">
+                {% for message in app.flashes('success') %}
+                    <div class="alert alert-success">{{ message }}</div>
+                {% endfor %}
+
+                <div class="card shadow border-0">
+                    <div class="card-body p-4">
+                        {{ form_start(form, {'attr': {'class': 'needs-validation'}}) }}
+
+                        <div class="row">
+                            <div class="col-md-6 mb-3">
+                                {{ form_row(form.prenom, {'label_attr': {'class': 'form-label'}}) }}
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                {{ form_row(form.nom, {'label_attr': {'class': 'form-label'}}) }}
+                            </div>
+                        </div>
+
+                        {{ form_row(form.email, {'label_attr': {'class': 'form-label'}}) }}
+
+                        <div class="mb-3">
+                            {{ form_row(form.plainPassword.first, {'label_attr': {'class': 'form-label'}}) }}
+                        </div>
+                        <div class="mb-3">
+                            {{ form_row(form.plainPassword.second, {'label_attr': {'class': 'form-label'}}) }}
+                        </div>
+
+                        {{ form_row(form.role, {'label_attr': {'class': 'form-label'}}) }}
+
+                        <button type="submit" class="btn btn-primary w-100 mt-3">S'inscrire</button>
+                        {{ form_end(form) }}
+
+                        <hr class="my-4">
+                        <p class="text-center text-muted small mb-0">
+                            Déjà un compte ? <a href="{{ path('app_login') }}">Se connecter</a>
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
 {% endblock %}

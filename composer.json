@@ -10,7 +10,9 @@
         "doctrine/doctrine-bundle": "^2.18",
         "doctrine/doctrine-migrations-bundle": "^3.7",
         "doctrine/orm": "^3.6",
+        "dompdf/dompdf": "*",
         "phpdocumentor/reflection-docblock": "^5.2",
+        "phpoffice/phpspreadsheet": "*",
         "phpstan/phpdoc-parser": "^2.3",
         "symfony/asset": "6.4.*",
         "symfony/asset-mapper": "6.4.*",
@@ -54,7 +56,13 @@
     },
     "autoload": {
         "psr-4": {
-            "App\\": "src/"
+            "App\\": "src/",
+            "Dompdf\\": [
+                "vendor/dompdf/dompdf/src/",
+                "vendor/dompdf/dompdf/lib/"
+            ],
+            "FontLib\\": "vendor/dompdf/php-font-lib/src/FontLib/",
+            "PhpOffice\\PhpSpreadsheet\\": "vendor/phpoffice/phpspreadsheet/src/PhpSpreadsheet/"
         }
     },
     "autoload-dev": {

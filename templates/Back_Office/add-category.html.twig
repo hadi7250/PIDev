@@ -695,6 +695,14 @@
             <li><a href="{{ path('app_category_new') }}"><i class="material-icons-outlined">arrow_right</i>Add Category</a>
             </li>
 
+            <li><a href="{{ path('app_rating_new') }}"><i class="material-icons-outlined">arrow_right</i>Gestion Rating</a>
+            </li>
+
+            <li><a href="{{ path('app_certificat_new') }}"><i class="material-icons-outlined">arrow_right</i>Gestion Certificat</a>
+            </li>
+            <li><a href="{{ path('app_participation_index') }}"><i class="material-icons-outlined">arrow_right</i>Gestion Participation</a>
+            </li>
+
             <li><a href="add-post.html"><i class="material-icons-outlined">arrow_right</i>Add Post</a>
             </li>
 
@@ -717,6 +725,17 @@
             </li>
 
             <li><a href="{{ path('app_event_index') }}"><i class="material-icons-outlined">arrow_right</i>event</a>
+            </li>
+
+            <li><a href="{{ path('app_category_index') }}"><i class="material-icons-outlined">arrow_right</i>category</a>
+            </li>
+
+            <li><a href="{{ path('app_rating_index') }}"><i class="material-icons-outlined">arrow_right</i>rating</a>
+            </li>
+
+            <li><a href="{{ path('app_certificat_index') }}"><i class="material-icons-outlined">arrow_right</i>certificat</a>
+            </li>
+            <li><a href="{{ path('app_participation_index') }}"><i class="material-icons-outlined">arrow_right</i>participation</a>
             </li>
             
             <li><a href="feed-datatable.html"><i class="material-icons-outlined">arrow_right</i>feed</a>
@@ -851,6 +870,8 @@
   <script src="{{ asset('assets/plugins/metismenu/metisMenu.min.js') }}"></script>
   <script src="{{ asset('assets/plugins/simplebar/js/simplebar.min.js') }}"></script>
   <script src="{{ asset('assets/js/main.js') }}"></script>
+
+  {% include 'components/_chatbot.html.twig' %}
 
 </body>
 

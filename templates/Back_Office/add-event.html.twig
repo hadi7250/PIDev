@@ -29,6 +29,7 @@
   <link href="{{ asset('assets/sass/semi-dark.css') }}" rel="stylesheet">
   <link href="{{ asset('assets/sass/bordered-theme.css') }}" rel="stylesheet">
   <link href="{{ asset('assets/sass/responsive.css') }}" rel="stylesheet">
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin="">
 
 </head>
 
@@ -702,6 +703,14 @@
             <li><a href="{{ path('app_category_new') }}"><i class="material-icons-outlined">arrow_right</i>Add Category</a>
             </li>
 
+            <li><a href="{{ path('app_rating_new') }}"><i class="material-icons-outlined">arrow_right</i>Gestion Rating</a>
+            </li>
+
+            <li><a href="{{ path('app_certificat_new') }}"><i class="material-icons-outlined">arrow_right</i>Gestion Certificat</a>
+            </li>
+            <li><a href="{{ path('app_participation_index') }}"><i class="material-icons-outlined">arrow_right</i>Gestion Participation</a>
+            </li>
+
             <li><a href="add-post.html"><i class="material-icons-outlined">arrow_right</i>Add Post</a>
             </li>
 
@@ -727,6 +736,14 @@
             </li>
 
             <li><a href="{{ path('app_category_index') }}"><i class="material-icons-outlined">arrow_right</i>category</a>
+            </li>
+
+            <li><a href="{{ path('app_rating_index') }}"><i class="material-icons-outlined">arrow_right</i>rating</a>
+            </li>
+
+            <li><a href="{{ path('app_certificat_index') }}"><i class="material-icons-outlined">arrow_right</i>certificat</a>
+            </li>
+            <li><a href="{{ path('app_participation_index') }}"><i class="material-icons-outlined">arrow_right</i>participation</a>
             </li>
             
             <li><a href="feed-datatable.html"><i class="material-icons-outlined">arrow_right</i>feed</a>
@@ -892,13 +909,24 @@
                     </div>
                     <div class="col-md-6">
                       {{ form_label(form.lieu, null, {'label_attr': {'class': 'form-label'}}) }}
-                      {{ form_widget(form.lieu, {
-                        'attr': {
-                          'class': 'form-control',
-                          'placeholder': 'Enter location'
-                        }
-                      }) }}
+                      <div class="input-group">
+                        {{ form_widget(form.lieu, {
+                          'attr': {
+                            'class': 'form-control',
+                            'placeholder': 'Adresse ou lieu (ex: Ariana, Tunis)',
+                            'id': 'event_lieu_input'
+                          }
+                        }) }}
+                        <button type="button" class="btn btn-outline-primary" id="event_lieu_search" title="Rechercher sur la carte">
+                          <i class="material-icons-outlined">search</i>
+                        </button>
+                      </div>
                       {{ form_errors(form.lieu) }}
+                      <p class="form-text small text-muted">Recherchez une adresse ou cliquez sur la carte pour définir le lieu.</p>
+                    </div>
+                    <div class="col-12 mt-2">
+                      <label class="form-label">Carte OpenStreetMap</label>
+                      <div id="event-map" style="height: 280px; border-radius: 8px; border: 1px solid var(--bs-border-color);"></div>
                     </div>
                     <div class="col-md-6">
                       {{ form_label(form.duree, null, {'label_attr': {'class': 'form-label'}}) }}
@@ -1175,7 +1203,55 @@
 	</script>
   <script src="/assets/plugins/simplebar/js/simplebar.min.js"></script>
   <script src="/assets/js/main.js"></script>
+  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
+  <script>
+    (function() {
+      var mapEl = document.getElementById('event-map');
+      if (!mapEl) return;
+      var lieuInput = document.getElementById('event_lieu_input') || document.querySelector('input[name*="[lieu]"]');
+      var searchBtn = document.getElementById('event_lieu_search');
+      var initialLieu = lieuInput ? lieuInput.value.trim() : '';
+      var map = L.map('event-map').setView([36.8065, 10.1815], 6);
+      L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+        attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a>'
+      }).addTo(map);
+      var marker = null;
+      function setMarker(lat, lng, address) {
+        if (marker) map.removeLayer(marker);
+        marker = L.marker([lat, lng]).addTo(map);
+        map.setView([lat, lng], 15);
+        if (address && lieuInput) lieuInput.value = address;
+      }
+      function geocodeAndShow() {
+        var q = lieuInput ? lieuInput.value.trim() : '';
+        if (!q) return;
+        fetch('https://nominatim.openstreetmap.org/search?q=' + encodeURIComponent(q) + '&format=json&limit=1', {
+          headers: { 'Accept': 'application/json' }
+        }).then(function(r) { return r.json(); })
+          .then(function(data) {
+            if (data && data[0]) {
+              var lat = parseFloat(data[0].lat), lon = parseFloat(data[0].lon);
+              setMarker(lat, lon, data[0].display_name);
+            }
+          }).catch(function() {});
+      }
+      map.on('click', function(e) {
+        var lat = e.latlng.lat, lng = e.latlng.lng;
+        fetch('https://nominatim.openstreetmap.org/reverse?lat=' + lat + '&lon=' + lng + '&format=json', {
+          headers: { 'Accept': 'application/json' }
+        }).then(function(r) { return r.json(); })
+          .then(function(data) {
+            var addr = data && data.display_name ? data.display_name : (lat.toFixed(5) + ', ' + lng.toFixed(5));
+            setMarker(lat, lng, addr);
+          }).catch(function() { setMarker(lat, lng, lat.toFixed(5) + ', ' + lng.toFixed(5)); });
+      });
+      if (searchBtn) searchBtn.addEventListener('click', geocodeAndShow);
+      if (lieuInput) lieuInput.addEventListener('keydown', function(e) { if (e.key === 'Enter') { e.preventDefault(); geocodeAndShow(); } });
+      if (initialLieu) geocodeAndShow();
+    })();
+  </script>
 
+  {% include 'components/_chatbot.html.twig' %}
 
 </body>
 
