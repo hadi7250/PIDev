@@ -1,62 +1,253 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Student Competences{% endblock %}
+{% block title %}Student Competences - EduConnect{% endblock %}
 
 {% block body %}
-<div class="container mt-4">
-    <div class="d-flex justify-content-between align-items-center mb-4">
-        <h1>Student Competence Management</h1>
-        <a href="{{ path('app_home') }}" class="btn btn-secondary">Back to Admin</a>
+<div class="container-fluid py-5">
+    <!-- Header -->
+    <div class="row mb-4">
+        <div class="col-12">
+            <h1 class="h2 gradient-text mb-2">
+                <i class="fas fa-award me-2"></i>My Competences
+            </h1>
+            <p class="text-muted">Track and manage your skill development</p>
+        </div>
     </div>
 
-    <div class="row">
-        <div class="col-md-12">
-            <div class="card">
-                <div class="card-header">
-                    <h5 class="mb-0">Available Competences</h5>
-                </div>
+    <!-- Stats Section -->
+    <div class="row mb-4">
+        <div class="col-md-4">
+            <div class="card border-0 shadow-sm bg-primary text-white">
                 <div class="card-body">
-                    {% if competences|length > 0 %}
-                        <div class="table-responsive">
-                            <table class="table table-striped">
-                                <thead>
-                                    <tr>
-                                        <th>ID</th>
-                                        <th>Name</th>
-                                        <th>Description</th>
-                                        <th>Category</th>
-                                        <th>Max Level</th>
-                                        <th>Actions</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    {% for competence in competences %}
-                                        <tr>
-                                            <td>{{ competence.id }}</td>
-                                            <td>{{ competence.name }}</td>
-                                            <td>{{ competence.description|length > 50 ? competence.description[:50] ~ '...' : competence.description }}</td>
-                                            <td>{{ competence.category }}</td>
-                                            <td>{{ competence.maxLevel }}</td>
-                                            <td>
-                                                <span class="text-muted">No details available</span>
-                                            </td>
-                                        </tr>
-                                    {% endfor %}
-                                </tbody>
-                            </table>
+                    <div class="d-flex justify-content-between align-items-center">
+                        <div>
+                            <p class="mb-0 text-white-50">Total Competences</p>
+                            <h3 class="mb-0">{{ competences|length }}</h3>
                         </div>
-                    {% else %}
-                        <div class="alert alert-info">
-                            No competences available yet.
+                        <i class="fas fa-layer-group fa-2x text-white-50"></i>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="card border-0 shadow-sm bg-success text-white">
+                <div class="card-body">
+                    <div class="d-flex justify-content-between align-items-center">
+                        <div>
+                            <p class="mb-0 text-white-50">Technique Skills</p>
+                            <h3 class="mb-0">{{ competences|filter(c => c.category == 'technique')|length }}</h3>
                         </div>
-                    {% endif %}
+                        <i class="fas fa-code fa-2x text-white-50"></i>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="card border-0 shadow-sm bg-info text-white">
+                <div class="card-body">
+                    <div class="d-flex justify-content-between align-items-center">
+                        <div>
+                            <p class="mb-0 text-white-50">Soft Skills</p>
+                            <h3 class="mb-0">{{ competences|filter(c => c.category == 'comportementale')|length }}</h3>
+                        </div>
+                        <i class="fas fa-users fa-2x text-white-50"></i>
+                    </div>
                 </div>
             </div>
         </div>
     </div>
 
-    <div class="mt-4">
-        <a href="{{ path('student_dashboard') }}" class="btn btn-outline-primary">Back to Student Dashboard</a>
+    <!-- Filters -->
+    <div class="row mb-4">
+        <div class="col-12">
+            <div class="card border-0 shadow-sm">
+                <div class="card-body">
+                    <div class="row g-3">
+                        <div class="col-md-4">
+                            <label class="form-label text-muted small">Category</label>
+                            <select class="form-select form-select-sm" id="categoryFilter">
+                                <option value="">All Categories</option>
+                                <option value="technique">Technique</option>
+                                <option value="comportementale">Comportementale</option>
+                                <option value="langue">Langue</option>
+                                <option value="autre">Autre</option>
+                            </select>
+                        </div>
+                        <div class="col-md-4">
+                            <label class="form-label text-muted small">Sort By</label>
+                            <select class="form-select form-select-sm" id="sortBy">
+                                <option value="name">Name</option>
+                                <option value="category">Category</option>
+                                <option value="level">Max Level</option>
+                            </select>
+                        </div>
+                        <div class="col-md-4 d-flex align-items-end">
+                            <button class="btn btn-outline-primary btn-sm w-100" onclick="filterCompetences()">
+                                <i class="fas fa-filter me-2"></i>Filter
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Competences Grid -->
+    <div class="row" id="competencesGrid">
+        {% if competences|length > 0 %}
+            {% for competence in competences %}
+                <div class="col-md-6 col-lg-4 mb-4 competence-item" data-category="{{ competence.category }}" data-level="{{ competence.maxLevel }}">
+                    <div class="card border-0 shadow-sm h-100 competence-card">
+                        <div class="card-body">
+                            <!-- Header with Icon and Name -->
+                            <div class="d-flex justify-content-between align-items-start mb-3">
+                                <div class="competence-icon 
+                                    {% if competence.category == 'technique' %}bg-primary
+                                    {% elseif competence.category == 'comportementale' %}bg-success
+                                    {% elseif competence.category == 'langue' %}bg-warning
+                                    {% else %}bg-secondary{% endif %}">
+                                    <i class="fas 
+                                        {% if competence.category == 'technique' %}fa-code
+                                        {% elseif competence.category == 'comportementale' %}fa-heart
+                                        {% elseif competence.category == 'langue' %}fa-language
+                                        {% else %}fa-star{% endif %} text-white"></i>
+                                </div>
+                                <span class="badge 
+                                    {% if competence.category == 'technique' %}bg-primary
+                                    {% elseif competence.category == 'comportementale' %}bg-success
+                                    {% elseif competence.category == 'langue' %}bg-warning text-dark
+                                    {% else %}bg-secondary{% endif %}">
+                                    {{ competence.category|capitalize }}
+                                </span>
+                            </div>
+
+                            <!-- Title and Description -->
+                            <h5 class="card-title mb-2 competence-name">{{ competence.name }}</h5>
+                            <p class="card-text text-muted small mb-3">
+                                {{ competence.description|length > 80 ? competence.description[:80] ~ '...' : competence.description }}
+                            </p>
+
+                            <!-- Progress Bar for Level -->
+                            <div class="mb-3">
+                                <div class="d-flex justify-content-between align-items-center mb-1">
+                                    <span class="text-muted small">Skill Level</span>
+                                    <span class="small fw-bold gradient-text">{{ competence.maxLevel }}/10</span>
+                                </div>
+                                <div class="progress" style="height: 8px;">
+                                    <div class="progress-bar gradient-progress" role="progressbar" 
+                                         style="width: {{ competence.maxLevel * 10 }}%" 
+                                         aria-valuenow="{{ competence.maxLevel }}" 
+                                         aria-valuemin="0" 
+                                         aria-valuemax="10">
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Actions -->
+                            <div class="d-flex justify-content-between align-items-center mt-auto">
+                                <button type="button" class="btn btn-sm btn-outline-primary" 
+                                        onclick="shareToLinkedIn('{{ competence.name|escape('js') }}', '{{ competence.category|escape('js') }}', {{ competence.maxLevel }})">
+                                    <i class="fab fa-linkedin me-1"></i>Share
+                                </button>
+                                <div class="text-end">
+                                    <span class="text-muted small">ID: {{ competence.id }}</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            {% endfor %}
+        {% else %}
+            <div class="col-12">
+                <div class="card border-0 shadow-sm">
+                    <div class="card-body text-center py-5">
+                        <i class="fas fa-inbox fa-3x opacity-25 mb-3"></i>
+                        <p class="text-muted">No competences yet. Start learning to build your skills!</p>
+                    </div>
+                </div>
+            </div>
+        {% endif %}
     </div>
 </div>
+
+<style>
+    /* Gradient Text */
+    .gradient-text {
+        background: linear-gradient(135deg, #6366f1 0%, #a855f7 100%);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
+    }
+
+    /* Gradient Progress Bar */
+    .gradient-progress {
+        background: linear-gradient(90deg, #6366f1 0%, #a855f7 100%);
+    }
+
+    /* Competence Card Styling */
+    .competence-card {
+        transition: all 0.3s ease;
+        border-left: 4px solid #6366f1;
+    }
+
+    .competence-card:hover {
+        box-shadow: 0 0.5rem 1rem rgba(99, 102, 241, 0.15) !important;
+        transform: translateY(-3px);
+    }
+
+    /* Competence Icon */
+    .competence-icon {
+        width: 45px;
+        height: 45px;
+        border-radius: 12px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 1.2rem;
+    }
+
+    /* Background Colors */
+    .bg-primary { background-color: #6366f1 !important; }
+    .bg-success { background-color: #10b981 !important; }
+    .bg-warning { background-color: #f59e0b !important; }
+    .bg-info { background-color: #06b6d4 !important; }
+    .bg-secondary { background-color: #6b7280 !important; }
+</style>
+
+<script>
+function shareToLinkedIn(name, category, level) {
+    // Map category to readable format
+    let categoryLabel = category;
+    if (category === 'technique') categoryLabel = 'Technical';
+    else if (category === 'comportementale') categoryLabel = 'Behavioral';
+    else if (category === 'langue') categoryLabel = 'Language';
+    else categoryLabel = 'Other';
+
+    // Create the share text
+    const shareText = `I just acquired a new skill: ${name} (${categoryLabel}) - Level ${level}/10 on EduConnect! #skills #learning #education`;
+    
+    // Encode the text for URL
+    const encodedText = encodeURIComponent(shareText);
+    
+    // LinkedIn share URL
+    const linkedInUrl = `https://www.linkedin.com/sharing/share-offsite/?url=${encodedText}`;
+    
+    // Open in a new popup window
+    window.open(linkedInUrl, 'linkedin-share', 'width=600,height=500,scrollbars=yes');
+}
+
+function filterCompetences() {
+    const category = document.getElementById('categoryFilter').value;
+    const items = document.querySelectorAll('.competence-item');
+    
+    items.forEach(item => {
+        const itemCategory = item.getAttribute('data-category');
+        if (category === '' || itemCategory === category) {
+            item.style.display = 'block';
+        } else {
+            item.style.display = 'none';
+        }
+    });
+}
+</script>
 {% endblock %}

@@ -9,7 +9,7 @@ use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
-use Symfony\Component\Form\Extension\Core\Type\FloatType;
+use Symfony\Component\Form\Extension\Core\Type\NumberType;
 use Symfony\Component\Form\Extension\Core\Type\DateTimeType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
@@ -45,7 +45,7 @@ class EvaluationType extends AbstractType
                 'widget' => 'single_text',
                 'attr' => ['class' => 'form-control']
             ])
-            ->add('weight', FloatType::class, [
+            ->add('weight', NumberType::class, [
                 'label' => 'Poids (%)',
                 'required' => false,
                 'attr' => ['class' => 'form-control', 'min' => 0, 'max' => 100]
@@ -54,6 +54,21 @@ class EvaluationType extends AbstractType
                 'label' => 'Description',
                 'required' => false,
                 'attr' => ['class' => 'form-control', 'rows' => 3]
+            ])
+            ->add('language', ChoiceType::class, [
+                'label' => 'Programming Language (for compiler)',
+                'choices' => [
+                    'PHP' => 'php',
+                    'Python' => 'python',
+                    'JavaScript' => 'javascript',
+                    'Java' => 'java',
+                    'C++' => 'cpp',
+                    'C#' => 'csharp',
+                    'Go' => 'go',
+                    'Rust' => 'rust',
+                ],
+                'required' => false,
+                'attr' => ['class' => 'form-control']
             ])
         ;
     }

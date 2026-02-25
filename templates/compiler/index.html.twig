@@ -1,0 +1,123 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Code Compiler - {{ evaluation.title }}{% endblock %}
+
+{% block body %}
+<div class="container-fluid mt-4">
+    <div class="row">
+        <div class="col-lg-12">
+            <div class="card shadow-lg">
+                <div class="card-header bg-primary text-white">
+                    <h3 class="card-title mb-0">
+                        <i class="fas fa-code"></i> Code Compiler - {{ evaluation.title }}
+                    </h3>
+                    <p class="small mb-0 mt-1">Language: <strong>{{ language|upper }}</strong></p>
+                </div>
+
+                <div class="card-body">
+                    {% if exercises|length > 0 %}
+                        <div class="row mb-4">
+                            <div class="col-md-12">
+                                <h5>Available Exercises</h5>
+                                <div class="list-group">
+                                    {% for exercise in exercises %}
+                                        <a href="{{ path('compiler_exercise', {'exerciseId': exercise.id}) }}" 
+                                           class="list-group-item list-group-item-action">
+                                            <div class="d-flex w-100 justify-content-between">
+                                                <h6 class="mb-1">Exercise {{ loop.index }}</h6>
+                                                <span class="badge bg-info">{{ exercise.language|upper }}</span>
+                                            </div>
+                                            <p class="mb-1">{{ exercise.description|default('No description') }}</p>
+                                            <small class="text-muted">Difficulty: {% for i in 1..exercise.difficulty %}★{% endfor %}</small>
+                                        </a>
+                                    {% endfor %}
+                                </div>
+                            </div>
+                        </div>
+                    {% else %}
+                        <div class="alert alert-info">
+                            No exercises available yet. 
+                            <a href="{{ path('compiler_create_exercise', {'evaluationId': evaluation.id}) }}" class="alert-link">Create one</a>
+                        </div>
+                    {% endif %}
+
+                    <hr>
+
+                    <div class="row">
+                        <div class="col-md-6">
+                            <h5>Code Editor</h5>
+                            <textarea id="codeEditor" class="form-control" rows="15" placeholder="Paste or write your code here..."></textarea>
+                            <div class="mt-2">
+                                <label for="languageSelect" class="form-label">Language:</label>
+                                <select id="languageSelect" class="form-select">
+                                    {% for lang in supportedLanguages %}
+                                        <option value="{{ lang }}" {% if lang == language %}selected{% endif %}>
+                                            {{ lang|upper }}
+                                        </option>
+                                    {% endfor %}
+                                </select>
+                            </div>
+                            <button id="compileBtn" class="btn btn-success btn-sm mt-3">
+                                <i class="fas fa-play"></i> Compile & Run
+                            </button>
+                        </div>
+
+                        <div class="col-md-6">
+                            <h5>Output</h5>
+                            <div id="output" class="bg-dark text-light p-3 rounded" style="min-height: 200px; max-height: 400px; overflow-y: auto; font-family: monospace;">
+                                <p class="text-muted">Output will appear here...</p>
+                            </div>
+                            <div class="mt-3">
+                                <div id="errorBox" class="alert alert-danger d-none" role="alert"></div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="mt-4">
+                        <a href="{{ path('evaluation_show', {'id': evaluation.id}) }}" class="btn btn-secondary">
+                            <i class="fas fa-arrow-left"></i> Back to Evaluation
+                        </a>
+                        <a href="{{ path('compiler_create_exercise', {'evaluationId': evaluation.id}) }}" class="btn btn-primary">
+                            <i class="fas fa-plus"></i> Add Exercise
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+document.getElementById('compileBtn').addEventListener('click', function() {
+    const code = document.getElementById('codeEditor').value;
+    const language = document.getElementById('languageSelect').value;
+    
+    fetch('{{ path('compiler_compile') }}', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ code: code, language: language })
+    })
+    .then(response => response.json())
+    .then(data => {
+        const output = document.getElementById('output');
+        const errorBox = document.getElementById('errorBox');
+        
+        if (data.success) {
+            output.textContent = data.output || '[No output]';
+            errorBox.classList.add('d-none');
+        } else {
+            output.textContent = data.output || '[No output]';
+            errorBox.classList.remove('d-none');
+            errorBox.textContent = data.error || 'Compilation failed';
+        }
+    })
+    .catch(error => {
+        console.error('Error:', error);
+        document.getElementById('errorBox').classList.remove('d-none');
+        document.getElementById('errorBox').textContent = 'Request failed: ' + error.message;
+    });
+});
+</script>
+{% endblock %}

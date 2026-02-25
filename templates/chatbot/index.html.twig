@@ -1,0 +1,511 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Code Question Generator Chatbot - EduConnect{% endblock %}
+
+{% block body %}
+<div class="container-fluid py-5">
+    <!-- Header -->
+    <div class="row mb-4">
+        <div class="col-12">
+            <h1 class="h2 gradient-text mb-2">
+                <i class="fas fa-robot me-2"></i>AI Code Question Generator
+            </h1>
+            <p class="text-muted">Ask AI to generate code exercises tailored to your learning needs</p>
+        </div>
+    </div>
+
+    <!-- Main Content -->
+    <div class="row">
+        <!-- Chat Section -->
+        <div class="col-lg-6 mb-4">
+            <div class="card border-0 shadow-sm h-100">
+                <div class="card-header bg-transparent border-0">
+                    <h5 class="mb-0"><i class="fas fa-comments me-2"></i>Chat Interface</h5>
+                </div>
+                <div class="card-body p-0 d-flex flex-column">
+                    <!-- Chat Messages -->
+                    <div class="chat-messages flex-grow-1" id="chatMessages" style="min-height: 300px; max-height: 400px; overflow-y: auto;">
+                        <div class="welcome-message text-center py-5">
+                            <i class="fas fa-robot fa-3x text-primary opacity-25 mb-3"></i>
+                            <h5>Welcome to Code Question Generator!</h5>
+                            <p class="text-muted small">Type your exercise request and select a programming language.</p>
+                        </div>
+                    </div>
+
+                    <!-- Chat Input -->
+                    <div class="chat-input-area p-3 border-top">
+                        <form id="chatForm">
+                            <div class="row g-3">
+                                <!-- Language Selection -->
+                                <div class="col-md-4">
+                                    <label class="form-label text-muted small">Language</label>
+                                    <select id="language" class="form-select form-select-sm" required>
+                                        <option value="PHP">PHP</option>
+                                        <option value="Python">Python</option>
+                                        <option value="JavaScript">JavaScript</option>
+                                        <option value="Java">Java</option>
+                                        <option value="C++">C++</option>
+                                        <option value="C#">C#</option>
+                                        <option value="Go">Go</option>
+                                        <option value="Rust">Rust</option>
+                                    </select>
+                                </div>
+                                
+                                <!-- Prompt Input -->
+                                <div class="col-md-8">
+                                    <label class="form-label text-muted small">Your Request</label>
+                                    <div class="input-group input-group-sm">
+                                        <input 
+                                            type="text" 
+                                            id="promptInput" 
+                                            class="form-control"
+                                            placeholder="e.g., Create a Python exercise about list comprehension" 
+                                            required
+                                            autocomplete="off"
+                                        >
+                                        <button type="submit" id="sendBtn" class="btn btn-primary">
+                                            <i class="fas fa-paper-plane"></i>
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Exercise Preview Section -->
+        <div class="col-lg-6 mb-4">
+            <div class="card border-0 shadow-sm h-100" id="exercisePreviewCard">
+                <div class="card-header bg-transparent border-0 d-flex justify-content-between align-items-center">
+                    <h5 class="mb-0"><i class="fas fa-file-code me-2"></i>Generated Exercise</h5>
+                    <span class="badge bg-secondary" id="previewStatus">No exercise yet</span>
+                </div>
+                <div class="card-body" id="exercisePreviewContent">
+                    <!-- Empty State -->
+                    <div class="text-center py-5" id="emptyState">
+                        <i class="fas fa-magic fa-3x opacity-25 mb-3"></i>
+                        <p class="text-muted">Generate an exercise to see the preview here</p>
+                    </div>
+
+                    <!-- Exercise Content (hidden by default) -->
+                    <div id="exerciseContent" style="display: none;">
+                        <!-- Title and Meta -->
+                        <div class="d-flex justify-content-between align-items-start mb-3">
+                            <h5 class="card-title mb-0" id="exerciseTitle">Exercise Title</h5>
+                            <div class="d-flex gap-2">
+                                <span class="badge bg-warning text-dark" id="exerciseDifficulty">Difficulty</span>
+                                <span class="badge bg-info" id="exerciseLanguage">Language</span>
+                            </div>
+                        </div>
+
+                        <!-- Description -->
+                        <div class="mb-3">
+                            <label class="form-label small text-muted">Description</label>
+                            <div class="p-3 bg-light rounded border-start border-3 border-primary">
+                                <p class="mb-0 small" id="exerciseDescription">Description</p>
+                            </div>
+                        </div>
+
+                        <!-- Template Code -->
+                        <div class="mb-3">
+                            <label class="form-label small text-muted">Template Code</label>
+                            <pre class="bg-dark text-light p-3 rounded"><code id="templateCode" class="language-php"></code></pre>
+                        </div>
+
+                        <!-- Solution Code -->
+                        <div class="mb-3">
+                            <label class="form-label small text-muted">Solution Code</label>
+                            <pre class="bg-dark text-light p-3 rounded"><code id="solutionCode" class="language-php"></code></pre>
+                        </div>
+
+                        <!-- Hints -->
+                        <div class="mb-3" id="hintsSection" style="display: none;">
+                            <label class="form-label small text-muted">Hints</label>
+                            <ul class="list-group" id="hintsList"></ul>
+                        </div>
+
+                        <!-- Save Section -->
+                        <div class="border-top pt-3 mt-3">
+                            <div class="row g-2 align-items-end">
+                                <div class="col-md-8">
+                                    <label class="form-label small text-muted">Save to Evaluation</label>
+                                    <select id="evaluationSelect" class="form-select form-select-sm">
+                                        <option value="">-- Select Evaluation --</option>
+                                        {% for evaluation in evaluations %}
+                                            <option value="{{ evaluation.id }}">{{ evaluation.title }} ({{ evaluation.language|upper }})</option>
+                                        {% endfor %}
+                                    </select>
+                                    {% if evaluations|length == 0 %}
+                                        <small class="text-danger">No evaluations with compiler available. Create one first.</small>
+                                    {% endif %}
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="d-flex gap-2">
+                                        <button class="btn btn-outline-secondary btn-sm flex-grow-1" id="regenerateBtn">
+                                            <i class="fas fa-redo"></i> Regenerate
+                                        </button>
+                                        <button class="btn btn-success btn-sm flex-grow-1" id="saveExerciseBtn">
+                                            <i class="fas fa-save"></i> Save
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Recent Exercises -->
+    <div class="row mt-2">
+        <div class="col-12">
+            <div class="card border-0 shadow-sm">
+                <div class="card-header bg-transparent border-0">
+                    <h5 class="mb-0"><i class="fas fa-history me-2"></i>Recent Generated Exercises</h5>
+                </div>
+                <div class="card-body">
+                    <div class="table-responsive">
+                        <table class="table table-hover" id="historyTable">
+                            <thead>
+                                <tr>
+                                    <th>ID</th>
+                                    <th>Language</th>
+                                    <th>Prompt</th>
+                                    <th>Title</th>
+                                    <th>Date</th>
+                                    <th>Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody id="historyTableBody">
+                                {% for message in recent_messages %}
+                                    <tr>
+                                        <td>{{ message.id }}</td>
+                                        <td><span class="badge bg-info">{{ message.language }}</span></td>
+                                        <td class="text-truncate" style="max-width: 200px;">{{ message.userMessage }}</td>
+                                        <td>{{ message.exerciseTitle }}</td>
+                                        <td>{{ message.createdAt|date('Y-m-d H:i') }}</td>
+                                        <td>
+                                            <button class="btn btn-sm btn-outline-primary" onclick="loadExerciseFromRow(this)" 
+                                                    data-response="{{ message.botResponse|escape('html_attr') }}">
+                                                <i class="fas fa-eye"></i> View
+                                            </button>
+                                        </td>
+                                    </tr>
+                                {% else %}
+                                    <tr>
+                                        <td colspan="6" class="text-center text-muted">No recent exercises</td>
+                                    </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<style>
+    .gradient-text {
+        background: linear-gradient(135deg, #6366f1 0%, #a855f7 100%);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
+    }
+
+    .chat-messages .message {
+        margin-bottom: 0.75rem;
+        padding: 0.6rem 0.8rem;
+        border-radius: 8px;
+        max-width: 85%;
+        word-wrap: break-word;
+    }
+
+    .chat-messages .message.user {
+        background: linear-gradient(135deg, #6366f1 0%, #8b5cf6 100%);
+        color: white;
+        margin-left: auto;
+        border-bottom-right-radius: 0;
+    }
+
+    .chat-messages .message.bot {
+        background: #f1f5f9;
+        color: #334155;
+        margin-right: auto;
+        border-bottom-left-radius: 0;
+    }
+
+    .welcome-message {
+        color: #94a3b8;
+    }
+
+    .welcome-message h5 {
+        color: #475569;
+    }
+
+    pre {
+        margin: 0;
+        font-size: 0.85rem;
+    }
+
+    pre code {
+        font-family: 'Monaco', 'Menlo', 'Ubuntu Mono', monospace;
+    }
+
+    #historyTable {
+        font-size: 0.9rem;
+    }
+
+    #historyTable th {
+        font-weight: 600;
+        color: #475569;
+    }
+
+    .btn-success {
+        background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+        border: none;
+    }
+
+    .btn-success:hover {
+        background: linear-gradient(135deg, #059669 0%, #047857 100%);
+    }
+
+    .btn-primary {
+        background: linear-gradient(135deg, #6366f1 0%, #8b5cf6 100%);
+        border: none;
+    }
+
+    .btn-primary:hover {
+        background: linear-gradient(135deg, #4f46e5 0%, #7c3aed 100%);
+    }
+
+    .card {
+        border-radius: 12px;
+    }
+
+    .border-3 {
+        border-width: 3px !important;
+    }
+</style>
+
+<script>
+    let currentExercise = null;
+    let lastPrompt = '';
+    let lastLanguage = '';
+
+    document.getElementById('chatForm').addEventListener('submit', async (e) => {
+        e.preventDefault();
+        
+        const prompt = document.getElementById('promptInput').value.trim();
+        const language = document.getElementById('language').value;
+        const sendBtn = document.getElementById('sendBtn');
+        
+        if (!prompt) return;
+
+        // Store for regenerate
+        lastPrompt = prompt;
+        lastLanguage = language;
+
+        // Disable send button
+        sendBtn.disabled = true;
+        sendBtn.innerHTML = '<span class="loading"></span>';
+
+        // Add user message to chat
+        addChatMessage(prompt, 'user');
+
+        try {
+            // Show loading state
+            addChatMessage('Generating exercise...', 'bot');
+
+            const response = await fetch('{{ path('app_chatbot_ask') }}', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
+                    prompt: prompt,
+                    language: language
+                })
+            });
+
+            const data = await response.json();
+
+            if (data.success) {
+                // Remove loading message
+                removeLastBotMessage();
+                
+                // Add success message
+                addChatMessage('✓ Exercise generated successfully!', 'bot');
+
+                // Store and display exercise
+                currentExercise = data.exercise;
+                displayExercise(data.exercise);
+
+                // Clear input
+                document.getElementById('promptInput').value = '';
+                
+                // Refresh history
+                setTimeout(loadHistory, 1000);
+            } else {
+                removeLastBotMessage();
+                addChatMessage('❌ Error: ' + data.error, 'bot');
+            }
+        } catch (error) {
+            removeLastBotMessage();
+            addChatMessage('❌ Failed to generate exercise: ' + error.message, 'bot');
+        } finally {
+            sendBtn.disabled = false;
+            sendBtn.innerHTML = '<i class="fas fa-paper-plane"></i>';
+        }
+    });
+
+    function addChatMessage(text, sender) {
+        const messagesDiv = document.getElementById('chatMessages');
+        const messageDiv = document.createElement('div');
+        messageDiv.className = 'message ' + sender;
+        messageDiv.textContent = text;
+        
+        // Remove welcome message on first user message
+        if (sender === 'user') {
+            const welcome = messagesDiv.querySelector('.welcome-message');
+            if (welcome) welcome.remove();
+        }
+        
+        messagesDiv.appendChild(messageDiv);
+        messagesDiv.scrollTop = messagesDiv.scrollHeight;
+    }
+
+    function removeLastBotMessage() {
+        const messagesDiv = document.getElementById('chatMessages');
+        const lastMsg = messagesDiv.querySelector('.message.bot:last-of-type');
+        if (lastMsg) lastMsg.remove();
+    }
+
+    function displayExercise(exercise) {
+        document.getElementById('emptyState').style.display = 'none';
+        document.getElementById('exerciseContent').style.display = 'block';
+        document.getElementById('previewStatus').textContent = 'Ready';
+        document.getElementById('previewStatus').className = 'badge bg-success';
+
+        document.getElementById('exerciseTitle').textContent = exercise.title || 'Generated Exercise';
+        document.getElementById('exerciseDescription').textContent = exercise.description || 'No description provided';
+        document.getElementById('templateCode').textContent = exercise.template || '// No template';
+        document.getElementById('solutionCode').textContent = exercise.solution || '// No solution';
+        document.getElementById('exerciseDifficulty').textContent = '⭐ ' + (exercise.difficulty || '1') + '/5';
+        document.getElementById('exerciseLanguage').textContent = (exercise.language || 'PHP').toUpperCase();
+
+        // Set syntax highlighting class
+        const lang = (exercise.language || 'php').toLowerCase();
+        document.getElementById('templateCode').className = 'language-' + lang;
+        document.getElementById('solutionCode').className = 'language-' + lang;
+
+        // Display hints
+        const hintsSection = document.getElementById('hintsSection');
+        const hintsList = document.getElementById('hintsList');
+        if (exercise.hints && exercise.hints.length > 0) {
+            hintsList.innerHTML = '';
+            exercise.hints.forEach(hint => {
+                const li = document.createElement('li');
+                li.className = 'list-group-item small';
+                li.textContent = hint;
+                hintsList.appendChild(li);
+            });
+            hintsSection.style.display = 'block';
+        } else {
+            hintsSection.style.display = 'none';
+        }
+    }
+
+    document.getElementById('saveExerciseBtn').addEventListener('click', async () => {
+        if (!currentExercise) {
+            alert('No exercise to save. Generate one first.');
+            return;
+        }
+
+        const evaluationId = document.getElementById('evaluationSelect').value;
+        if (!evaluationId) {
+            alert('Please select an evaluation to save this exercise.');
+            return;
+        }
+
+        try {
+            const response = await fetch('{{ path('app_chatbot_save_exercise', {'messageId': 0}) }}'.replace('/0', '/' + (currentExercise.id || 0)), {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
+                    evaluation_id: evaluationId
+                })
+            });
+
+            const data = await response.json();
+            if (data.success) {
+                alert('✓ Exercise saved successfully!');
+            } else {
+                alert('❌ Failed to save: ' + data.error);
+            }
+        } catch (error) {
+            alert('❌ Error saving exercise: ' + error.message);
+        }
+    });
+
+    document.getElementById('regenerateBtn').addEventListener('click', () => {
+        if (!lastPrompt) {
+            alert('No previous prompt to regenerate.');
+            return;
+        }
+        document.getElementById('promptInput').value = lastPrompt;
+        document.getElementById('language').value = lastLanguage;
+        document.getElementById('chatForm').dispatchEvent(new Event('submit'));
+    });
+
+    function loadExercise(responseJson) {
+        try {
+            const exercise = typeof responseJson === 'string' ? JSON.parse(responseJson) : responseJson;
+            currentExercise = exercise;
+            displayExercise(exercise);
+        } catch (e) {
+            console.error('Error loading exercise:', e);
+        }
+    }
+
+    function loadExerciseFromRow(button) {
+        const responseStr = button.getAttribute('data-response');
+        if (!responseStr) {
+            alert('No exercise data found.');
+            return;
+        }
+        
+        try {
+            const exercise = JSON.parse(responseStr);
+            currentExercise = exercise;
+            displayExercise(exercise);
+            
+            // Scroll to the exercise preview
+            document.getElementById('exercisePreviewCard').scrollIntoView({ 
+                behavior: 'smooth',
+                block: 'start'
+            });
+        } catch (e) {
+            console.error('Error parsing exercise:', e);
+            alert('Error loading exercise data.');
+        }
+    }
+
+    async function loadHistory() {
+        try {
+            const response = await fetch('{{ path('app_chatbot_history') }}');
+            const data = await response.json();
+            if (data.success && data.messages.length > 0) {
+                // Table will be refreshed via page reload or can be updated via AJAX
+            }
+        } catch (error) {
+            console.error('Error loading history:', error);
+        }
+    }
+</script>
+{% endblock %}

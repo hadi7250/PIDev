@@ -70,9 +70,17 @@
                     <p class="mb-0">{{ evaluation.description|nl2br }}</p>
                 </div>
 
-                <div class="d-flex gap-2">
+                <div class="d-flex gap-2 flex-wrap">
                     <a href="{{ path('evaluation_edit', {'id': evaluation.id}) }}" class="btn btn-warning">
                         <i class="fas fa-edit"></i> Edit
+                    </a>
+                    {% if evaluation.language %}
+                        <a href="{{ path('compiler_evaluate', {'id': evaluation.id}) }}" class="btn btn-primary">
+                            <i class="fas fa-code"></i> Open Compiler
+                        </a>
+                    {% endif %}
+                    <a href="{{ path('app_chatbot') }}" class="btn btn-success">
+                        <i class="fas fa-robot"></i> AI Question Generator
                     </a>
                     <a href="{{ path('evaluation_index') }}" class="btn btn-secondary">
                         <i class="fas fa-arrow-left"></i> Back to List

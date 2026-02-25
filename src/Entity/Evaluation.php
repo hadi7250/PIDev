@@ -3,6 +3,8 @@
 namespace App\Entity;
 
 use App\Repository\EvaluationRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
@@ -40,6 +42,21 @@ class Evaluation
     #[ORM\JoinColumn(nullable: false)]
     #[Assert\NotNull(message: "La compétence est obligatoire")]
     private ?Competence $competence = null;
+
+    #[ORM\Column(length: 50, nullable: true)]
+    #[Assert\Choice(choices: ['php', 'python', 'javascript', 'java', 'cpp', 'csharp', 'go', 'rust'])]
+    private ?string $language = null;
+
+    /**
+     * @var Collection<int, EvaluationExercise>
+     */
+    #[ORM\OneToMany(targetEntity: EvaluationExercise::class, mappedBy: 'evaluation', orphanRemoval: true)]
+    private Collection $exercises;
+
+    public function __construct()
+    {
+        $this->exercises = new ArrayCollection();
+    }
 
     public function getId(): ?int
     {
@@ -115,6 +132,41 @@ class Evaluation
     {
         $this->competence = $competence;
 
+        return $this;
+    }
+
+    public function getLanguage(): ?string
+    {
+        return $this->language;
+    }
+
+    public function setLanguage(?string $language): static
+    {
+        $this->language = $language;
+        return $this;
+    }
+
+    public function getExercises(): Collection
+    {
+        return $this->exercises;
+    }
+
+    public function addExercise(EvaluationExercise $exercise): static
+    {
+        if (!$this->exercises->contains($exercise)) {
+            $this->exercises->add($exercise);
+            $exercise->setEvaluation($this);
+        }
+        return $this;
+    }
+
+    public function removeExercise(EvaluationExercise $exercise): static
+    {
+        if ($this->exercises->removeElement($exercise)) {
+            if ($exercise->getEvaluation() === $this) {
+                $exercise->setEvaluation(null);
+            }
+        }
         return $this;
     }
 
