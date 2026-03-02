@@ -1,0 +1,65 @@
+{% extends 'admin/forum/base.html.twig' %}
+
+{% block title %}New Discussion{% endblock %}
+
+{% block content %}
+<!-- Page Header -->
+<div class="row">
+    <div class="col-12">
+        <div class="page-title-box d-sm-flex align-items-center justify-content-between">
+            <h4 class="mb-sm-0">New Forum Discussion</h4>
+            <div class="page-title-right">
+                <ol class="breadcrumb m-0">
+                    <li class="breadcrumb-item"><a href="{{ path('admin_forum_discussions') }}">Discussions</a></li>
+                    <li class="breadcrumb-item active">New</li>
+                </ol>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Form -->
+<div class="row">
+    <div class="col-xl-8">
+        <div class="card">
+            <div class="card-body">
+                {{ form_start(form) }}
+                    <div class="mb-3">
+                        {{ form_label(form.title, null, {'label_attr': {'class': 'form-label'}}) }}
+                        {{ form_widget(form.title, {'attr': {'class': 'form-control'}}) }}
+                        {{ form_errors(form.title) }}
+                    </div>
+
+                    <div class="mb-3">
+                        {{ form_label(form.category, null, {'label_attr': {'class': 'form-label'}}) }}
+                        {{ form_widget(form.category, {'attr': {'class': 'form-control'}}) }}
+                        {{ form_errors(form.category) }}
+                    </div>
+
+                    <div class="mb-3">
+                        {{ form_label(form.content, null, {'label_attr': {'class': 'form-label'}}) }}
+                        {{ form_widget(form.content, {'attr': {'class': 'form-control', 'rows': 8}}) }}
+                        {{ form_errors(form.content) }}
+                    </div>
+
+                    <div class="mb-3">
+                        {{ form_label(form.attachmentFile, null, {'label_attr': {'class': 'form-label'}}) }}
+                        {{ form_widget(form.attachmentFile, {'attr': {'class': 'form-control'}}) }}
+                        {{ form_errors(form.attachmentFile) }}
+                        <small class="form-text text-muted">Allowed formats: JPG, PNG, PDF, DOC, DOCX (Max 5MB)</small>
+                    </div>
+
+                    <div class="d-flex gap-2">
+                        <button type="submit" class="btn btn-primary">
+                            <i class="material-icons-outlined">save</i> Create Discussion
+                        </button>
+                        <a href="{{ path('admin_forum_discussions') }}" class="btn btn-secondary">
+                            <i class="material-icons-outlined">cancel</i> Cancel
+                        </a>
+                    </div>
+                {{ form_end(form) }}
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

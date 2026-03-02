@@ -1,0 +1,929 @@
+<!DOCTYPE html>
+<html lang="en" data-bs-theme="blue-theme">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Forum Admin - {% block title %}Dashboard{% endblock %}</title>
+    
+    <!-- Load ALL CSS files from public/Back_Office/assets/ -->
+    <link rel="icon" href="{{ asset('Back_Office/assets/images/favicon-32x32.png') }}" type="image/png">
+    <link href="{{ asset('Back_Office/assets/css/pace.min.css') }}" rel="stylesheet">
+    <link href="{{ asset('Back_Office/assets/plugins/perfect-scrollbar/css/perfect-scrollbar.css') }}" rel="stylesheet">
+    <link href="{{ asset('Back_Office/assets/plugins/metismenu/metisMenu.min.css') }}" rel="stylesheet">
+    <link href="{{ asset('Back_Office/assets/plugins/metismenu/mm-vertical.css') }}" rel="stylesheet">
+    <link href="{{ asset('Back_Office/assets/plugins/simplebar/css/simplebar.css') }}" rel="stylesheet">
+    <link href="{{ asset('Back_Office/assets/css/bootstrap.min.css') }}" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Material+Icons+Outlined" rel="stylesheet">
+    <link href="{{ asset('Back_Office/assets/css/bootstrap-extended.css') }}" rel="stylesheet">
+    <link href="{{ asset('Back_Office/sass/main.css') }}" rel="stylesheet">
+    <link href="{{ asset('Back_Office/sass/dark-theme.css') }}" rel="stylesheet">
+    <link href="{{ asset('Back_Office/sass/blue-theme.css') }}" rel="stylesheet">
+    <link href="{{ asset('Back_Office/sass/semi-dark.css') }}" rel="stylesheet">
+    <link href="{{ asset('Back_Office/sass/bordered-theme.css') }}" rel="stylesheet">
+    <link href="{{ asset('Back_Office/sass/responsive.css') }}" rel="stylesheet">
+    
+    <!-- Forum Admin Custom CSS -->
+    <style>
+        /* Forum Admin Specific Styles */
+        .forum-admin-header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+        }
+        
+        .forum-sidebar .sidebar-header {
+            background: #2c3e50;
+            border-bottom: 1px solid #34495e;
+        }
+        
+        .forum-sidebar .sidebar-nav .metismenu > li.active > a {
+            background: #3498db;
+            color: white;
+        }
+        
+        .forum-stats-card {
+            transition: transform 0.2s ease-in-out;
+        }
+        
+        .forum-stats-card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+        }
+        
+        .forum-badge {
+            font-size: 0.75rem;
+            font-weight: 500;
+        }
+        
+        .forum-table th {
+            font-weight: 600;
+            color: #495057;
+            border-bottom: 2px solid #dee2e6;
+        }
+        
+        .forum-table td {
+            vertical-align: middle;
+        }
+        
+        .forum-table a {
+            color: #0d6efd;
+            text-decoration: none;
+            transition: color 0.15s ease-in-out;
+        }
+        
+        .forum-table a:hover {
+            color: #0a58ca;
+            text-decoration: underline;
+        }
+        
+        .quick-action-btn {
+            transition: all 0.2s ease-in-out;
+            border: none;
+            font-weight: 500;
+        }
+        
+        .quick-action-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+        }
+        
+        .stats-icon {
+            width: 48px;
+            height: 48px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 8px;
+        }
+        
+        .stats-icon i {
+            font-size: 24px;
+        }
+        
+        /* Timeline Styles */
+        .timeline {
+            position: relative;
+            padding-left: 30px;
+        }
+        
+        .timeline::before {
+            content: '';
+            position: absolute;
+            left: 8px;
+            top: 0;
+            bottom: 0;
+            width: 2px;
+            background: #e9ecef;
+        }
+        
+        .timeline-item {
+            position: relative;
+            margin-bottom: 20px;
+        }
+        
+        .timeline-marker {
+            position: absolute;
+            left: -22px;
+            top: 5px;
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            border: 2px solid #fff;
+            box-shadow: 0 0 0 2px #e9ecef;
+        }
+        
+        .timeline-content {
+            background: #f8f9fa;
+            padding: 15px;
+            border-radius: 8px;
+            border-left: 3px solid #0d6efd;
+        }
+        
+        /* Forum Specific Card Styles */
+        .forum-stats-card .card-body {
+            border-left: 4px solid transparent;
+        }
+        
+        .forum-stats-card:nth-child(1) .card-body {
+            border-left-color: #0d6efd;
+        }
+        
+        .forum-stats-card:nth-child(2) .card-body {
+            border-left-color: #198754;
+        }
+        
+        .forum-stats-card:nth-child(3) .card-body {
+            border-left-color: #0dcaf0;
+        }
+        
+        .forum-stats-card:nth-child(4) .card-body {
+            border-left-color: #ffc107;
+        }
+        
+        /* Forum Table Styles - Enhanced Visibility */
+        .forum-table {
+            background: #34495e;
+            color: #ffffff;
+        }
+        
+        .forum-table th {
+            font-weight: 600;
+            color: #ffffff;
+            border-bottom: 2px solid #667eea;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        }
+        
+        .forum-table td {
+            vertical-align: middle;
+            color: #ffffff !important;
+            background: #34495e;
+            border-bottom: 1px solid #495057;
+        }
+        
+        .forum-table td:nth-child(2) {
+            /* Content column - ensure high contrast */
+            color: #ffffff !important;
+            font-weight: 500;
+        }
+        
+        .forum-table td:nth-child(3) {
+            /* Author column - ensure high contrast */
+            color: #ffffff !important;
+            font-weight: 500;
+        }
+        
+        .forum-table a {
+            color: #64b5f6;
+            text-decoration: none;
+            transition: color 0.15s ease-in-out;
+        }
+        
+        .forum-table a:hover {
+            color: #8dd3bb;
+            text-decoration: underline;
+        }
+        
+        .forum-table .text-muted {
+            color: #adb5bd !important;
+        }
+        
+        .forum-table .badge {
+            background: #667eea !important;
+            color: white !important;
+        }
+        
+        .forum-table .badge.bg-success {
+            background: #28a745 !important;
+        }
+        
+        .forum-table .badge.bg-danger {
+            background: #dc3545 !important;
+        }
+        
+        .forum-table .badge.bg-info {
+            background: #17a2b8 !important;
+        }
+        
+        .forum-table .badge.bg-secondary {
+            background: #6c757d !important;
+        }
+        
+        /* Form Styling - Dark Theme */
+        .form-control {
+            background: #495057;
+            border: 1px solid #6c757d;
+            color: #ffffff;
+        }
+        
+        .form-control:focus {
+            background: #495057;
+            border-color: #667eea;
+            color: #ffffff;
+            box-shadow: 0 0 0 0.2rem rgba(102, 126, 234, 0.25);
+        }
+        
+        .form-label {
+            color: #ffffff;
+            font-weight: 500;
+        }
+        
+        .form-text {
+            color: #adb5bd !important;
+        }
+        
+        .btn-primary {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            border: none;
+            color: white;
+        }
+        
+        .btn-primary:hover {
+            background: linear-gradient(135deg, #5a6fd8 0%, #6a4190 100%);
+            transform: translateY(-1px);
+            box-shadow: 0 4px 8px rgba(102, 126, 234, 0.3);
+        }
+        
+        .btn-secondary {
+            background: #6c757d;
+            border: 1px solid #495057;
+            color: white;
+        }
+        
+        .btn-secondary:hover {
+            background: #5a6268;
+            transform: translateY(-1px);
+        }
+        
+        .btn-info {
+            background: #17a2b8;
+            border: none;
+            color: white;
+        }
+        
+        .btn-info:hover {
+            background: #138496;
+            transform: translateY(-1px);
+        }
+        
+        .btn-danger {
+            background: #dc3545;
+            border: none;
+            color: white;
+        }
+        
+        .btn-danger:hover {
+            background: #c82333;
+            transform: translateY(-1px);
+        }
+        
+        /* Timeline Styles - Dark Theme */
+        .timeline {
+            position: relative;
+            padding-left: 30px;
+            background: transparent;
+        }
+        
+        .timeline::before {
+            content: '';
+            position: absolute;
+            left: 8px;
+            top: 0;
+            bottom: 0;
+            width: 2px;
+            background: #667eea;
+        }
+        
+        .timeline-item {
+            position: relative;
+            margin-bottom: 20px;
+        }
+        
+        .timeline-marker {
+            position: absolute;
+            left: -22px;
+            top: 5px;
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            border: 2px solid #667eea;
+            background: #34495e;
+            box-shadow: 0 0 0 4px #667eea;
+        }
+        
+        .timeline-content {
+            background: #2c3e50;
+            padding: 15px;
+            border-radius: 8px;
+            border-left: 3px solid #667eea;
+            color: #ffffff;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+        }
+        
+        .timeline-content h6 {
+            color: #ffffff;
+            font-weight: 600;
+            margin-bottom: 8px;
+        }
+        
+        .timeline-content strong {
+            color: #f8f9fa !important;
+            font-weight: 600;
+        }
+        
+        .timeline-content p {
+            color: #e9ecef;
+            margin-bottom: 0;
+            font-weight: 400;
+            line-height: 1.5;
+        }
+        
+        .timeline-content small {
+            color: #adb5bd;
+            font-size: 0.875rem;
+        }
+        
+        .timeline-content .text-muted {
+            color: #ced4da !important;
+            font-weight: 500;
+        }
+        
+        .timeline-content a {
+            color: #64b5f6;
+            text-decoration: none;
+        }
+        
+        .timeline-content a:hover {
+            color: #8dd3bb;
+            text-decoration: underline;
+        }
+        
+        .timeline-marker.bg-primary {
+            background: #667eea !important;
+            border-color: #667eea !important;
+            box-shadow: 0 0 0 4px #667eea !important;
+        }
+        
+        .text-decoration-none {
+            text-decoration: none !important;
+        }
+        
+        .text-decoration-none:hover {
+            text-decoration: underline !important;
+        }
+        
+        /* Timeline Empty State */
+        .timeline + .text-muted {
+            color: #ced4da !important;
+            font-size: 1.1rem;
+            font-weight: 500;
+        }
+        .breadcrumb {
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 6px;
+            padding: 8px 12px;
+        }
+        
+        .breadcrumb-item {
+            color: #adb5bd;
+        }
+        
+        .breadcrumb-item a {
+            color: #64b5f6;
+            text-decoration: none;
+        }
+        
+        .breadcrumb-item a:hover {
+            color: #8dd3bb;
+            text-decoration: underline;
+        }
+        
+        .breadcrumb-item.active {
+            color: #ffffff;
+        }
+        
+        /* Forum Admin Layout Fixes */
+        .forum-sidebar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            height: 100vh;
+            z-index: 1000;
+            transition: transform 0.3s ease;
+        }
+        
+        .forum-sidebar.sidebar-collapsed {
+            transform: translateX(-100%);
+        }
+        
+        .page-wrapper {
+            margin-left: 280px;
+            margin-top: 70px;
+            transition: margin-left 0.3s ease;
+            min-height: calc(100vh - 70px);
+            padding: 20px;
+            background: linear-gradient(135deg, #2c3e50 0%, #34495e 100%);
+        }
+        
+        .page-wrapper.sidebar-collapsed {
+            margin-left: 0;
+        }
+        
+        .page-content {
+            padding: 0;
+        }
+        
+        .container-fluid {
+            padding: 0 15px;
+        }
+        
+        .page-title-box {
+            margin-bottom: 25px;
+            padding: 20px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border-radius: 8px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+        }
+        
+        .card {
+            margin-bottom: 25px;
+            border: none;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+            border-radius: 8px;
+            background: #2c3e50;
+        }
+        
+        .card-header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            border-bottom: none;
+            padding: 15px 20px;
+            border-radius: 8px 8px 0 0;
+            color: white;
+        }
+        
+        .card-body {
+            padding: 20px;
+            background: #34495e;
+            color: #ffffff;
+        }
+        
+        .row {
+            margin-bottom: 25px;
+        }
+        
+        .row:last-child {
+            margin-bottom: 0;
+        }
+        
+        /* Forum Admin Header Fixes */
+        .header {
+            position: fixed;
+            top: 0;
+            right: 0;
+            left: 280px;
+            height: 70px;
+            background: linear-gradient(135deg, #2c3e50 0%, #34495e 100%);
+            box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+            z-index: 999;
+            transition: left 0.3s ease;
+            border-bottom: 1px solid #495057;
+        }
+        .header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+        
+        .header.sidebar-collapsed {
+            left: 0;
+        }
+        
+        .header-left, .header-right {
+            display: flex;
+            align-items: center;
+            height: 100%;
+        }
+        
+        .header-left {
+            padding: 0 20px;
+        }
+        
+        .header-right {
+            margin-left: auto;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            padding-right: 25px;
+        }
+        
+        .menu-toggle {
+            background: rgba(255, 255, 255, 0.1);
+            border: none;
+            padding: 12px;
+            cursor: pointer;
+            border-radius: 6px;
+            transition: background 0.2s ease;
+            margin-right: 10px;
+        }
+        
+        .menu-toggle:hover {
+            background: rgba(255, 255, 255, 0.2);
+        }
+        
+        .user-avatar {
+            width: 42px;
+            height: 42px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 2px solid #495057;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+        }
+        
+        .user-name {
+            margin-left: 12px;
+            font-weight: 500;
+            color: #495057;
+            font-size: 14px;
+        }
+        
+        .dropdown-toggle {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 10px 15px;
+            border: 1px solid #495057;
+            border-radius: 8px;
+            background: rgba(255, 255, 255, 0.1);
+            transition: all 0.2s ease;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+        
+        .dropdown-toggle:hover {
+            background: rgba(255, 255, 255, 0.2);
+            border-color: #667eea;
+            box-shadow: 0 4px 8px rgba(102, 126, 234, 0.3);
+            transform: translateY(-1px);
+        }
+        
+        .dropdown-menu {
+            margin-top: 12px;
+            border: none;
+            box-shadow: 0 8px 24px rgba(0,0,0,0.15);
+            border-radius: 12px;
+            padding: 12px 0;
+            min-width: 220px;
+            background: #2c3e50;
+            border: 1px solid #495057;
+        }
+        
+        .dropdown-item {
+            padding: 12px 20px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            transition: background 0.2s ease;
+            font-size: 14px;
+            border-radius: 6px;
+            color: #ffffff;
+        }
+        
+        .dropdown-item:hover {
+            background: rgba(255, 255, 255, 0.1);
+            color: #ffffff;
+        }
+        
+        .dropdown-item .material-icons-outlined {
+            font-size: 20px;
+            color: #6c757d;
+        }
+        
+        .notification-badge {
+            position: absolute;
+            top: -5px;
+            right: -5px;
+            background: #dc3545;
+            color: white;
+            border-radius: 50%;
+            width: 18px;
+            height: 18px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 11px;
+            font-weight: bold;
+            box-shadow: 0 2px 4px rgba(220, 53, 69, 0.3);
+        }
+        
+        .notification-button {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 42px;
+            height: 42px;
+            border: 1px solid #e9ecef;
+            border-radius: 8px;
+            background: #fff;
+            transition: all 0.2s ease;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+            position: relative;
+        }
+        
+        .notification-button:hover {
+            background: #f8f9fa;
+            border-color: #dee2e6;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+            transform: translateY(-1px);
+        }
+        
+        .notification-button .material-icons-outlined {
+            font-size: 20px;
+            color: #6c757d;
+        }
+        
+        /* Responsive fixes */
+        @media (max-width: 768px) {
+            .forum-sidebar {
+                transform: translateX(-100%);
+            }
+            
+            .forum-sidebar.sidebar-open {
+                transform: translateX(0);
+            }
+            
+            .page-wrapper {
+                margin-left: 0;
+                margin-top: 70px;
+                background: linear-gradient(135deg, #2c3e50 0%, #34495e 100%);
+            }
+            
+            .header {
+                left: 0;
+                padding-right: 15px;
+            }
+            
+            .header-right {
+                gap: 12px;
+                padding-right: 15px;
+            }
+            
+            .user-name {
+                display: none;
+            }
+            
+            .dropdown-toggle {
+                padding: 8px 12px;
+            }
+            
+            .user-avatar {
+                width: 38px;
+                height: 38px;
+            }
+            
+            .notification-button {
+                width: 38px;
+                height: 38px;
+            }
+            
+            .notification-button .material-icons-outlined {
+                font-size: 18px;
+            }
+            
+            .page-title-box {
+                padding: 15px;
+                margin-bottom: 20px;
+            }
+            
+            .card {
+                margin-bottom: 20px;
+            }
+            
+            .card-body {
+                padding: 15px;
+            }
+            
+            .timeline {
+                padding-left: 20px;
+            }
+            
+            .timeline::before {
+                left: 5px;
+            }
+            
+            .timeline-marker {
+                left: -18px;
+                width: 10px;
+                height: 10px;
+            }
+            
+            .timeline-content {
+                padding: 12px;
+                margin-left: 5px;
+            }
+            
+            .timeline-content p {
+                color: #e9ecef !important;
+                font-size: 0.9rem;
+                line-height: 1.4;
+            }
+            
+            .timeline-content strong {
+                color: #f8f9fa !important;
+            }
+            
+            .timeline-content .text-muted {
+                color: #ced4da !important;
+            }
+        }
+    </style>
+</head>
+<body>
+
+<!-- Forum Admin Header -->
+<div class="header">
+    <div class="header-left">
+        <div class="menu-toggle">
+            <span class="material-icons-outlined">menu</span>
+        </div>
+    </div>
+    <div class="header-right">
+        <!-- Notifications -->
+        <div class="dropdown">
+            <button class="btn notification-button position-relative" type="button" data-bs-toggle="dropdown">
+                <span class="material-icons-outlined">notifications</span>
+                <span class="notification-badge">7</span>
+            </button>
+            <ul class="dropdown-menu dropdown-menu-end">
+                <li><a class="dropdown-item" href="#"><span class="material-icons-outlined">mail</span> New forum message</a></li>
+                <li><a class="dropdown-item" href="#"><span class="material-icons-outlined">forum</span> New discussion created</a></li>
+                <li><a class="dropdown-item" href="#"><span class="material-icons-outlined">report</span> User reported content</a></li>
+            </ul>
+        </div>
+        
+        <!-- User Menu -->
+        <div class="dropdown">
+            <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown">
+                <img src="{{ asset('Back_Office/assets/images/avatars/01.png') }}" alt="User" class="user-avatar">
+                <span class="user-name">{{ app.user ? app.user.email : 'Admin User' }}</span>
+            </button>
+            <ul class="dropdown-menu dropdown-menu-end">
+                <li><a class="dropdown-item" href="{{ path('app_profile') }}"><span class="material-icons-outlined">person</span> Profile</a></li>
+                <li><a class="dropdown-item" href="#"><span class="material-icons-outlined">settings</span> Settings</a></li>
+                <li><hr class="dropdown-divider"></li>
+                <li><a class="dropdown-item" href="{{ path('app_logout') }}"><span class="material-icons-outlined">logout</span> Logout</a></li>
+            </ul>
+        </div>
+    </div>
+</div>
+
+<!-- Forum Admin Sidebar -->
+<aside class="sidebar-wrapper forum-sidebar" data-simplebar="true">
+    <div class="sidebar-header">
+        <div class="logo-icon">
+            <i class="material-icons-outlined" style="font-size: 32px; color: #3498db;">forum</i>
+        </div>
+        <div class="logo-name flex-grow-1">
+            <h5 class="mb-0 text-white">Forum Admin</h5>
+        </div>
+        <div class="sidebar-close">
+            <span class="material-icons-outlined text-white">close</span>
+        </div>
+    </div>
+    <div class="sidebar-nav">
+        <ul class="metismenu" id="forum-sidenav">
+            <li>
+                <a href="{{ path('admin_forum_dashboard') }}">
+                    <div class="parent-icon"><i class="material-icons-outlined">dashboard</i></div>
+                    <div class="menu-title">Forum Dashboard</div>
+                </a>
+            </li>
+            
+            <li class="menu-label">Content Management</li>
+            <li>
+                <a class="has-arrow" href="javascript:;">
+                    <div class="parent-icon"><i class="material-icons-outlined">category</i></div>
+                    <div class="menu-title">Categories</div>
+                </a>
+                <ul>
+                    <li><a href="{{ path('admin_forum_categories') }}"><i class="material-icons-outlined">list</i>All Categories</a></li>
+                    <li><a href="{{ path('admin_forum_category_new') }}"><i class="material-icons-outlined">add</i>New Category</a></li>
+                </ul>
+            </li>
+            
+            <li>
+                <a class="has-arrow" href="javascript:;">
+                    <div class="parent-icon"><i class="material-icons-outlined">question_answer</i></div>
+                    <div class="menu-title">Discussions</div>
+                </a>
+                <ul>
+                    <li><a href="{{ path('admin_forum_discussions') }}"><i class="material-icons-outlined">list</i>All Discussions</a></li>
+                    <li><a href="{{ path('admin_forum_discussion_new') }}"><i class="material-icons-outlined">add</i>New Discussion</a></li>
+                </ul>
+            </li>
+            
+            <li>
+                <a class="has-arrow" href="javascript:;">
+                    <div class="parent-icon"><i class="material-icons-outlined">comment</i></div>
+                    <div class="menu-title">Messages</div>
+                </a>
+                <ul>
+                    <li><a href="{{ path('admin_forum_messages') }}"><i class="material-icons-outlined">list</i>All Messages</a></li>
+                </ul>
+            </li>
+            
+            <li class="menu-label">Quick Actions</li>
+            <li>
+                <a href="{{ path('admin_forum_category_new') }}">
+                    <div class="parent-icon"><i class="material-icons-outlined">add_circle</i></div>
+                    <div class="menu-title">Create Category</div>
+                </a>
+            </li>
+        </ul>
+    </div>
+</aside>
+
+<!-- Main Content -->
+<div class="page-wrapper">
+    <div class="page-content">
+        {% block content %}
+        <!-- Forum Admin content will be rendered here -->
+        {% endblock %}
+    </div>
+</div>
+
+<!-- Scripts -->
+<script src="{{ asset('Back_Office/assets/js/jquery.js') }}"></script>
+<script src="{{ asset('Back_Office/assets/js/bootstrap.bundle.min.js') }}"></script>
+<script src="{{ asset('Back_Office/assets/plugins/metismenu/metisMenu.min.js') }}"></script>
+<script src="{{ asset('Back_Office/assets/plugins/simplebar/js/simplebar.min.js') }}"></script>
+<script src="{{ asset('Back_Office/assets/js/pace.min.js') }}"></script>
+
+<script>
+$(document).ready(function() {
+    // Initialize MetisMenu
+    $('#forum-sidenav').metisMenu();
+    
+    // Sidebar toggle
+    $('.menu-toggle').click(function() {
+        $('.forum-sidebar').toggleClass('sidebar-collapsed');
+        $('.page-wrapper').toggleClass('sidebar-collapsed');
+        $('.header').toggleClass('sidebar-collapsed');
+    });
+    
+    // Sidebar close
+    $('.sidebar-close').click(function() {
+        $('.forum-sidebar').addClass('sidebar-collapsed');
+        $('.page-wrapper').addClass('sidebar-collapsed');
+        $('.header').addClass('sidebar-collapsed');
+    });
+    
+    // Set initial state
+    if ($(window).width() <= 768) {
+        $('.forum-sidebar').addClass('sidebar-collapsed');
+        $('.page-wrapper').addClass('sidebar-collapsed');
+        $('.header').addClass('sidebar-collapsed');
+    }
+    
+    // Handle window resize
+    $(window).resize(function() {
+        if ($(window).width() <= 768) {
+            $('.forum-sidebar').addClass('sidebar-collapsed');
+            $('.page-wrapper').addClass('sidebar-collapsed');
+            $('.header').addClass('sidebar-collapsed');
+        } else {
+            $('.forum-sidebar').removeClass('sidebar-collapsed');
+            $('.page-wrapper').removeClass('sidebar-collapsed');
+            $('.header').removeClass('sidebar-collapsed');
+        }
+    });
+    
+    // Remove loader
+    $('.loader-wrap').fadeOut(500);
+});
+</script>
+
+{% block javascripts %}
+<!-- Additional JavaScript for specific pages -->
+{% endblock %}
+
+</body>
+</html>

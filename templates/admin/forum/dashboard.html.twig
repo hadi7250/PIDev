@@ -1,0 +1,418 @@
+{% extends 'admin/forum/base.html.twig' %}
+
+{% block title %}Forum Dashboard{% endblock %}
+
+{% block content %}
+<!-- Page Header -->
+<div class="row">
+    <div class="col-12">
+        <div class="page-title-box d-sm-flex align-items-center justify-content-between">
+            <h4 class="mb-sm-0">Forum Dashboard</h4>
+            <div class="page-title-right">
+                <ol class="breadcrumb m-0">
+                    <li class="breadcrumb-item"><a href="javascript: void(0);">Forum</a></li>
+                    <li class="breadcrumb-item active">Dashboard</li>
+                </ol>
+            </div>
+        </div>
+    </div>
+</div>
+
+        <!-- Enhanced Stats Cards -->
+        <div class="row">
+            <div class="col-xl-3 col-md-6">
+                <div class="card forum-stats-card">
+                    <div class="card-body">
+                        <div class="d-flex">
+                            <div class="flex-grow-1">
+                                <p class="text-muted">Total Categories</p>
+                                <h3 class="mb-0">{{ stats.categories }}</h3>
+                                <small class="text-success">
+                                    {% if mostActiveCategory %}
+                                        Most active: {{ mostActiveCategory.name }}
+                                    {% else %}
+                                        No categories yet
+                                    {% endif %}
+                                </small>
+                            </div>
+                            <div class="flex-shrink-0">
+                                <div class="stats-icon bg-primary bg-opacity-10 text-primary">
+                                    <i class="material-icons-outlined">category</i>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-xl-3 col-md-6">
+                <div class="card forum-stats-card">
+                    <div class="card-body">
+                        <div class="d-flex">
+                            <div class="flex-grow-1">
+                                <p class="text-muted">Total Discussions</p>
+                                <h3 class="mb-0">{{ stats.discussions }}</h3>
+                                <small class="text-success">+{{ discussionsThisMonth }} this month</small>
+                            </div>
+                            <div class="flex-shrink-0">
+                                <div class="stats-icon bg-success bg-opacity-10 text-success">
+                                    <i class="material-icons-outlined">question_answer</i>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-xl-3 col-md-6">
+                <div class="card forum-stats-card">
+                    <div class="card-body">
+                        <div class="d-flex">
+                            <div class="flex-grow-1">
+                                <p class="text-muted">Total Messages</p>
+                                <h3 class="mb-0">{{ stats.messages }}</h3>
+                                <small class="text-info">+{{ messagesThisMonth }} this month</small>
+                            </div>
+                            <div class="flex-shrink-0">
+                                <div class="stats-icon bg-info bg-opacity-10 text-info">
+                                    <i class="material-icons-outlined">comment</i>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-xl-3 col-md-6">
+                <div class="card forum-stats-card">
+                    <div class="card-body">
+                        <div class="d-flex">
+                            <div class="flex-grow-1">
+                                <p class="text-muted">Total Views</p>
+                                <h3 class="mb-0">{{ totalViews|number_format(0, '.', ',') }}</h3>
+                                <small class="text-warning">{{ avgMessagesPerDiscussion }} avg msgs/discussion</small>
+                            </div>
+                            <div class="flex-shrink-0">
+                                <div class="stats-icon bg-warning bg-opacity-10 text-warning">
+                                    <i class="material-icons-outlined">visibility</i>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Additional Statistics Row -->
+        <div class="row mt-3">
+            <div class="col-xl-4">
+                <div class="card">
+                    <div class="card-header">
+                        <h5 class="card-title mb-0">Categories Overview</h5>
+                    </div>
+                    <div class="card-body">
+                        {% if categoriesWithStats %}
+                            <div class="table-responsive">
+                                <table class="table table-sm forum-table">
+                                    <thead>
+                                        <tr>
+                                            <th>Category</th>
+                                            <th>Discussions</th>
+                                            <th>Messages</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        {% for category in categoriesWithStats %}
+                                            <tr>
+                                                <td>
+                                                    <a href="{{ path('admin_forum_categories') }}" class="text-decoration-none">
+                                                        {{ category.name }}
+                                                    </a>
+                                                </td>
+                                                <td>
+                                                    <span class="badge bg-primary forum-badge">{{ category.discussionCount }}</span>
+                                                </td>
+                                                <td>
+                                                    <span class="badge bg-info forum-badge">{{ category.messageCount }}</span>
+                                                </td>
+                                            </tr>
+                                        {% endfor %}
+                                    </tbody>
+                                </table>
+                            </div>
+                        {% else %}
+                            <p class="text-muted text-center">No categories found</p>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+            <div class="col-xl-4">
+                <div class="card">
+                    <div class="card-header">
+                        <h5 class="card-title mb-0">Most Active Users</h5>
+                    </div>
+                    <div class="card-body">
+                        {% if mostActiveUsers %}
+                            {% for userStat in mostActiveUsers %}
+                                <div class="d-flex justify-content-between align-items-center mb-2">
+                                    <span>{{ userStat.authorName|default('Unknown User') }}</span>
+                                    <span class="badge bg-success forum-badge">{{ userStat.messageCount }} messages</span>
+                                </div>
+                            {% endfor %}
+                        {% else %}
+                            <p class="text-muted text-center">No user activity yet</p>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+            <div class="col-xl-4">
+                <div class="card">
+                    <div class="card-header">
+                        <h5 class="card-title mb-0">Forum Health</h5>
+                    </div>
+                    <div class="card-body">
+                        <div class="mb-3">
+                            <div class="d-flex justify-content-between">
+                                <span>Engagement Rate</span>
+                                <strong>{{ avgMessagesPerDiscussion > 2 ? 'High' : (avgMessagesPerDiscussion > 1 ? 'Medium' : 'Low') }}</strong>
+                            </div>
+                            <div class="progress" style="height: 6px;">
+                                <div class="progress-bar" style="width: {{ (avgMessagesPerDiscussion / 5) * 100 }}%"></div>
+                            </div>
+                        </div>
+                        <div class="mb-3">
+                            <div class="d-flex justify-content-between">
+                                <span>Monthly Growth</span>
+                                <strong>{{ discussionsThisMonth > 0 ? '+' ~ discussionsThisMonth : '0' }} discussions</strong>
+                            </div>
+                        </div>
+                        <div>
+                            <div class="d-flex justify-content-between">
+                                <span>Total Activity</span>
+                                <strong>{{ (discussionsThisMonth + messagesThisMonth) }} this month</strong>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Recent Activity -->
+        <div class="row">
+            <div class="col-xl-6">
+                <div class="card">
+                    <div class="card-header">
+                        <h4 class="card-title mb-0">Recent Discussions</h4>
+                    </div>
+                    <div class="card-body">
+                        {% if recentDiscussions %}
+                            <div class="table-responsive">
+                                <table class="table table-nowrap align-middle mb-0 forum-table">
+                                    <thead>
+                                        <tr>
+                                            <th>Title</th>
+                                            <th>Author</th>
+                                            <th>Category</th>
+                                            <th>Views</th>
+                                            <th>Date</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        {% for discussion in recentDiscussions %}
+                                            <tr>
+                                                <td>
+                                                    <a href="{{ path('forum_discussion', {'id': discussion.id}) }}" target="_blank" class="text-decoration-none">
+                                                        {{ discussion.title|slice(0, 40) }}...
+                                                    </a>
+                                                </td>
+                                                <td>{{ discussion.author ? (discussion.author.name|default(discussion.author.email)) : 'Unknown' }}</td>
+                                                <td>
+                                                    <span class="badge bg-light text-dark forum-badge">{{ discussion.category.name }}</span>
+                                                </td>
+                                                <td>{{ discussion.views }}</td>
+                                                <td>{{ discussion.createdAt|date('M d, Y') }}</td>
+                                            </tr>
+                                        {% endfor %}
+                                    </tbody>
+                                </table>
+                            </div>
+                        {% else %}
+                            <div class="text-center py-4">
+                                <i class="material-icons-outlined text-muted" style="font-size: 48px;">forum</i>
+                                <p class="text-muted mt-2">No discussions yet</p>
+                            </div>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+            <div class="col-xl-6">
+                <div class="card">
+                    <div class="card-header">
+                        <h4 class="card-title mb-0">Top Discussions by Views</h4>
+                    </div>
+                    <div class="card-body">
+                        {% if topDiscussions %}
+                            <div class="table-responsive">
+                                <table class="table table-nowrap align-middle mb-0 forum-table">
+                                    <thead>
+                                        <tr>
+                                            <th>Title</th>
+                                            <th>Author</th>
+                                            <th>Views</th>
+                                            <th>Messages</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        {% for discussion in topDiscussions %}
+                                            <tr>
+                                                <td>
+                                                    <a href="{{ path('forum_discussion', {'id': discussion.id}) }}" target="_blank" class="text-decoration-none">
+                                                        {{ discussion.title|slice(0, 35) }}...
+                                                    </a>
+                                                </td>
+                                                <td>{{ discussion.author ? (discussion.author.name|default(discussion.author.email)) : 'Unknown' }}</td>
+                                                <td>
+                                                    <span class="badge bg-primary forum-badge">{{ discussion.views }}</span>
+                                                </td>
+                                                <td>{{ discussion.messages ? discussion.messages|length : 0 }}</td>
+                                            </tr>
+                                        {% endfor %}
+                                    </tbody>
+                                </table>
+                            </div>
+                        {% else %}
+                            <div class="text-center py-4">
+                                <i class="material-icons-outlined text-muted" style="font-size: 48px;">trending_up</i>
+                                <p class="text-muted mt-2">No discussions with views yet</p>
+                            </div>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Recent Activity Timeline -->
+        <div class="row mt-3">
+            <div class="col-12">
+                <div class="card">
+                    <div class="card-header">
+                        <h4 class="card-title mb-0">Recent Activity Timeline</h4>
+                    </div>
+                    <div class="card-body">
+                        {% if recentActivity %}
+                            <div class="timeline">
+                                {% for activity in recentActivity %}
+                                    <div class="timeline-item">
+                                        <div class="timeline-marker bg-primary"></div>
+                                        <div class="timeline-content">
+                                            <div class="d-flex justify-content-between align-items-start">
+                                                <div>
+                                                    <strong>{{ activity.authorName|default('Unknown User') }}</strong>
+                                                    <span class="text-muted">posted in</span>
+                                                    <a href="#" class="text-decoration-none">{{ activity.discussionTitle|slice(0, 30) }}...</a>
+                                                </div>
+                                                <small class="text-muted">{{ activity.createdAt|date('M d, H:i') }}</small>
+                                            </div>
+                                            <p class="mb-0 mt-1 text-muted">{{ activity.content|slice(0, 100) }}...</p>
+                                        </div>
+                                    </div>
+                                {% endfor %}
+                            </div>
+                        {% else %}
+                            <p class="text-muted text-center">No recent activity</p>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Recent Messages Section -->
+        <div class="row">
+            <div class="col-12">
+                <div class="card">
+                    <div class="card-header">
+                        <h4 class="card-title mb-0">Recent Messages</h4>
+                    </div>
+                    <div class="card-body">
+                        {% if recentMessages %}
+                            <div class="table-responsive">
+                                <table class="table table-nowrap align-middle mb-0 forum-table">
+                                    <thead>
+                                        <tr>
+                                            <th>Author</th>
+                                            <th>Content</th>
+                                            <th>Discussion</th>
+                                            <th>Date</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        {% for message in recentMessages %}
+                                            <tr>
+                                                <td>{{ message.author ? (message.author.name|default(message.author.email)) : 'Unknown' }}</td>
+                                                <td>
+                                                    {% if message.discussion %}
+                                                        <a href="{{ path('forum_discussion', {'id': message.discussion.id}) }}" target="_blank" class="text-decoration-none">
+                                                            {{ message.content|slice(0, 50) }}...
+                                                        </a>
+                                                    {% else %}
+                                                        {{ message.content|slice(0, 50) }}...
+                                                    {% endif %}
+                                                </td>
+                                                <td>
+                                                    {% if message.discussion %}
+                                                        <span class="badge bg-light text-dark forum-badge">{{ message.discussion.title|slice(0, 20) }}...</span>
+                                                    {% else %}
+                                                        <span class="badge bg-secondary forum-badge">No discussion</span>
+                                                    {% endif %}
+                                                </td>
+                                                <td>{{ message.createdAt|date('M d, Y H:i') }}</td>
+                                            </tr>
+                                        {% endfor %}
+                                    </tbody>
+                                </table>
+                            </div>
+                        {% else %}
+                            <div class="text-center py-4">
+                                <i class="material-icons-outlined text-muted" style="font-size: 48px;">comment</i>
+                                <p class="text-muted mt-2">No messages yet</p>
+                            </div>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Quick Actions -->
+        <div class="row">
+            <div class="col-12">
+                <div class="card">
+                    <div class="card-header">
+                        <h4 class="card-title mb-0">Quick Actions</h4>
+                    </div>
+                    <div class="card-body">
+                        <div class="row">
+                            <div class="col-md-3">
+                                <a href="{{ path('admin_forum_category_new') }}" class="btn btn-primary w-100 mb-2 quick-action-btn">
+                                    <i class="material-icons-outlined">add</i> New Category
+                                </a>
+                            </div>
+                            <div class="col-md-3">
+                                <a href="{{ path('admin_forum_categories') }}" class="btn btn-info w-100 mb-2 quick-action-btn">
+                                    <i class="material-icons-outlined">category</i> Manage Categories
+                                </a>
+                            </div>
+                            <div class="col-md-3">
+                                <a href="{{ path('admin_forum_discussions') }}" class="btn btn-success w-100 mb-2 quick-action-btn">
+                                    <i class="material-icons-outlined">question_answer</i> Manage Discussions
+                                </a>
+                            </div>
+                            <div class="col-md-3">
+                                <a href="{{ path('admin_forum_messages') }}" class="btn btn-warning w-100 mb-2 quick-action-btn">
+                                    <i class="material-icons-outlined">comment</i> Manage Messages
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
