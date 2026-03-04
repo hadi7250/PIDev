@@ -40,7 +40,8 @@ return [
         '/dashboard/maps/vector' => [[['_route' => 'map_vector_maps', '_controller' => 'App\\Controller\\DashboardController::mapVector'], null, null, null, false, false, null]],
         '/admin/dashboard' => [[['_route' => 'admin_dashboard', '_controller' => 'App\\Controller\\DashboardController::adminDashboard'], null, null, null, false, false, null]],
         '/admin/users' => [[['_route' => 'admin_users', '_controller' => 'App\\Controller\\DashboardController::adminUsers'], null, null, null, false, false, null]],
-        '/admin/users/add' => [[['_route' => 'admin_users_add', '_controller' => 'App\\Controller\\DashboardController::addUser'], null, null, null, false, false, null]],
+        '/admin/users/add' => [[['_route' => 'admin_users_add', '_controller' => 'App\\Controller\\DashboardController::addUser'], null, ['GET' => 0, 'POST' => 1], null, false, false, null]],
+        '/debug/roles' => [[['_route' => 'debug_roles', '_controller' => 'App\\Controller\\DashboardController::debugRoles'], null, null, null, false, false, null]],
         '/dashboard/users/roles' => [[['_route' => 'user_roles', '_controller' => 'App\\Controller\\DashboardController::userRoles'], null, null, null, false, false, null]],
         '/dashboard/courses/categories' => [[['_route' => 'course_categories', '_controller' => 'App\\Controller\\DashboardController::courseCategories'], null, null, null, false, false, null]],
         '/dashboard/quizzes/results' => [[['_route' => 'quizz_results', '_controller' => 'App\\Controller\\DashboardController::quizzResults'], null, null, null, false, false, null]],
@@ -108,7 +109,7 @@ return [
         191 => [[['_route' => '_profiler', '_controller' => 'web_profiler.controller.profiler::panelAction'], ['token'], null, null, false, true, null]],
         237 => [[['_route' => 'dashboard_users_update', '_controller' => 'App\\Controller\\DashboardController::updateUser'], ['id'], ['POST' => 0], null, false, true, null]],
         260 => [[['_route' => 'dashboard_users_delete', '_controller' => 'App\\Controller\\DashboardController::deleteUser'], ['id'], ['POST' => 0], null, false, true, null]],
-        295 => [[['_route' => 'admin_users_edit', '_controller' => 'App\\Controller\\DashboardController::editUser'], ['id'], null, null, false, true, null]],
+        295 => [[['_route' => 'admin_users_edit', '_controller' => 'App\\Controller\\DashboardController::editUser'], ['id'], ['GET' => 0, 'POST' => 1], null, false, true, null]],
         328 => [
             [['_route' => 'app_reset_password', '_controller' => 'App\\Controller\\SecurityController::resetPassword'], ['token'], null, null, false, true, null],
             [null, null, null, null, false, false, 0],

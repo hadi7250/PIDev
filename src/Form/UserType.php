@@ -12,9 +12,6 @@ use Symfony\Component\Form\Extension\Core\Type\PasswordType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
-use Symfony\Component\Validator\Constraints\File;
-use Symfony\Component\Validator\Constraints\Length;
-use Symfony\Component\Validator\Constraints\NotBlank;
 
 class UserType extends AbstractType
 {
@@ -24,84 +21,104 @@ class UserType extends AbstractType
         
         $builder
             ->add('nsc', IntegerType::class, [
-                'label' => 'NSC',
-                'required' => false, // Changed to false to disable HTML5 validation
-                'attr' => ['class' => 'form-control']
+                'label' => 'NSC (Numéro Étudiant)',
+                'required' => false,
+                'attr' => [
+                    'class' => 'form-control',
+                    'placeholder' => '123456'
+                ]
+            ])
+            ->add('firstName', TextType::class, [
+                'label' => 'First Name',
+                'required' => false,
+                'attr' => [
+                    'class' => 'form-control',
+                    'placeholder' => 'John'
+                ]
+            ])
+            ->add('lastName', TextType::class, [
+                'label' => 'Last Name',
+                'required' => false,
+                'attr' => [
+                    'class' => 'form-control',
+                    'placeholder' => 'Doe'
+                ]
             ])
             ->add('email', EmailType::class, [
                 'label' => 'Email',
-                'required' => false, // Changed to false to disable HTML5 validation
-                'attr' => ['class' => 'form-control']
+                'required' => false,
+                'attr' => [
+                    'class' => 'form-control',
+                    'placeholder' => 'john.doe@example.com'
+                ]
             ])
-            ->add('name', TextType::class, [
-                'label' => 'Nom Complet',
-                'required' => false, // Changed to false to disable HTML5 validation
-                'attr' => ['class' => 'form-control']
+            ->add('username', TextType::class, [
+                'label' => 'Username',
+                'required' => false,
+                'attr' => [
+                    'class' => 'form-control',
+                    'placeholder' => 'johndoe'
+                ]
             ])
             ->add('roles', ChoiceType::class, [
-                'label' => 'Rôles',
+                'label' => 'Roles',
                 'choices' => [
-                    'Étudiant' => 'ROLE_STUDENT',
-                    'Enseignant' => 'ROLE_ENSEIGNANT',
-                    'Administrateur' => 'ROLE_ADMIN',
+                    'Admin' => 'ROLE_ADMIN',
+                    'Teacher' => 'ROLE_TEACHER',
+                    'Student' => 'ROLE_STUDENT',
                 ],
                 'multiple' => true,
                 'expanded' => true,
-                'required' => false, // Changed to false to disable HTML5 validation
+                'required' => false,
                 'attr' => ['class' => 'form-check']
             ])
             ->add('status', ChoiceType::class, [
-                'label' => 'Statut',
+                'label' => 'Status',
                 'choices' => [
-                    'Actif' => 'active',
-                    'Inactif' => 'inactive',
-                    'En attente' => 'pending',
+                    'Active' => 'active',
+                    'Inactive' => 'inactive',
+                    'Pending' => 'pending',
                 ],
-                'required' => false, // Changed to false to disable HTML5 validation
+                'required' => false,
                 'attr' => ['class' => 'form-control']
+            ])
+            ->add('bio', TextareaType::class, [
+                'label' => 'Notes',
+                'required' => false,
+                'attr' => [
+                    'class' => 'form-control',
+                    'rows' => 4,
+                    'placeholder' => 'Additional notes about this user...'
+                ]
             ])
             ->add('photoFile', FileType::class, [
                 'label' => 'Photo de profil (JPG/PNG, max 2Mo)',
-                'mapped' => false, // Pas mappé directement
+                'mapped' => false,
                 'required' => false,
-                'constraints' => [
-                    new File([
-                        'maxSize' => '2m',
-                        'mimeTypes' => ['image/jpeg', 'image/png'],
-                        'mimeTypesMessage' => 'Seulement JPG ou PNG',
-                    ])
-                ],
-                'attr' => ['class' => 'form-control', 'accept' => 'image/*']
+                'attr' => [
+                    'class' => 'form-control',
+                    'accept' => 'image/jpeg,image/jpg,image/png'
+                ]
             ]);
 
         if (!$isEdit) {
             $builder->add('plainPassword', PasswordType::class, [
-                'label' => 'Mot de passe',
-                'required' => false, // Changed to false to disable HTML5 validation
-                'mapped' => false, // AJOUTÉ
-                'constraints' => [
-                    new NotBlank([
-                        'message' => 'Veuillez entrer un mot de passe',
-                    ]),
-                    new Length([
-                        'min' => 6,
-                        'minMessage' => 'Votre mot de passe doit contenir au moins {{ limit }} caractères',
-                        'max' => 4096,
-                    ]),
-                ],
+                'label' => 'Password',
+                'required' => false,
+                'mapped' => false,
                 'attr' => [
                     'class' => 'form-control',
-                    'placeholder' => 'Minimum 6 caractères'
+                    'placeholder' => 'Minimum 8 characters'
                 ]
             ]);
         } else {
             $builder->add('plainPassword', PasswordType::class, [
-                'label' => 'Nouveau mot de passe (laisser vide pour ne pas changer)',
+                'label' => 'New Password (leave blank to keep current)',
                 'required' => false,
-                'mapped' => false, // AJOUTÉ
+                'mapped' => false,
                 'attr' => [
                     'class' => 'form-control',
-                    'placeholder' => 'Laisser vide pour garder le mot de passe actuel'
+                    'placeholder' => 'Leave blank to keep current password'
                 ]
             ]);
         }

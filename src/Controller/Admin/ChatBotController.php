@@ -17,62 +17,64 @@ class ChatBotController extends AbstractController
         $data = json_decode($request->getContent(), true);
         $query = trim($data['query'] ?? '');
 
-        if (empty($query)) {
-            return new JsonResponse(['response' => 'Pose une question sur les utilisateurs !']);
-        }
+        $answer = 'Désolé, je n\'ai pas compris la question. Essayez : "Combien d\'utilisateurs ?", "Utilisateurs actifs ?", "Stats par rôle ?"';
 
-        // Appel à Groq via cURL (simple et fiable)
-        $apiKey = $_ENV['GROQ_API_KEY'];
-        $url = 'https://api.groq.com/openai/v1/chat/completions';
+        // Détection mots-clés + vraies stats DB
+        $queryLower = strtolower(trim($query));
 
-        $payload = [
-            'model' => 'llama-3.3-70b-versatile', // modèle correct et actif
-            'messages' => [
-                ['role' => 'system', 'content' => 'Tu es un assistant admin pour statistiques utilisateurs. Réponds en français de manière naturelle et précise. Utilise les données réelles de la base si possible.'],
-                ['role' => 'user', 'content' => $query],
-            ],
-            'temperature' => 0.7,
-            'max_tokens' => 300,
-        ];
-
-        $ch = curl_init($url);
-        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-        curl_setopt($ch, CURLOPT_POST, true);
-        curl_setopt($ch, CURLOPT_HTTPHEADER, [
-            'Authorization: Bearer ' . $apiKey,
-            'Content-Type: application/json',
-        ]);
-        curl_setopt($ch, CURLOPT_POSTFIELDS, json_encode($payload));
-
-        $response = curl_exec($ch);
-        $httpCode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
-        $error = curl_error($ch);
-        curl_close($ch);
-
-        if ($httpCode !== 200) {
-            $errorMsg = $error ?: 'Code HTTP ' . $httpCode;
-            return new JsonResponse(['response' => "Erreur API Groq : $errorMsg"]);
-        }
-
-        $json = json_decode($response, true);
-        $answer = $json['choices'][0]['message']['content'] ?? 'Désolé, je n\'ai pas compris la question.';
-
-        // Parsing simple pour stats précises (bonus métier)
-        $queryLower = strtolower($query);
-        if (strpos($queryLower, 'combien d\'utilisateurs') !== false || strpos($queryLower, 'total utilisateurs') !== false) {
+        if (str_contains($queryLower, 'combien d\'utilisateurs') || str_contains($queryLower, 'how many users') || str_contains($queryLower, 'total users')) {
             $total = $userRepo->count([]);
-            $answer .= "\nTotal utilisateurs : $total.";
-        } elseif (strpos($queryLower, 'actifs') !== false) {
+            $answer = "Il y a actuellement **$total** utilisateurs dans la base de données.";
+        }
+
+        elseif (str_contains($queryLower, 'actifs') || str_contains($queryLower, 'active') || str_contains($queryLower, 'active users')) {
             $active = $userRepo->count(['status' => 'active']);
-            $answer .= "\nUtilisateurs actifs : $active.";
-        } elseif (strpos($queryLower, 'pending') !== false || strpos($queryLower, 'en attente') !== false) {
+            $answer = "Il y a **$active** utilisateurs actifs.";
+        }
+
+        elseif (str_contains($queryLower, 'pending') || str_contains($queryLower, 'en attente')) {
             $pending = $userRepo->count(['status' => 'pending']);
-            $answer .= "\nUtilisateurs en attente : $pending.";
-        } elseif (strpos($queryLower, 'rôle') !== false || strpos($queryLower, 'role') !== false) {
+            $answer = "Il y a **$pending** utilisateurs en attente d'approbation.";
+        }
+
+        elseif (str_contains($queryLower, 'rôle') || str_contains($queryLower, 'role') || str_contains($queryLower, 'stats par rôle')) {
             $students = count($userRepo->findByRole('ROLE_STUDENT'));
             $teachers = count($userRepo->findByRole('ROLE_ENSEIGNANT'));
             $admins = count($userRepo->findByRole('ROLE_ADMIN'));
-            $answer .= "\nPar rôle : Étudiants : $students, Enseignants : $teachers, Admins : $admins.";
+            $answer = "Stats par rôle : Étudiants = $students, Enseignants = $teachers, Admins = $admins.";
+        }
+
+        elseif (str_contains($queryLower, 'student') || str_contains($queryLower, 'étudiant') || str_contains($queryLower, 'étudiants') || str_contains($queryLower, 'students')) {
+            $students = count($userRepo->findByRole('ROLE_STUDENT'));
+            $answer = "Il y a **$students** étudiants (ROLE_STUDENT) dans la base de données.";
+        }
+
+        elseif (str_contains($queryLower, 'teacher') || str_contains($queryLower, 'enseignant') || str_contains($queryLower, 'enseignants') || str_contains($queryLower, 'teachers')) {
+            $teachers = count($userRepo->findByRole('ROLE_ENSEIGNANT'));
+            $answer = "Il y a **$teachers** enseignants (ROLE_ENSEIGNANT) dans la base de données.";
+        }
+
+        elseif (str_contains($queryLower, 'admin') || str_contains($queryLower, 'admins') || str_contains($queryLower, 'administrateur') || str_contains($queryLower, 'administrateurs')) {
+            $admins = count($userRepo->findByRole('ROLE_ADMIN'));
+            $answer = "Il y a **$admins** administrateurs (ROLE_ADMIN) dans la base de données.";
+        }
+
+        elseif (str_contains($queryLower, 'photo') || str_contains($queryLower, 'picture') || str_contains($queryLower, 'avatar') || str_contains($queryLower, 'photos')) {
+            $withPhoto = $userRepo->createQueryBuilder('u')
+                ->select('COUNT(u.id)')
+                ->where('u.photo IS NOT NULL')
+                ->getQuery()
+                ->getSingleScalarResult();
+            $answer = "Il y a **$withPhoto** utilisateurs avec une photo de profil.";
+        }
+
+        elseif (str_contains($queryLower, 'nsc') || str_contains($queryLower, 'numéro étudiant') || str_contains($queryLower, 'student card')) {
+            $withNsc = $userRepo->createQueryBuilder('u')
+                ->select('COUNT(u.id)')
+                ->where('u.nsc IS NOT NULL')
+                ->getQuery()
+                ->getSingleScalarResult();
+            $answer = "Il y a **$withNsc** utilisateurs avec un NSC renseigné.";
         }
 
         return new JsonResponse(['response' => $answer]);

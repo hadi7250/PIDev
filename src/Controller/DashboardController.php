@@ -14,6 +14,8 @@ use App\Repository\UserRepository;
 
 use Doctrine\ORM\EntityManagerInterface;
 
+use Doctrine\Persistence\ManagerRegistry;
+
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
 use Symfony\Component\HttpFoundation\File\Exception\FileException;
@@ -755,129 +757,77 @@ class DashboardController extends AbstractController
 
 
 
-    #[Route('/admin/users/add', name: 'admin_users_add')]
-
+    #[Route('/admin/users/add', name: 'admin_users_add', methods: ['GET', 'POST'])]
     #[IsGranted('ROLE_ADMIN')]
-
     public function addUser(Request $request, EntityManagerInterface $entityManager, UserPasswordHasherInterface $passwordHasher): Response
-
     {
-
         $user = new User();
-
         $form = $this->createForm(UserType::class, $user);
-
         $form->handleRequest($request);
-
         
-
-        if ($form->isSubmitted() && $form->isValid()) {
-
-            $user->setPassword(
-
-                $passwordHasher->hashPassword(
-
-                    $user,
-
-                    $form->get('plainPassword')->getData()
-
-                )
-
-            );
-
-            
-
-            $entityManager->persist($user);
-
-            $entityManager->flush();
-
-            
-
-            $this->addFlash('success', 'Utilisateur créé avec succès !');
-
-            
-
-            return $this->redirectToRoute('admin_users');
-
-        }
-
-        
-
-        return $this->render('dashboard/user_form.html.twig', [
-
-            'form' => $form->createView(),
-
-            'title' => 'Ajouter un utilisateur',
-
-        ]);
-
-    }
-
-
-
-    #[Route('/admin/users/edit/{id}', name: 'admin_users_edit')]
-
-    #[IsGranted('ROLE_ADMIN')]
-
-    public function editUser(User $user, Request $request, EntityManagerInterface $entityManager, UserPasswordHasherInterface $passwordHasher): Response
-
-    {
-
-        $form = $this->createForm(UserType::class, $user, ['edit_mode' => true]);
-
-        $form->handleRequest($request);
-
-        
-
-        if ($form->isSubmitted() && $form->isValid()) {
-
-            if ($form->get('plainPassword')->getData()) {
-
+        if ($form->isSubmitted()) {
+            // Hasher le mot de passe avant de persister
+            $plainPassword = $form->get('plainPassword')->getData();
+            if ($plainPassword) {
                 $user->setPassword(
-
-                    $passwordHasher->hashPassword(
-
-                        $user,
-
-                        $form->get('plainPassword')->getData()
-
-                    )
-
+                    $passwordHasher->hashPassword($user, $plainPassword)
                 );
-
             }
-
             
-
+            $entityManager->persist($user);
             $entityManager->flush();
-
             
-
-            $this->addFlash('success', 'Utilisateur mis à jour avec succès !');
-
+            $this->addFlash('success', 'Utilisateur créé avec succès !');
             
-
             return $this->redirectToRoute('admin_users');
-
         }
-
         
-
-        return $this->render('dashboard/user_form.html.twig', [
-
+        return $this->render('dashboard/users/add.html.twig', [
             'form' => $form->createView(),
-
-            'title' => 'Modifier l\'utilisateur',
-
-            'user' => $user,
-
         ]);
-
     }
 
+    #[Route('/admin/users/edit/{id}', name: 'admin_users_edit', methods: ['GET', 'POST'])]
+    #[IsGranted('ROLE_ADMIN')]
+    public function editUser(User $user, Request $request, EntityManagerInterface $entityManager, UserPasswordHasherInterface $passwordHasher): Response
+    {
+        $form = $this->createForm(UserType::class, $user, ['edit_mode' => true]);
+        $form->handleRequest($request);
+        
+        if ($form->isSubmitted()) {
+            $plainPassword = $form->get('plainPassword')->getData();
+            if ($plainPassword) {
+                $user->setPassword(
+                    $passwordHasher->hashPassword($user, $plainPassword)
+                );
+            }
+            
+            $entityManager->flush();
+            
+            $this->addFlash('success', 'Utilisateur mis à jour avec succès !');
+            
+            return $this->redirectToRoute('admin_users');
+        }
+        
+        return $this->render('dashboard/users/edit.html.twig', [
+            'form' => $form->createView(),
+            'user' => $user,
+        ]);
+    }
 
-
-    
+    #[Route('/debug/roles', name: 'debug_roles')]
+    public function debugRoles(): Response
+    {
+        $user = $this->getUser();
+        if (!$user) {
+            return new Response('Not logged in');
+        }
+        
+        return new Response('User: ' . $user->getEmail() . 
+                          '<br>Role property: ' . $user->getRole() . 
+                          '<br>Roles array: ' . json_encode($user->getRoles()) .
+                          '<br>Is admin: ' . (in_array('ROLE_ADMIN', $user->getRoles()) ? 'YES' : 'NO'));
+    }
 
     // Missing User Management Routes
 
